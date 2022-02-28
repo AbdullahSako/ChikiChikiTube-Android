@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ChikiChiki/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.196" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/drawable/grain_animation.xml" value="0.2285" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/font/font.xml" value="0.2520833333333333" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/activity_channel.xml" value="0.88" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_channel_videos.xml" value="0.7289855072463768" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_channel_videos_duplicate.xml" value="0.88" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_main.xml" value="0.75" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_most_viewed_videos.xml" value="0.75" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_playlist.xml" value="0.88" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_recent_videos.xml" value="0.67" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/fragment_support.xml" value="0.5" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/list_item_channel.xml" value="0.9" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/list_item_playlist.xml" value="0.88" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/list_item_video.xml" value="0.88" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/loading_progressbar.xml" value="0.88" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.196" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.196" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

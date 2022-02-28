@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">ChikiChiki</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="label_blank"> </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="home">Home</string>
+    <string name="most_viewed">Most viewed</string>
+    <string name="recent">Recent</string>
+    <string name="support">Support</string>
+    <string name="chikichikitube">Chiki Chiki Tube</string>
+    <string name="header">第1回 ガキの使いやあらへんで</string>
+    <string name="support_chiki_header">Support Chiki Chiki Tube</string>
+    <string name="support_chiki">Chiki Chiki Tube has no specific operating expenses, so don\'t worry about that! But other forms of support are possible:</string>
+    <string name="support_chiki_p1">- Provide feedback on broken links/bad metadata etc</string>
+    <string name="support_chiki_p2">- Typesetting interesting and funny episodes that have as yet been unsubbed!</string>
+    <string name="support_chiki_p3">- Submitting any new releases to <a href="https://thesilentlibrary.xyz/">The Silent Library ➚</a></string>
+    <string name="support_chiki_p4">- Setting up your own <a href="https://docs.joinpeertube.org/install-any-os">Peertube server ➚</a> and mirroring videos via redundancy from chikichiki.tube. This will seamlessly increase the bandwidth thanks to peer to peer magic. (N.B. Just following the instance with your server doesn\'t do much for that)</string>
+    <string name="links">Links</string>
+    <string name="gaki_reddit"><a href="https://www.reddit.com/r/GakiNoTsukai/">Gaki Reddit (u/chikichikitube) ➚</a></string>
+    <string name="gaki_discord"><a href="https://discord.com/invite/gaki">Gaki Discord (@chikichiki.tube) ➚</a></string>
+    <string name="metadata">Metadata is from <a href="https://knightscoop.yabai.moe/">knightscoop.yabai.moe ➚</a> and <a href="http://ghia.chu.jp/wiki/">ghia.chu.jp/wiki ➚</a></string>
+    <string name="wecast">Have a look at some homemade comedy at <a href="https://wacast.net/">wacast.net ➚</a></string>
+    <string name="no_channel_playlists_found">There are no playlists for this channel</string>
+    <string name="no_channel_videos_found">There are no videos for this channel</string>
+    <string name="playlists">Playlists</string>
+    <string name="videos">Videos</string>
+    <string name="sort_by">Sort by</string>
+    <string name="search_channel_hint">Search show</string>
+
+
+
+</resources>

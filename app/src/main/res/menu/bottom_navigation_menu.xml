@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mainFragment"
+        android:icon="@drawable/ic_home"
+        android:enabled="true"
+        android:title="@string/home"
+        />
+    <item
+        android:id="@+id/mostViewedVideosFragment"
+        android:icon="@drawable/ic_most_viewed"
+        android:title="@string/most_viewed"/>
+    <item
+        android:id="@+id/recentVideosFragment"
+        android:icon="@drawable/ic_recent"
+        android:title="@string/recent"
+        />
+    <item
+        android:id="@+id/supportFragment"
+        android:icon="@drawable/ic_support"
+        android:title="@string/support"
+        />
+</menu>

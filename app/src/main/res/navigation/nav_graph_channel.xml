@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_channel"
+    app:startDestination="@id/playlistFragment">
+
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="tube.chikichiki.fragment.PlaylistFragment"
+        android:label="PlaylistFragment" >
+        <action
+            android:id="@+id/action_playlistFragment_to_channelVideosFragment"
+            app:destination="@id/channelVideosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/channelVideosFragment"
+        android:name="tube.chikichiki.fragment.ChannelVideosFragment"
+        android:label="fragment_channel_videos"
+        tools:layout="@layout/fragment_channel_videos" >
+        <action
+            android:id="@+id/action_channelVideosFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+        <argument
+            android:name="channelHandle"
+            app:argType="string" />
+    </fragment>
+</navigation>
