@@ -5,10 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import tube.chikichiki.model.File
 import tube.chikichiki.model.Video
 import tube.chikichiki.model.VideoChannel
 import tube.chikichiki.model.VideoPlaylist
+import java.util.*
 
 class ChikiFetcher {
     private val chikiApi:ChikiChikiApi
@@ -97,6 +98,31 @@ class ChikiFetcher {
 
             override fun onFailure(call: Call<VideoResponse>, t: Throwable) {
                 Log.d("TESTLOG","FAILED TO FETCH channel Videos")
+            }
+
+        })
+        return responseData
+
+    }
+
+    fun fetchVideoFile(videoId:UUID):LiveData<List<File>>{
+        val responseData:MutableLiveData<List<File>> = MutableLiveData()
+        val request:Call<StreamingPlaylistResponse> = chikiApi.getVideo(videoId)
+
+        request.enqueue(object :Callback<StreamingPlaylistResponse>{
+            override fun onResponse(
+                call: Call<StreamingPlaylistResponse>,
+                response: Response<StreamingPlaylistResponse>
+            ) {
+                Log.d("TESTLOG","video files RECIEVED")
+                val streamingPlaylistResponse:StreamingPlaylistResponse?=response.body()
+                val streamingPlaylistItems:List<VideoFileResponse> =streamingPlaylistResponse?.streamingPlaylistItems?: mutableListOf()
+
+                responseData.value=streamingPlaylistItems[0].fileItems
+            }
+
+            override fun onFailure(call: Call<StreamingPlaylistResponse>, t: Throwable) {
+                Log.d("TESTLOG","FAILED TO FETCH video files")
             }
 
         })

@@ -5,7 +5,10 @@
     android:id="@+id/channel_videos_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/fragment_channel_videos_scene">
+    app:layoutDescription="@xml/fragment_channel_videos_scene"
+    >
+
+    <include layout="@layout/video_container" />
 
     <include
         android:id="@+id/include3"
@@ -18,7 +21,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/sort_spinner"
+        />
 
 
     <TextView

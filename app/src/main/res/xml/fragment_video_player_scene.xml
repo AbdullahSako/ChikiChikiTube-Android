@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+           <KeyAttribute
+               motion:motionTarget="@+id/textView2"
+               motion:framePosition="94"
+               android:alpha="0.5" />
+           <KeyAttribute
+               motion:motionTarget="@+id/textView2"
+               motion:framePosition="100"
+               android:alpha="1.0" />
+       </KeyFrameSet>
+        <OnSwipe
+            motion:touchAnchorId="@+id/video_player"
+            motion:dragDirection="dragUp"
+            motion:maxAcceleration="200"
+            motion:touchAnchorSide="top"
+            />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintVertical_bias="1.0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/video_player"
+            motion:layout_constraintHorizontal_bias="0.0" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/constraintLayout"
+            motion:layout_constraintVertical_bias="1.0" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="@id/constraintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/video_player"
+            android:visibility="visible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_editor_absoluteX="456dp"
+            android:id="@+id/close_video_icon"
+            motion:layout_constraintVertical_bias="0.95"
+            android:layout_marginEnd="16dp" />
+        <Constraint
+            android:layout_marginEnd="32dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toStartOf="@+id/imageView2"
+            motion:layout_constraintStart_toEndOf="@+id/video_player"
+            motion:layout_constraintTop_toTopOf="@+id/imageView2"
+            motion:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            android:layout_width="0dp"
+            android:id="@+id/textView2"
+            android:layout_marginStart="16dp"
+            android:visibility="visible" />
+        <Constraint
+            android:id="@+id/imageView2"
+            motion:layout_constraintEnd_toStartOf="@+id/close_video_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/close_video_icon"
+            android:visibility="visible"
+            android:layout_marginEnd="16dp"
+            motion:layout_constraintTop_toTopOf="@+id/close_video_icon" />
+
+    </ConstraintSet>
+</MotionScene>

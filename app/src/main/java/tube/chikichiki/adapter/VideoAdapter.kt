@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import tube.chikichiki.R
 import tube.chikichiki.model.Video
+import java.util.*
 
 class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
-
+    var videoViewClick:VideoViewClick?=null
 
     inner class VideoHolder(view: View): RecyclerView.ViewHolder(view){
         val banner: ImageView = itemView.findViewById(R.id.video_banner)
@@ -23,6 +24,10 @@ class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
 
 
+    }
+
+    fun setVideoViewClickListener(clickListener: VideoViewClick){
+        videoViewClick=clickListener
     }
 
     private val diffCallback= object : DiffUtil.ItemCallback<Video>(){
@@ -52,8 +57,12 @@ class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
             videoName.text=videoItem.name
             videoDuration.text=videoItem.getFormattedDuration()
 
-
+            itemView.setOnClickListener {
+                videoViewClick?.onVideoClick(itemView,videoItem.uuid)
+            }
         }
+
+
 
     }
 
@@ -63,6 +72,10 @@ class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
     fun submitList(list:List<Video>){
         diff.submitList(list)
+    }
+
+    interface VideoViewClick{
+        fun onVideoClick(view:View,videoId:UUID)
     }
 
 
