@@ -10,18 +10,19 @@
         motion:duration="1000">
        <KeyFrameSet>
            <KeyAttribute
-               motion:motionTarget="@+id/tabLayout"
+               motion:motionTarget="@+id/channel_tab_layout"
                motion:framePosition="100"
                android:alpha="0.0" />
        </KeyFrameSet>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/tabLayout"
+            android:id="@+id/channel_tab_layout"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="1dp"

@@ -13,7 +13,7 @@ import tube.chikichiki.model.VideoChannel
 class ChannelAdapter(private val channelItems: List<VideoChannel>) :
     RecyclerView.Adapter<ChannelAdapter.ChannelHolder>() {
 
-    var channelViewClick: ChannelViewClick? = null
+    private var channelViewClick: ChannelViewClick? = null
 
     inner class ChannelHolder(view: View) : RecyclerView.ViewHolder(view) {
         val banner: ImageView = itemView.findViewById(R.id.channel_banner)

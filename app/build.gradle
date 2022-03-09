@@ -73,7 +73,11 @@ dependencies {
     //constraint layout
     implementation "androidx.constraintlayout:constraintlayout:2.1.3"
 
+    //exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.17.0'
 
+    //time ago
+    implementation 'com.github.marlonlom:timeago:4.0.3'
 
 
 

@@ -4,21 +4,13 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import tube.chikichiki.R
 
 class SupportFragment : Fragment(R.layout.fragment_support) {
     private lateinit var grainAnimation: AnimationDrawable
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -12,10 +12,16 @@ import tube.chikichiki.model.VideoPlaylist
 
 class PlaylistAdapter(private val playlistItems:List<VideoPlaylist>):RecyclerView.Adapter<PlaylistAdapter.PlaylistHolder>() {
 
+    private var playlistViewClick:PlaylistViewClick?=null
+
     inner class PlaylistHolder(view: View):RecyclerView.ViewHolder(view){
         val banner: ImageView = itemView.findViewById(R.id.playlist_banner)
         val playlistName: TextView = itemView.findViewById(R.id.playlist_name)
         val playlistVideoSize:TextView=itemView.findViewById(R.id.playlist_video_size)
+    }
+
+    fun setPlaylistViewClickListener(clickListener:PlaylistViewClick){
+        playlistViewClick=clickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistHolder {
@@ -29,11 +35,18 @@ class PlaylistAdapter(private val playlistItems:List<VideoPlaylist>):RecyclerVie
             Glide.with(itemView.context).load(playlistItem.getFullThumbnailPath()).into(banner)
             playlistName.text=playlistItem.displayName
             playlistVideoSize.text=playlistItem.numberOfVideos.toString()
+            itemView.setOnClickListener {
+                playlistViewClick?.onPlayListClick(itemView,playlistItem.id)
+            }
         }
     }
 
     override fun getItemCount(): Int {
         return playlistItems.size
+    }
+
+    interface PlaylistViewClick{
+        fun onPlayListClick(view:View,playlistId:Int)
     }
 
 }

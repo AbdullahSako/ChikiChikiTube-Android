@@ -2,20 +2,16 @@ package tube.chikichiki.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.viewModel.ChannelViewModel
 import tube.chikichiki.R
+import tube.chikichiki.activity.ChannelActivity
 import tube.chikichiki.adapter.ChannelAdapter
 
 
@@ -36,7 +32,7 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
 
         val progressbar:ProgressBar=view.findViewById(R.id.progressBar)
         val constraint:ConstraintLayout=view.findViewById(R.id.main_fragment_constraint_layout)
-        channelRecyclerView=view.findViewById<RecyclerView>(R.id.channel_recycler_view)
+        channelRecyclerView=view.findViewById(R.id.channel_recycler_view)
 
         //set recycler view layout manager
         channelRecyclerView.layoutManager=LinearLayoutManager(context)
@@ -49,24 +45,24 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
         grainAnimation.start()
 
         //retrieve channel list from api
-        channelViewModel.channelItemLiveData.observe(viewLifecycleOwner, Observer {
+        channelViewModel.channelItemLiveData.observe(viewLifecycleOwner) {
 
-            val adapter=ChannelAdapter(it)
+            val adapter = ChannelAdapter(it)
             adapter.setChannelViewClickListener(this@MainFragment)
-            channelRecyclerView.adapter=adapter
+            channelRecyclerView.adapter = adapter
 
             //remove progressbar after loading channel list
-            progressbar.visibility=View.GONE
+            progressbar.visibility = View.GONE
 
-        })
+        }
 
 
     }
 
 
     override fun onItemClick(view:View, channelId: Int, channelHandle:String) {
-        val action=MainFragmentDirections.actionMainFragmentToChannelActivity2(channelId,channelHandle)
-        view.findNavController().navigate(action)
+        val intent= ChannelActivity.newInstance(activity,channelId,channelHandle)
+        startActivity(intent)
     }
 
 

@@ -16,4 +16,5 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include layout="@layout/loading_progressbar"/>
+    <include layout="@layout/video_container"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

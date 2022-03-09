@@ -3,141 +3,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
-    <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
-        motion:duration="1000">
-       <KeyFrameSet>
-           <KeyAttribute
-               motion:motionTarget="@+id/search_image"
-               motion:framePosition="100"
-               android:alpha="0.0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/sort_spinner"
-               motion:framePosition="99"
-               android:scaleX="1.0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/sort_spinner"
-               motion:framePosition="100"
-               android:scaleX="0.0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/sort_spinner"
-               motion:framePosition="99"
-               android:scaleY="1.0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/sort_spinner"
-               motion:framePosition="100"
-               android:scaleY="0.0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/search_back"
-               motion:framePosition="100"
-               android:alpha="0.5" />
-           <KeyAttribute
-               motion:motionTarget="@+id/searchView"
-               motion:framePosition="100"
-               android:alpha="0.5" />
-       </KeyFrameSet>
-        <OnSwipe motion:touchAnchorId="@+id/channel_videos_recycler_view" />
-    </Transition>
-
     <ConstraintSet android:id="@+id/start">
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
+
         <Constraint
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:visibility="gone"
-            android:layout_marginStart="8dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp" />
-        <Constraint
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:visibility="invisible"
-            android:layout_marginStart="8dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp" />
-        <Constraint
-            android:id="@+id/search_image"
+            android:id="@+id/constraintLayout2"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp" />
-        <Constraint
-            motion:layout_constraintEnd_toStartOf="@+id/search_image"
-            motion:layout_constraintStart_toEndOf="@+id/search_back"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:visibility="gone"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="32dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp" />
-        <Constraint
-            android:id="@+id/sort_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:visibility="visible"
-            android:layout_marginStart="8dp"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
-    </ConstraintSet>
-    <ConstraintSet android:id="@+id/searchEnd" >
-        <Constraint
-            android:id="@+id/search_image"
-            motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"
-            android:visibility="invisible" />
-        <Constraint
-            android:id="@+id/sort_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_marginStart="8dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
-        <Constraint
-            android:id="@+id/searchView"
-            motion:layout_constraintEnd_toStartOf="@+id/search_image"
-            motion:layout_constraintStart_toEndOf="@+id/search_back"
-            android:layout_width="0dp"
-            android:layout_height="22dp"
-            android:visibility="visible"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="32dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp" />
-        <Constraint
-            android:id="@+id/search_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_marginStart="8dp"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp" />
     </ConstraintSet>
     <Transition
         motion:constraintSetStart="@+id/start"
-        motion:constraintSetEnd="@+id/searchEnd">
-        <OnClick motion:targetId="@+id/search_image"
-            motion:clickAction="toggle"
-            />
-    </Transition>
-    <Transition
-        motion:constraintSetStart="@+id/searchEnd"
-        motion:constraintSetEnd="@+id/start">
-        <OnClick motion:targetId="@+id/search_back"
-            motion:clickAction="toggle"
-            />
+        motion:constraintSetEnd="@+id/end"
+        motion:autoTransition="none" >
+        <KeyFrameSet >
+            <KeyAttribute />
+            <KeyAttribute
+                motion:motionTarget="@+id/constraintLayout2"
+                motion:framePosition="100"
+                android:alpha="0.0" />
+            <KeyAttribute
+                motion:motionTarget="@+id/constraintLayout2"
+                motion:framePosition="100"
+                android:translationY="-5dp" />
+        </KeyFrameSet>
+        <OnSwipe motion:touchAnchorId="@+id/channel_videos_recycler_view" />
     </Transition>
 </MotionScene>

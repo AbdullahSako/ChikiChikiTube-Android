@@ -13,7 +13,7 @@ import tube.chikichiki.R
 import tube.chikichiki.model.Video
 import java.util.*
 
-class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
+class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
     var videoViewClick:VideoViewClick?=null
 
@@ -56,9 +56,8 @@ class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
             Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).into(banner)
             videoName.text=videoItem.name
             videoDuration.text=videoItem.getFormattedDuration()
-
             itemView.setOnClickListener {
-                videoViewClick?.onVideoClick(itemView,videoItem.uuid)
+                videoViewClick?.onVideoClick(videoItem.uuid,videoItem.name,videoItem.description)
             }
         }
 
@@ -75,7 +74,7 @@ class VideoAdapter() : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
     }
 
     interface VideoViewClick{
-        fun onVideoClick(view:View,videoId:UUID)
+        fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String)
     }
 
 

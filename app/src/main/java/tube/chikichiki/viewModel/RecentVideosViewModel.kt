@@ -6,9 +6,6 @@ import tube.chikichiki.api.ChikiFetcher
 import tube.chikichiki.model.Video
 
 class RecentVideosViewModel:ViewModel() {
-    val recentVideosLiveData: LiveData<List<Video>>
+    val recentVideosLiveData: LiveData<List<Video>> = ChikiFetcher().fetchSortedVideos("-publishedAt")
 
-    init {
-        recentVideosLiveData = ChikiFetcher().fetchSortedVideos("-publishedAt")
-    }
 }

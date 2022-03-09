@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">ChikiChiki</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="label_blank"> </string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="home">Home</string>
     <string name="most_viewed">Most viewed</string>
     <string name="recent">Recent</string>
@@ -23,10 +19,30 @@
     <string name="wecast">Have a look at some homemade comedy at <a href="https://wacast.net/">wacast.net ➚</a></string>
     <string name="no_channel_playlists_found">There are no playlists for this channel</string>
     <string name="no_channel_videos_found">There are no videos for this channel</string>
+    <string name="no_playlist_videos_found">There are no videos for this playlist</string>
     <string name="playlists">Playlists</string>
     <string name="videos">Videos</string>
     <string name="sort_by">Sort by</string>
-    <string name="search_channel_hint">Search show</string>
+    <string name="search_hint">Search…</string>
+    <string name="description">Description</string>
+    <string name="slash">/</string>
+    <string name="views">%1$s Views</string>
+    <string name="no_search_videos_found">No videos found</string>
+
+    <!-- Content Descriptions -->
+    <string name="content_desc_close_video">Close video</string>
+    <string name="content_desc_pause_video">Pause video</string>
+    <string name="content_desc_close_description">close description</string>
+    <string name="content_desc_open_description">Open description</string>
+    <string name="content_desc_video_thumbnail">Video thumbnail</string>
+    <string name="content_desc_playlist_thumbnail">Playlist thumbnail</string>
+    <string name="content_desc_playlist_icon">Playlist icon</string>
+    <string name="content_desc_channel_thumbnail">Channel thumbnail</string>
+    <string name="content_desc_pause_or_play_video">Pause or play video</string>
+    <string name="content_desc_rewind_10_seconds">Rewind 10 seconds</string>
+    <string name="content_desc_open_video_in_fullscreen">open video in Fullscreen</string>
+    <string name="content_desc_change_video_playback_time">change video playback time</string>
+    <string name="content_desc_forward_10_seconds">forward 10 seconds</string>
 
 
 </resources>

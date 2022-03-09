@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChikiChiki">
         <activity
+            android:name=".activity.FullScreenVideoActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            />
+        <activity
             android:name=".activity.ChannelActivity"
             android:exported="false" />
         <activity

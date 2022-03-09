@@ -6,9 +6,6 @@ import tube.chikichiki.api.ChikiFetcher
 import tube.chikichiki.model.VideoChannel
 
 class ChannelViewModel :ViewModel() {
-    val channelItemLiveData: LiveData<List<VideoChannel>>
+    val channelItemLiveData: LiveData<List<VideoChannel>> = ChikiFetcher().fetchChannels()
 
-    init {
-        channelItemLiveData= ChikiFetcher().fetchChannels()
-    }
 }

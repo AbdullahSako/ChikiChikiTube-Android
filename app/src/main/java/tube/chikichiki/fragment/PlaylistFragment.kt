@@ -2,15 +2,13 @@ package tube.chikichiki.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
 
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 
@@ -26,7 +24,8 @@ import tube.chikichiki.api.ChikiFetcher
 import tube.chikichiki.model.VideoPlaylist
 
 private const val ARG_CHANNEL_ID="CHANNEL_ID"
-class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
+private const val TAG="playlistVideos"
+class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.PlaylistViewClick {
 
     private lateinit var grainAnimation: AnimationDrawable
     private lateinit var playListRecyclerView:RecyclerView
@@ -46,6 +45,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
         //set recycler view layout manager
         playListRecyclerView.layoutManager=LinearLayoutManager(context)
 
+
+
         //set fragment background animation and start it
         rootLayout.apply {
             setBackgroundResource(R.drawable.grain_animation)
@@ -54,18 +55,23 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
         grainAnimation.start()
 
         //get playlists from api
-        ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner, Observer {
-            val listOfPlaylists=playlistsOfChannel(it)
-            playListRecyclerView.adapter=PlaylistAdapter(listOfPlaylists)
+        ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner) {
+            val listOfPlaylists = playlistsOfChannel(it)
+            val playlistAdapter = PlaylistAdapter(listOfPlaylists)
+
+            playListRecyclerView.apply {
+                playlistAdapter.setPlaylistViewClickListener(this@PlaylistFragment)
+                adapter = playlistAdapter
+            }
 
             //remove progressbar after loading playlists
-            progressBar.visibility=View.GONE
+            progressBar.visibility = View.GONE
 
             //if there are no playlists for the channel add textview telling the user
-            if(listOfPlaylists.isEmpty()){
-                noPlaylistsTextView.visibility=View.VISIBLE
+            if (listOfPlaylists.isEmpty()) {
+                noPlaylistsTextView.visibility = View.VISIBLE
             }
-        })
+        }
     }
 
     //get playlists of a channel based on channel id
@@ -88,6 +94,19 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
         }
 
 
+    }
+
+    override fun onPlayListClick(view: View, playlistId: Int) {
+        //just in case parent motion layout state isnt at start
+        activity?.findViewById<MotionLayout>(R.id.channel_activity_motion_layout)?.transitionToStart()
+
+
+
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.root_layout_playlist,PlaylistVideosFragment.newInstance(playlistId))
+            addToBackStack(TAG)
+            commit()
+        }
     }
 
 }

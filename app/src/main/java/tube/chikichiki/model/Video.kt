@@ -17,16 +17,16 @@ data class Video(
     }
 
     fun getFormattedDuration(): String {
-        if (duration < 3600) {
+        return if (duration < 3600) {
             val seconds = duration % 60
             val minutes = (duration % 3600) / 60
 
-            return String.format("%02d:%02d", minutes, seconds)
+            String.format("%02d:%02d", minutes, seconds)
         } else {
             val seconds = duration % 60
             val minutes = (duration % 3600) / 60
             val hours = duration / 3600
-            return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            String.format("%02d:%02d:%02d", hours, minutes, seconds)
         }
 
     }

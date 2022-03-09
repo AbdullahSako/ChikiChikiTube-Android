@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import tube.chikichiki.model.File
-import tube.chikichiki.model.Video
-import tube.chikichiki.model.VideoChannel
-import tube.chikichiki.model.VideoPlaylist
+import tube.chikichiki.model.*
 import java.util.*
 
 class ChikiFetcher {
@@ -30,7 +27,7 @@ class ChikiFetcher {
                 Log.d("TESTLOG","CHANNELS RECIEVED")
 
                 val videoChannelData:VideoChannelDataResponse?=response.body()
-                var videoChannelItems: List<VideoChannel> =videoChannelData?.videoChannelItems?: mutableListOf()
+                val videoChannelItems: List<VideoChannel> =videoChannelData?.videoChannelItems?: mutableListOf()
                 responseData.value=videoChannelItems
             }
 
@@ -44,7 +41,7 @@ class ChikiFetcher {
 
     fun fetchPlaylists():LiveData<List<VideoPlaylist>>{
         val responseData:MutableLiveData<List<VideoPlaylist>> = MutableLiveData()
-        val request: Call<VideoPlaylistResponse> =chikiApi.getPlaylists(93)
+        val request: Call<VideoPlaylistResponse> =chikiApi.getPlaylists(100)
 
         request.enqueue(object :Callback<VideoPlaylistResponse>{
             override fun onResponse(call: Call<VideoPlaylistResponse>, response: Response<VideoPlaylistResponse>) {
@@ -123,6 +120,75 @@ class ChikiFetcher {
 
             override fun onFailure(call: Call<StreamingPlaylistResponse>, t: Throwable) {
                 Log.d("TESTLOG","FAILED TO FETCH video files")
+            }
+
+        })
+        return responseData
+
+    }
+
+    fun fetchStreamingPlaylist(videoId:UUID):LiveData<List<VideoFileResponse>>{
+        val responseData:MutableLiveData<List<VideoFileResponse>> = MutableLiveData()
+        val request:Call<StreamingPlaylistResponse> = chikiApi.getVideo(videoId)
+
+        request.enqueue(object :Callback<StreamingPlaylistResponse>{
+            override fun onResponse(
+                call: Call<StreamingPlaylistResponse>,
+                response: Response<StreamingPlaylistResponse>
+            ) {
+                Log.d("TESTLOG","video files RECIEVED")
+                val streamingPlaylistResponse:StreamingPlaylistResponse?=response.body()
+                val streamingPlaylistItems:List<VideoFileResponse> =streamingPlaylistResponse?.streamingPlaylistItems?: mutableListOf()
+                streamingPlaylistItems[0].apply {
+                    publishedAt=streamingPlaylistResponse?.publishedAt
+                    views=streamingPlaylistResponse?.views
+                }
+                responseData.value=streamingPlaylistItems
+            }
+
+            override fun onFailure(call: Call<StreamingPlaylistResponse>, t: Throwable) {
+                Log.d("TESTLOG","FAILED TO FETCH video files")
+            }
+
+        })
+        return responseData
+
+    }
+
+    fun searchForVideos(searchTerm:String):LiveData<List<Video>>{
+        val responseData:MutableLiveData<List<Video>> = MutableLiveData()
+        val request:Call<VideoResponse> = chikiApi.searchVideos(searchTerm,100)
+
+        request.enqueue(object :Callback<VideoResponse>{
+            override fun onResponse(call: Call<VideoResponse>, response: Response<VideoResponse>) {
+                Log.d("TESTLOG","search videos RECIEVED")
+                val videoResponse:VideoResponse?=response.body()
+                val videoItems:List<Video> =videoResponse?.videoItems?: mutableListOf()
+                responseData.value=videoItems
+            }
+
+            override fun onFailure(call: Call<VideoResponse>, t: Throwable) {
+                Log.d("TESTLOG","FAILED TO FETCH search videos")
+            }
+
+        })
+        return responseData
+    }
+
+    fun fetchVideosOfaPlaylist(playlistId:Int,startNumber:Int=0):LiveData<List<Video>>{
+        val responseData:MutableLiveData<List<Video>> = MutableLiveData()
+        val request: Call<PlaylistVideoResponse> =chikiApi.getVideosOfAPlaylist(playlistId,50,startNumber)
+
+        request.enqueue(object :Callback<PlaylistVideoResponse>{
+            override fun onResponse(call: Call<PlaylistVideoResponse>, response: Response<PlaylistVideoResponse>) {
+                Log.d("TESTLOG","playlist Videos RECIEVED")
+                val videoResponse:PlaylistVideoResponse?=response.body()
+                val videoItems:List<Video>? =videoResponse?.getVideos()
+                responseData.value=videoItems
+            }
+
+            override fun onFailure(call: Call<PlaylistVideoResponse>, t: Throwable) {
+                Log.d("TESTLOG","FAILED TO FETCH playlist Videos")
             }
 
         })

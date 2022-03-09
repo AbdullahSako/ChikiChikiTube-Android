@@ -5,17 +5,21 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.R
 import tube.chikichiki.adapter.VideoAdapter
+
 import tube.chikichiki.viewModel.MostViewedVideosViewModel
+import java.util.*
 
 
-class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos) {
+class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),VideoAdapter.VideoViewClick {
     private lateinit var grainAnimation: AnimationDrawable
     private lateinit var mostViewedVideosViewModel:MostViewedVideosViewModel
     private lateinit var mostViewedVideosRecyclerView: RecyclerView
@@ -45,15 +49,37 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos) 
         grainAnimation.start()
 
         //retrieve video list from api
-        mostViewedVideosViewModel.mostViewedVideosLiveData.observe(viewLifecycleOwner, Observer {
-            videoAdapter= VideoAdapter()
+        mostViewedVideosViewModel.mostViewedVideosLiveData.observe(viewLifecycleOwner) {
+            videoAdapter = VideoAdapter()
             videoAdapter.submitList(it)
-            mostViewedVideosRecyclerView.adapter=videoAdapter
+            videoAdapter.setVideoViewClickListener(this)
+            mostViewedVideosRecyclerView.adapter = videoAdapter
 
             //remove progressbar after loading video list
-            progressbar.visibility=View.GONE
-        })
+            progressbar.visibility = View.GONE
+        }
 
+
+    }
+
+    override fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String) {
+        //hides main activity toolbar and bottom nav bar by progressing motion layout
+        activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
+
+        //open video fragment
+        parentFragmentManager.beginTransaction().apply {
+            add(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+            commit()
+        }
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //bring back to start in case user clicked the home button while motion layout was at end
+        activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToStart()
 
     }
 
