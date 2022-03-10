@@ -101,7 +101,11 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         }
     }
 
-    override fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String) {
+    override fun onVideoClick(
+        videoId: UUID,
+        videoName: String,
+        videoDescription: String
+    ) {
 
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))

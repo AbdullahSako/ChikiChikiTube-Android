@@ -18,8 +18,20 @@
 
            <KeyAttribute
                motion:motionTarget="@+id/description_open_container_clickable"
-               motion:framePosition="30"
+               motion:framePosition="80"
                android:alpha="0.0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/video_player_playlist_videos_recycler_view"
+               motion:framePosition="100"
+               android:translationY="5dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/include2"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/include2"
+               motion:framePosition="100"
+               android:translationY="100dp" />
 
        </KeyFrameSet>
         <OnSwipe
@@ -104,6 +116,20 @@
             android:layout_height="1dp"
             motion:layout_constraintTop_toBottomOf="@+id/video_player"
             motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:layout_height="1dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:id="@+id/video_player_playlist_videos_recycler_view" />
+        <Constraint
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:id="@+id/include2" />
 
     </ConstraintSet>
 </MotionScene>

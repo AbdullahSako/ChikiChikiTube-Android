@@ -248,11 +248,15 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
     }
 
-    override fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String) {
+    override fun onVideoClick(
+        videoId: UUID,
+        videoName: String,
+        videoDescription: String
+    ) {
 
 
         //put video container above channel videos recycler view
-        //view?.findViewById<ConstraintLayout>(R.id.video_container)?.bringToFront()
+        view?.findViewById<ConstraintLayout>(R.id.video_container)?.bringToFront()
 
 
         parentFragmentManager.beginTransaction().apply {

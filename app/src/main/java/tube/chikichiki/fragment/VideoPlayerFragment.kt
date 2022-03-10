@@ -6,11 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewParent
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -19,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.google.android.exoplayer2.ExoPlayer
@@ -26,12 +27,14 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
-import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import tube.chikichiki.R
 import tube.chikichiki.activity.EXTRA_PLAYBACK_POSITION
 import tube.chikichiki.activity.FullScreenVideoActivity
+import tube.chikichiki.adapter.VideoAdapter
 import tube.chikichiki.api.ChikiFetcher
+import tube.chikichiki.model.Video
+import tube.chikichiki.model.VideoPlaylist
 import tube.chikichiki.view.CustomExoPlayerView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,10 +44,13 @@ import kotlin.math.abs
 private const val ARG_VIDEO_ID: String = "VIDEOID"
 private const val ARG_VIDEO_NAME: String = "VIDEONAME"
 private const val ARG_VIDEO_DESCRIPTION: String = "VIDEODESCRIPTION"
-class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
+class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdapter.VideoViewClick {
 
     private var videoPlayer: ExoPlayer? = null
     private var playlistUrl:String?=null
+    private lateinit var playlistVideosRecyclerView: RecyclerView
+    private lateinit var playlistVideosAdapter:VideoAdapter
+    private lateinit var videoId:UUID
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +67,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
         val descriptionText: TextView = view.findViewById(R.id.description_text)
         val viewsText:TextView=view.findViewById(R.id.video_views)
         val videoPublishedAt:TextView=view.findViewById(R.id.published_at_date)
+        playlistVideosRecyclerView=view.findViewById(R.id.video_player_playlist_videos_recycler_view)
         val videoPlayerView=view.findViewById<StyledPlayerView>(R.id.video_player)
         val exoPlayerProgressBar:ProgressBar=videoPlayerView.findViewById(R.id.exo_player_progress_bar)
         videoPlayer = context?.let {
@@ -71,13 +78,15 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
 
 
         //get argument
-        val videoId = arguments?.get(ARG_VIDEO_ID) as UUID
+        videoId = arguments?.get(ARG_VIDEO_ID) as UUID
         val videoName = arguments?.get(ARG_VIDEO_NAME) as String
         val videoDescription = arguments?.get(ARG_VIDEO_DESCRIPTION) as String
 
         //bind exoplayer to view
         videoPlayerView.player = videoPlayer
 
+        //set up recycler view layout manager
+        playlistVideosRecyclerView.layoutManager=LinearLayoutManager(context)
 
         //set video details/description
         videoFullTitle.text = videoName
@@ -102,6 +111,11 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
                 videoPlayer?.play()
 
             }
+
+        //set up recycler view by getting this video's playlist videos from api
+        ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner){
+            setUpPlaylistVideosRecyclerView(it,videoName)
+        }
 
 
         //set close video image view on click listener
@@ -185,6 +199,48 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
 
     }
 
+    //searches through all playlists based on video name and gets video's playlist videos
+    private fun setUpPlaylistVideosRecyclerView(playlists:List<VideoPlaylist>, videoName: String){
+        var playlist:VideoPlaylist?=null
+        val progressBar:ProgressBar?=view?.findViewById(R.id.progressBar)
+
+
+        //get playlist of a video
+        playlists.forEach {
+           if(videoName.contains(it.displayName)){
+               playlist=it
+           }
+       }
+
+
+        if(playlist != null) {
+
+            //get videos of the playlist
+            playlist?.id?.let { it ->
+                ChikiFetcher().fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner) { videoList ->
+                    //filter out current video
+                    val temp:List<Video> = videoList.filter { it.name!=videoName }
+
+                    //set up recycler view adapter
+                    playlistVideosAdapter = VideoAdapter()
+                    playlistVideosAdapter.submitList(temp)
+                    playlistVideosAdapter.setVideoViewClickListener(this)
+                    playlistVideosRecyclerView.adapter = playlistVideosAdapter
+
+                    //hide progress bar after loading
+                    progressBar?.visibility = View.GONE
+                }
+            }
+        }
+        else{
+            //hide progress bar if there is no playlist
+            progressBar?.visibility = View.GONE
+
+        }
+
+
+    }
+
     //returns date as "Time Ago" for example: 2 days ago
     private fun getFormattedDate(publishedAt: String?): String {
 
@@ -226,6 +282,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
                 //in case the video is opened from a main activity - this hides/shows the toolbar and bottom nav bar based on whether the video is opened or minimized
                 mainActivityMotionLayout?.progress = (1.0f - abs(progress))
 
+                //hide
 
                 //remove video player control buttons
                 if(progress>0.1f) {
@@ -417,6 +474,21 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
                 )
 
             }
+        }
+    }
+
+    override fun onVideoClick(
+        videoId: UUID,
+        videoName: String,
+        videoDescription: String
+    ) {
+
+            activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
+
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+                commit()
+
         }
     }
 }

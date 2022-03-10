@@ -47,7 +47,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <Spinner
             android:id="@+id/sort_spinner"
@@ -57,10 +58,10 @@
             android:contentDescription="@string/sort_by"
             android:spinnerMode="dropdown"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
 
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/searchView"
@@ -68,28 +69,27 @@
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="16dp"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/search_image"
             app:layout_constraintStart_toEndOf="@+id/search_back"
-            app:layout_constraintTop_toTopOf="parent"
-            android:maxLines="1"
-            android:inputType="text"
-            android:imeOptions="actionSearch"
-            android:hint="@string/search_hint"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/search_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/button_sel"
+            android:contentDescription="@string/content_desc_search_channel_videos"
             android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/content_desc_search_channel_videos"
             />
 
         <ImageButton
@@ -97,14 +97,14 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_back"
             android:background="@drawable/button_sel"
+            android:contentDescription="@string/content_desc_close_channel_search"
+            android:src="@drawable/ic_back"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/content_desc_close_channel_search"
-             />
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

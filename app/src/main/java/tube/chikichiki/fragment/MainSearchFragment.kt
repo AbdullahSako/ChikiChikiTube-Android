@@ -11,7 +11,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.R
@@ -64,7 +63,11 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
 
     }
 
-    override fun onVideoClick(videoId: UUID, videoName: String, videoDescription: String) {
+    override fun onVideoClick(
+        videoId: UUID,
+        videoName: String,
+        videoDescription: String
+    ) {
         //hides main activity toolbar and bottom nav bar by progressing motion layout
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 

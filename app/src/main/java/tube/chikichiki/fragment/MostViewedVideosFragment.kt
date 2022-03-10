@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +61,11 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
 
     }
 
-    override fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String) {
+    override fun onVideoClick(
+        videoId: UUID,
+        videoName: String,
+        videoDescription: String
+    ) {
         //hides main activity toolbar and bottom nav bar by progressing motion layout
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 

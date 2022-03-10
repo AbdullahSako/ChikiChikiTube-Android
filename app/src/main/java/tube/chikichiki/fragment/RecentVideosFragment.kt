@@ -62,7 +62,11 @@ class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdap
 
     }
 
-    override fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String) {
+    override fun onVideoClick(
+        videoId: UUID,
+        videoName: String,
+        videoDescription: String
+    ) {
         //hides main activity toolbar and bottom nav bar by progressing motion layout
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 

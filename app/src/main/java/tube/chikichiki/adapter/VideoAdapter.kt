@@ -57,7 +57,7 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
             videoName.text=videoItem.name
             videoDuration.text=videoItem.getFormattedDuration()
             itemView.setOnClickListener {
-                videoViewClick?.onVideoClick(videoItem.uuid,videoItem.name,videoItem.description)
+                videoViewClick?.onVideoClick(videoItem.uuid, videoItem.name, videoItem.description)
             }
         }
 
@@ -74,7 +74,7 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
     }
 
     interface VideoViewClick{
-        fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String)
+        fun onVideoClick(videoId: UUID, videoName: String, videoDescription: String)
     }
 
 

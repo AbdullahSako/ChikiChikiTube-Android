@@ -20,6 +20,7 @@
     <string name="no_channel_playlists_found">There are no playlists for this channel</string>
     <string name="no_channel_videos_found">There are no videos for this channel</string>
     <string name="no_playlist_videos_found">There are no videos for this playlist</string>
+    <string name="no_playlist_for_this_video">There is no playlist for this video</string>
     <string name="playlists">Playlists</string>
     <string name="videos">Videos</string>
     <string name="sort_by">Sort by</string>
