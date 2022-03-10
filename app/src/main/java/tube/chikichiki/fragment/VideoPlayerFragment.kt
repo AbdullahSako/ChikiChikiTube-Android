@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewParent
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -24,6 +26,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
+import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import tube.chikichiki.R
 import tube.chikichiki.activity.EXTRA_PLAYBACK_POSITION
@@ -64,8 +67,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
             ExoPlayer.Builder(it).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000)
                 .build()
         }
-        videoPlayerView.controllerShowTimeoutMs
-
 
 
 
@@ -225,8 +226,25 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
                 //in case the video is opened from a main activity - this hides/shows the toolbar and bottom nav bar based on whether the video is opened or minimized
                 mainActivityMotionLayout?.progress = (1.0f - abs(progress))
 
-                //remove video player button if motion layout is not at start state
-                videoPlayerView?.useController=false
+
+                //remove video player control buttons
+                if(progress>0.1f) {
+                    if(videoPlayerView?.useController==true) {
+                        videoPlayerView.useController = false
+                        videoPlayerView.hideController()
+                    }
+                }
+
+                //showing video player controls at start state glitches height and width of the control view
+                //this ensures the control view is shown correctly
+                //show video player control button
+                if(progress<0.1f){
+                    if(videoPlayerView?.useController==false) {
+                        videoPlayerView.useController = true
+                        videoPlayerView.showController()
+                    }
+                }
+
 
             }
 
@@ -237,11 +255,12 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
                     mainActivityMotionLayout?.transitionToStart()
                 }
 
-                if(currentId == motionLayout?.startState){
-                    //add then show video player buttons
-                    motionLayout.transitionToStart()
-                    videoPlayerView?.useController=true
-                    videoPlayerView?.showController()
+                // double check if video player controller got enabled in onTransitionChange
+                if(currentId ==motionLayout?.startState){
+                    if(videoPlayerView?.useController==false){
+                        videoPlayerView.useController=true
+                        videoPlayerView.showController()
+                    }
                 }
 
             }

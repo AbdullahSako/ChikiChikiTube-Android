@@ -43,6 +43,8 @@
     <string name="content_desc_open_video_in_fullscreen">open video in Fullscreen</string>
     <string name="content_desc_change_video_playback_time">change video playback time</string>
     <string name="content_desc_forward_10_seconds">forward 10 seconds</string>
+    <string name="content_desc_search_channel_videos">Search channel videos</string>
+    <string name="content_desc_close_channel_search">close channel search</string>
 
 
 </resources>

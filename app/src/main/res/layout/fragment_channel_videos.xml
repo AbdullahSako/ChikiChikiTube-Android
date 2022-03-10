@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/channel_videos_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -77,28 +76,35 @@
             android:inputType="text"
             android:imeOptions="actionSearch"
             android:hint="@string/search_hint"
+
             />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/search_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
+            android:background="@drawable/button_sel"
+            android:src="@drawable/ic_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search" />
+            android:contentDescription="@string/content_desc_search_channel_videos"
+            />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/search_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:visibility="gone"
+            android:src="@drawable/ic_back"
+            android:background="@drawable/button_sel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            android:contentDescription="@string/content_desc_close_channel_search"
+             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

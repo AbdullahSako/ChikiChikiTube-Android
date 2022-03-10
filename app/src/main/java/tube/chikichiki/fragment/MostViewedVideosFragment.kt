@@ -68,7 +68,7 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
 
         //open video fragment
         parentFragmentManager.beginTransaction().apply {
-            add(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
             commit()
         }
 

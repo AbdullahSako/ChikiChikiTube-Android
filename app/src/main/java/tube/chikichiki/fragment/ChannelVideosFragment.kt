@@ -37,9 +37,9 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
         val motionLayout:MotionLayout = view.findViewById(R.id.channel_videos_constraint_layout)
         channelVideosRecyclerView= view.findViewById(R.id.channel_videos_recycler_view)
         val sortSpinner:Spinner=view.findViewById(R.id.sort_spinner)
-        val searchImageView:ImageView=view.findViewById(R.id.search_image)
+        val searchImageView:ImageButton=view.findViewById(R.id.search_image)
         val searchEditText:EditText=view.findViewById(R.id.searchView)
-        val searchBackImageView:ImageView=view.findViewById(R.id.search_back)
+        val searchBackImageView:ImageButton=view.findViewById(R.id.search_back)
 
 
         //get channel handle from fragment arguments
@@ -249,8 +249,10 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     }
 
     override fun onVideoClick(videoId:UUID,videoName:String,videoDescription:String) {
+
+
         //put video container above channel videos recycler view
-        view?.findViewById<ConstraintLayout>(R.id.video_container)?.bringToFront()
+        //view?.findViewById<ConstraintLayout>(R.id.video_container)?.bringToFront()
 
 
         parentFragmentManager.beginTransaction().apply {
