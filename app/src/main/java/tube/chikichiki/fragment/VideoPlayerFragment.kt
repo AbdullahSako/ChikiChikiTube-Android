@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -44,7 +43,7 @@ import kotlin.math.abs
 private const val ARG_VIDEO_ID: String = "VIDEOID"
 private const val ARG_VIDEO_NAME: String = "VIDEONAME"
 private const val ARG_VIDEO_DESCRIPTION: String = "VIDEODESCRIPTION"
-class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdapter.VideoViewClick {
+class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) , VideoAdapter.VideoViewClick {
 
     private var videoPlayer: ExoPlayer? = null
     private var playlistUrl:String?=null
@@ -62,7 +61,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
         val openDescriptionBtn: ConstraintLayout =
             view.findViewById(R.id.description_open_container_clickable)
         val descriptionCloseBtn: ImageButton = view.findViewById(R.id.description_close_button)
-        val descriptionContainer: MotionLayout = view.findViewById(R.id.description_motion_layout)
+        val descriptionContainer: MotionLayout = view.findViewById(R.id.description)
         val descriptionVideoTitle: TextView = view.findViewById(R.id.description_video_title)
         val descriptionText: TextView = view.findViewById(R.id.description_text)
         val viewsText:TextView=view.findViewById(R.id.video_views)
@@ -70,6 +69,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
         playlistVideosRecyclerView=view.findViewById(R.id.video_player_playlist_videos_recycler_view)
         val videoPlayerView=view.findViewById<StyledPlayerView>(R.id.video_player)
         val exoPlayerProgressBar:ProgressBar=videoPlayerView.findViewById(R.id.exo_player_progress_bar)
+        val controlPlayBtn: ImageButton = videoPlayerView.findViewById(R.id.control_view_play_btn)
         videoPlayer = context?.let {
             ExoPlayer.Builder(it).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000)
                 .build()
@@ -81,6 +81,9 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
         videoId = arguments?.get(ARG_VIDEO_ID) as UUID
         val videoName = arguments?.get(ARG_VIDEO_NAME) as String
         val videoDescription = arguments?.get(ARG_VIDEO_DESCRIPTION) as String
+
+        //set controller hide time
+        videoPlayerView.controllerShowTimeoutMs=3000
 
         //bind exoplayer to view
         videoPlayerView.player = videoPlayer
@@ -156,13 +159,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
         }
 
 
-        //exoplayer (video player) listener TODO: REMOVE WHEN DONE
+        //exoplayer (video player) listener
         videoPlayer?.addListener(object : Player.Listener {
-            override fun onPlayerError(error: PlaybackException) {
-                super.onPlayerError(error)
-                Log.d("TESTLOG", error.toString())
-            }
 
+            //hide progress bar when not buffering
             override fun onPlaybackStateChanged(playbackState: Int) {
                 super.onPlaybackStateChanged(playbackState)
                 if(playbackState== Player.STATE_BUFFERING){
@@ -175,20 +175,41 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
 
 
 
+
+
             //change minimized pause/play image based on player
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
                 if (isPlaying) {
+
+                    //change minimized play button image to paused image
                     pauseOrPlayVideoBtn.setImageDrawable(context?.let {
                         getDrawable(
                             it,
                             R.drawable.ic_pause
                         )
                     })
+                    //change player control view play button image to paused image
+                    controlPlayBtn.setImageDrawable(context?.let { it1 ->
+                        getDrawable(
+                            it1,
+                            R.drawable.ic_pause_circle
+                        )
+                    })
+
+
                 } else {
+                    //change minimized pause button image to play image
                     pauseOrPlayVideoBtn.setImageDrawable(context?.let {
                         getDrawable(
                             it, R.drawable.ic_play
+                        )
+                    })
+                    //change player control view pause button image to play image
+                    controlPlayBtn.setImageDrawable(context?.let { it1 ->
+                        getDrawable(
+                            it1,
+                            R.drawable.ic_play_circle
                         )
                     })
                 }
@@ -196,7 +217,9 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
 
         })
 
-
+        //TODO ADD VIEW
+        //add a view on the video
+       // ChikiFetcher().addAView(videoId)
     }
 
     //searches through all playlists based on video name and gets video's playlist videos
@@ -218,8 +241,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
             //get videos of the playlist
             playlist?.id?.let { it ->
                 ChikiFetcher().fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner) { videoList ->
+
+
                     //filter out current video
-                    val temp:List<Video> = videoList.filter { it.name!=videoName }
+                    val temp:List<Video> = videoList.filter { it.uuid!=videoId }
 
                     //set up recycler view adapter
                     playlistVideosAdapter = VideoAdapter()
@@ -227,8 +252,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
                     playlistVideosAdapter.setVideoViewClickListener(this)
                     playlistVideosRecyclerView.adapter = playlistVideosAdapter
 
+
                     //hide progress bar after loading
                     progressBar?.visibility = View.GONE
+
                 }
             }
         }
@@ -282,7 +309,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
                 //in case the video is opened from a main activity - this hides/shows the toolbar and bottom nav bar based on whether the video is opened or minimized
                 mainActivityMotionLayout?.progress = (1.0f - abs(progress))
 
-                //hide
 
                 //remove video player control buttons
                 if(progress>0.1f) {
@@ -346,21 +372,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
         play.setOnClickListener {
             if (videoPlayer?.isPlaying == true) {
                 videoPlayer?.pause()
-                play.setImageDrawable(context?.let { it1 ->
-                    getDrawable(
-                        it1,
-                        R.drawable.ic_play_circle
-                    )
-                })
+
             } else {
                 videoPlayer?.prepare()
                 videoPlayer?.play()
-                play.setImageDrawable(context?.let { it1 ->
-                    getDrawable(
-                        it1,
-                        R.drawable.ic_pause_circle
-                    )
-                })
             }
         }
         //seek forward 10 seconds
@@ -486,7 +501,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) , VideoAdap
             activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+                replace(R.id.video_container,newInstance(videoId,videoName,videoDescription))
                 commit()
 
         }

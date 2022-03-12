@@ -9,8 +9,9 @@ data class Video(
     var previewPath: String,
     var description: String,
     @SerializedName("channel") var videoChannel: VideoChannel,
-    var duration: Int
-) {
+    var duration: Int,
+
+    ) {
 
     fun getFullThumbnailPath(): String {
         return "https://vtr.chikichiki.tube$previewPath"

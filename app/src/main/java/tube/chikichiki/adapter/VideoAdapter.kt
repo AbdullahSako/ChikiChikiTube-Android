@@ -56,11 +56,16 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
             Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).into(banner)
             videoName.text=videoItem.name
             videoDuration.text=videoItem.getFormattedDuration()
-            itemView.setOnClickListener {
-                videoViewClick?.onVideoClick(videoItem.uuid, videoItem.name, videoItem.description)
-            }
-        }
 
+            //set on click if its playing (this is for playlist videos inside video player fragment)
+                itemView.setOnClickListener {
+                    videoViewClick?.onVideoClick(
+                        videoItem.uuid,
+                        videoItem.name,
+                        videoItem.description
+                    )
+                }
+        }
 
 
     }

@@ -3,6 +3,7 @@ package tube.chikichiki.fragment
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -11,6 +12,7 @@ import android.widget.*
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.R
@@ -28,7 +30,6 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     private lateinit var currentListOfVideos:List<Video>
     private var channelHandle:String?=null
     private var isLoading=false
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,7 +92,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
                     if(!isLoading) {
 
-                        loadMore()
+                        loadMore(sortSpinner.selectedItemPosition)
                         isLoading=true
                     }
 
@@ -166,8 +167,17 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
     }
     // retrieve videos from api based on current list size as a page start point
-    private fun loadMore(){
-        channelHandle?.let { ChikiFetcher().fetchVideosOfaChannel(it,currentListOfVideos.size).observe(viewLifecycleOwner
+    private fun loadMore(sortPos:Int){
+
+        //get sorted videos based on spinner position
+        var sort:String="createdAt"
+        when(sortPos){
+            0->sort="createdAt"
+            1->sort="-views"
+            2->sort="-duration"
+        }
+
+        channelHandle?.let { ChikiFetcher().fetchVideosOfaChannel(it,currentListOfVideos.size,sortBy = sort).observe(viewLifecycleOwner
         ) { list ->
             currentListOfVideos =
                 currentListOfVideos + list //add lists to get all available videos size

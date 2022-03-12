@@ -42,7 +42,7 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
-
+                android:contentDescription="@string/content_desc_app_logo"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -67,7 +67,9 @@
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/content_desc_search_for_videos"
+                />
 
             <EditText
                 android:id="@+id/main_activity_search_edit_text"
@@ -75,12 +77,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-
                 android:hint="@string/search_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
                 android:visibility="gone"
+                android:importantForAutofill="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/main_activity_search_button"
                 app:layout_constraintStart_toEndOf="@+id/main_activity_back_image_button"
@@ -93,6 +95,7 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button_sel"
                 android:visibility="gone"
+                android:contentDescription="@string/content_desc_close_video_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

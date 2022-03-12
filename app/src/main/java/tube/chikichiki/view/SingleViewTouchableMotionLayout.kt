@@ -11,7 +11,7 @@ import tube.chikichiki.R
 class SingleViewTouchableMotionLayout(context:Context,attr:AttributeSet?=null):MotionLayout(context,attr) {
 
     private var motionLayout:MotionLayout =
-        LayoutInflater.from(context).inflate(R.layout.single_view_motion_layout,this,false) as MotionLayout
+        LayoutInflater.from(context).inflate(R.layout.video_player_motion_layout,this,false) as MotionLayout
     private val touchableArea:View
 
 

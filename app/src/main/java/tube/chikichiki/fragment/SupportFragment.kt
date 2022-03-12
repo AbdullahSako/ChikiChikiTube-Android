@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import tube.chikichiki.R
+import tube.chikichiki.api.ChikiFetcher
+import java.util.*
 
 class SupportFragment : Fragment(R.layout.fragment_support) {
     private lateinit var grainAnimation: AnimationDrawable
@@ -22,15 +24,18 @@ class SupportFragment : Fragment(R.layout.fragment_support) {
         val gakiDiscord:TextView=view.findViewById(R.id.gaki_discord)
         val wacast:TextView=view.findViewById(R.id.wacast)
         val knightscoop:TextView=view.findViewById(R.id.knightscoop)
+        val chikiChikiTube:TextView=view.findViewById(R.id.app_for_website_text)
 
 
         //set up clickable text that redirects to a link
-        silentLibrary.movementMethod=LinkMovementMethod.getInstance()
-        peerTubeLink.movementMethod=LinkMovementMethod.getInstance()
-        gakiReddit.movementMethod=LinkMovementMethod.getInstance()
-        gakiDiscord.movementMethod=LinkMovementMethod.getInstance()
-        wacast.movementMethod=LinkMovementMethod.getInstance()
-        knightscoop.movementMethod=LinkMovementMethod.getInstance()
+        val linkMovementMethod=LinkMovementMethod.getInstance()
+        silentLibrary.movementMethod=linkMovementMethod
+        peerTubeLink.movementMethod=linkMovementMethod
+        gakiReddit.movementMethod=linkMovementMethod
+        gakiDiscord.movementMethod=linkMovementMethod
+        wacast.movementMethod=linkMovementMethod
+        knightscoop.movementMethod=linkMovementMethod
+        chikiChikiTube.movementMethod=linkMovementMethod
 
         constraint.apply {
             setBackgroundResource(R.drawable.grain_animation)

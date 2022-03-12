@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_player_motion_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/single_view_motion_layout_scene"
+    android:keepScreenOn="true"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <tube.chikichiki.view.CustomExoPlayerView
+        android:id="@+id/video_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:controller_layout_id="@layout/exo_player_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:show_buffering="always"
+        app:surface_type="surface_view"
+
+        />
+
+    <ImageButton
+        android:id="@+id/close_video_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/video_player"
+        app:layout_constraintEnd_toEndOf="@id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close"
+        android:background="@drawable/button_sel"
+        android:contentDescription="@string/content_desc_close_video"
+        />
+
+    <ImageButton
+        android:id="@+id/pause_video_image_view"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/close_video_icon"
+        app:layout_constraintEnd_toStartOf="@+id/close_video_icon"
+        app:layout_constraintTop_toTopOf="@+id/close_video_icon"
+        app:srcCompat="@drawable/ic_pause"
+        android:background="@drawable/button_sel"
+        android:contentDescription="@string/content_desc_pause_video"
+        />
+
+    <TextView
+        android:id="@+id/video_title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/mochiypoppone"
+        android:maxLines="1"
+        android:textSize="11sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/pause_video_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/pause_video_image_view"
+        app:layout_constraintTop_toTopOf="@+id/pause_video_image_view"
+        tools:text="TITLETITLE" />
+
+
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/loading_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/video_player"
+        />
+
+
+
+
+    <include
+        android:id="@+id/description"
+        layout="@layout/description_motion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_player" />
+
+    <include
+        android:id="@+id/include4"
+        layout="@layout/video_title_motion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_player" />
+
+
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

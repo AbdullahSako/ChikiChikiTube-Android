@@ -17,6 +17,7 @@
     <string name="gaki_discord"><a href="https://discord.com/invite/gaki">Gaki Discord (@chikichiki.tube) ➚</a></string>
     <string name="metadata">Metadata is from <a href="https://knightscoop.yabai.moe/">knightscoop.yabai.moe ➚</a> and <a href="http://ghia.chu.jp/wiki/">ghia.chu.jp/wiki ➚</a></string>
     <string name="wecast">Have a look at some homemade comedy at <a href="https://wacast.net/">wacast.net ➚</a></string>
+    <string name="app_for_website"><a href="https://chikichiki.tube/">Chiki Chiki Tube ➚</a></string>
     <string name="no_channel_playlists_found">There are no playlists for this channel</string>
     <string name="no_channel_videos_found">There are no videos for this channel</string>
     <string name="no_playlist_videos_found">There are no videos for this playlist</string>
@@ -46,6 +47,9 @@
     <string name="content_desc_forward_10_seconds">forward 10 seconds</string>
     <string name="content_desc_search_channel_videos">Search channel videos</string>
     <string name="content_desc_close_channel_search">close channel search</string>
+    <string name="content_desc_search_for_videos">Search for videos</string>
+    <string name="content_desc_app_logo">App Logo</string>
+    <string name="content_desc_close_video_search">Close video search</string>
 
 
 </resources>

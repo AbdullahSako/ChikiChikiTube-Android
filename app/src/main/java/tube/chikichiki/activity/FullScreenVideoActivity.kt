@@ -36,18 +36,18 @@ class FullScreenVideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_video)
 
-        //hide status bar
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
+
 
 
         val videoPlayerView=findViewById<CustomExoPlayerView>(R.id.video_player)
 
         //set up video player
         videoPlayer=ExoPlayer.Builder(this).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000).build()
+
+        //set controller hide time
+        videoPlayerView.controllerShowTimeoutMs=3000
+
+        //bind exoplayer to view
         videoPlayerView.player = videoPlayer
 
         //add player listener
@@ -146,6 +146,17 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
     }
 
+    private fun hideStatusBars(){
+
+        //hide status bar
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+    }
+
     private fun sendPlaybackDetailsBack(){
         videoPlayer?.pause()
         val data=intent.apply {
@@ -160,8 +171,20 @@ class FullScreenVideoActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    override fun onResume() {
+        super.onResume()
+        videoPlayer?.prepare()
+        hideStatusBars()
+    }
+
     override fun onStop() {
         super.onStop()
+        Log.d("TESTLOG", "FULLSCREEN VIDEO PLAYER stopped")
+        videoPlayer?.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         Log.d("TESTLOG", "FULLSCREEN VIDEO PLAYER DESTROYED")
         videoPlayer?.release()
     }

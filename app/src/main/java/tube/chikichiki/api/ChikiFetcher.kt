@@ -196,5 +196,20 @@ class ChikiFetcher {
 
     }
 
+    fun addAView(videoId:UUID){
+        val request: Call<String> =chikiApi.addView(videoId)
+
+        request.enqueue(object :Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.d("TESTLOG", "$response View Added")
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("TESTLOG","FAILED TO add view")
+            }
+
+        })
+    }
+
 
 }
