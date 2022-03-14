@@ -50,6 +50,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private lateinit var playlistVideosRecyclerView: RecyclerView
     private lateinit var playlistVideosAdapter:VideoAdapter
     private lateinit var videoId:UUID
+    private lateinit var videoName:String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,7 +80,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
         //get argument
         videoId = arguments?.get(ARG_VIDEO_ID) as UUID
-        val videoName = arguments?.get(ARG_VIDEO_NAME) as String
+        videoName = arguments?.get(ARG_VIDEO_NAME) as String
         val videoDescription = arguments?.get(ARG_VIDEO_DESCRIPTION) as String
 
         //set controller hide time
@@ -393,7 +394,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
         //full screen button
         fullscreen.setOnClickListener {
-            val intent=FullScreenVideoActivity.newInstance(activity,videoPlayer?.currentPosition,videoPlayer?.playWhenReady,playlistUrl)
+            val intent=FullScreenVideoActivity.newInstance(activity,videoPlayer?.currentPosition,videoPlayer?.playWhenReady,playlistUrl,videoName)
             videoPlayer?.stop()
             resultLauncher.launch(intent)
         }

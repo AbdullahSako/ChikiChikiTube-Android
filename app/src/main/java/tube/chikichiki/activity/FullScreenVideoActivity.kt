@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -27,6 +28,7 @@ import tube.chikichiki.view.CustomExoPlayerView
 private const val EXTRA_POSITION:String="PLAYBACKPOSITION"
 private const val EXTRA_PLAY_WHEN_READY:String="PLAYWHENREADY"
 private const val EXTRA_PLAYLIST_URL:String="PLAYLISTURL"
+private const val EXTRA_VIDEO_NAME:String="VIDEONAME"
 const val EXTRA_PLAYBACK_POSITION:String="PLAYBACKPOSITION"
 const val EXTRA_PLAY_WHEN_READY_BACK:String="PLAYBACKWHENREADY"
 class FullScreenVideoActivity : AppCompatActivity() {
@@ -36,10 +38,8 @@ class FullScreenVideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_video)
 
-
-
-
         val videoPlayerView=findViewById<CustomExoPlayerView>(R.id.video_player)
+        val videoTitleTextView:TextView=videoPlayerView.findViewById(R.id.exo_player_view_video_title)
 
         //set up video player
         videoPlayer=ExoPlayer.Builder(this).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000).build()
@@ -59,6 +59,11 @@ class FullScreenVideoActivity : AppCompatActivity() {
         val playbackPosition=intent.extras?.getLong(EXTRA_POSITION)
         val playWhenReady=intent.extras?.getBoolean(EXTRA_PLAY_WHEN_READY)
         val playlistUrl=intent.extras?.getString(EXTRA_PLAYLIST_URL)
+        val videoName = intent.extras?.getString(EXTRA_VIDEO_NAME)
+
+        //setup video title
+        videoTitleTextView.visibility=View.VISIBLE //player control view video title is gone by default so it doesn't show up !fullscreen
+        videoTitleTextView.text=videoName
 
         //setup media item
         val media: MediaItem = MediaItem.Builder().setUri(playlistUrl).build()
@@ -191,11 +196,12 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
 
     companion object{
-        fun newInstance(context: Context?,playbackPosition:Long?,playWhenReady:Boolean?,playlistUrl:String?):Intent {
+        fun newInstance(context: Context?,playbackPosition:Long?,playWhenReady:Boolean?,playlistUrl:String?,videoName:String?):Intent {
             return Intent(context,FullScreenVideoActivity::class.java).apply {
                 putExtra(EXTRA_POSITION,playbackPosition)
                 putExtra(EXTRA_PLAY_WHEN_READY,playWhenReady)
                 putExtra(EXTRA_PLAYLIST_URL,playlistUrl)
+                putExtra(EXTRA_VIDEO_NAME,videoName)
             }
         }
     }
