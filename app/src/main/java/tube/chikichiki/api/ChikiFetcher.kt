@@ -3,9 +3,15 @@ package tube.chikichiki.api
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import tube.chikichiki.model.*
+import tube.chikichiki.model.File
+import tube.chikichiki.model.Video
+import tube.chikichiki.model.VideoChannel
+import tube.chikichiki.model.VideoPlaylist
 import java.util.*
 
 class ChikiFetcher {
@@ -20,7 +26,7 @@ class ChikiFetcher {
 
     fun fetchChannels():LiveData<List<VideoChannel>>{
         val responseData:MutableLiveData<List<VideoChannel>> = MutableLiveData()
-        val request: Call<VideoChannelDataResponse> =chikiApi.getChannels("-createdAt")
+        val request: Call<VideoChannelDataResponse> =chikiApi.getChannels("-createdAt",50)
 
         request.enqueue(object :Callback<VideoChannelDataResponse>{
             override fun onResponse(call: Call<VideoChannelDataResponse>, response: Response<VideoChannelDataResponse>) {
@@ -39,9 +45,9 @@ class ChikiFetcher {
         return responseData
     }
 
-    fun fetchPlaylists():LiveData<List<VideoPlaylist>>{
+    fun fetchPlaylists(startNumber: Int=0):LiveData<List<VideoPlaylist>>{
         val responseData:MutableLiveData<List<VideoPlaylist>> = MutableLiveData()
-        val request: Call<VideoPlaylistResponse> =chikiApi.getPlaylists(100)
+        val request: Call<VideoPlaylistResponse> =chikiApi.getPlaylists(100,startNumber)
 
         request.enqueue(object :Callback<VideoPlaylistResponse>{
             override fun onResponse(call: Call<VideoPlaylistResponse>, response: Response<VideoPlaylistResponse>) {
@@ -210,6 +216,5 @@ class ChikiFetcher {
 
         })
     }
-
 
 }

@@ -1,19 +1,21 @@
 package tube.chikichiki.activity
 
+
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
-
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import tube.chikichiki.R
 import tube.chikichiki.fragment.*
@@ -139,10 +141,17 @@ class MainActivity : AppCompatActivity() {
             input.hideSoftInputFromWindow(searchEditText.windowToken,0)
 
         }
-
+        // search button in keyboard
         searchEditText.setOnEditorActionListener { _, i, _ ->
             if(searchEditText.text.isNotEmpty()){
                 if(i==EditorInfo.IME_ACTION_SEARCH){
+
+                    //remove video player if a video is playing
+                    val view=findViewById<ConstraintLayout>(R.id.video_player_root)
+                    if(view!=null){
+                        val fragment=view.findFragment<VideoPlayerFragment>()
+                        supportFragmentManager.beginTransaction().remove(fragment).commit()
+                    }
 
                     //remove previous search fragment if it exists
                     val fragment=supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)

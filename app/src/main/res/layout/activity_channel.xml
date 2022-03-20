@@ -23,12 +23,15 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/playlists" />
+                android:text="@string/videos"
+                />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/videos" />
+
+                android:text="@string/playlists"
+                />
 
         </com.google.android.material.tabs.TabLayout>
 

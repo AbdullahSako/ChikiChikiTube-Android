@@ -20,13 +20,13 @@ import java.util.*
 
 class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),VideoAdapter.VideoViewClick {
     private lateinit var grainAnimation: AnimationDrawable
-    private lateinit var mostViewedVideosViewModel:MostViewedVideosViewModel
+    private var mostViewedVideosViewModel:MostViewedVideosViewModel? = null
     private lateinit var mostViewedVideosRecyclerView: RecyclerView
     private lateinit var videoAdapter: VideoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mostViewedVideosViewModel=ViewModelProvider(this).get(MostViewedVideosViewModel::class.java)
+        mostViewedVideosViewModel= activity?.let { ViewModelProvider(it).get(MostViewedVideosViewModel::class.java) }
     }
 
 
@@ -48,7 +48,7 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
         grainAnimation.start()
 
         //retrieve video list from api
-        mostViewedVideosViewModel.mostViewedVideosLiveData.observe(viewLifecycleOwner) {
+        mostViewedVideosViewModel?.mostViewedVideosLiveData?.observe(viewLifecycleOwner) {
             videoAdapter = VideoAdapter()
             videoAdapter.submitList(it)
             videoAdapter.setVideoViewClickListener(this)

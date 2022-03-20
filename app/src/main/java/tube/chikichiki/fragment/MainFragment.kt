@@ -13,17 +13,18 @@ import tube.chikichiki.viewModel.ChannelViewModel
 import tube.chikichiki.R
 import tube.chikichiki.activity.ChannelActivity
 import tube.chikichiki.adapter.ChannelAdapter
+import tube.chikichiki.model.VideoChannel
 
 
 class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelViewClick {
 
     private lateinit var grainAnimation: AnimationDrawable
-    private lateinit var channelViewModel: ChannelViewModel
+    private var channelViewModel: ChannelViewModel? = null
     private lateinit var channelRecyclerView:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        channelViewModel= ViewModelProvider(this).get(ChannelViewModel::class.java)
+        channelViewModel= activity?.let { ViewModelProvider(it).get(ChannelViewModel::class.java) }
     }
 
 
@@ -45,9 +46,33 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
         grainAnimation.start()
 
         //retrieve channel list from api
-        channelViewModel.channelItemLiveData.observe(viewLifecycleOwner) {
+        channelViewModel?.channelItemLiveData?.observe(viewLifecycleOwner) {
 
-            val adapter = ChannelAdapter(it)
+            val sortedChannels= arrayOf("gakinotsukai","gottsueekanji","knightscoop","suiyoubinodowntown","documental","lincoln","downtownnow","worlddowntown","heyheyhey","matsumotoke","ashitagaarusa","mhk","suberanaihanashi","visualbum","hitoshimatsumotostore")
+            val temp:MutableList<Pair<Int,VideoChannel>> = mutableListOf()
+            val leftOver= mutableListOf<VideoChannel>()
+
+            //sort channels based on sorted channels array
+            it.forEach {
+                val index=sortedChannels.indexOf(it.channelHandle)
+                if(index!=-1){
+                    temp.add(index to it)
+                }
+                else{
+                    leftOver.add(it)
+                }
+            }
+
+            temp.sortBy {it.first}
+            leftOver.forEach {leftOverListItem -> temp.add(it.size to leftOverListItem) }
+
+            val sorted:MutableList<VideoChannel> = mutableListOf()
+
+            temp.forEach { sorted.add(it.second) }
+
+
+            //remove empty channels
+            val adapter = ChannelAdapter(sorted.filter { it.channelHandle != "root_channel" && it.channelHandle!="fearfulkyochan" && it.channelHandle!="chikichikitube" })
             adapter.setChannelViewClickListener(this@MainFragment)
             channelRecyclerView.adapter = adapter
 

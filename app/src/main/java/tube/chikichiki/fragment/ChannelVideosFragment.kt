@@ -3,8 +3,6 @@ package tube.chikichiki.fragment
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -12,7 +10,7 @@ import android.widget.*
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
-import androidx.fragment.app.findFragment
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.R
@@ -30,6 +28,8 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     private lateinit var currentListOfVideos:List<Video>
     private var channelHandle:String?=null
     private var isLoading=false
+    private val sortArray:Array<String> = arrayOf("Recent","Most popular","Duration","Alphabet")
+    private val sortToArray= arrayOf("-createdAt","-views","-duration","name") // must match sortArray
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +51,6 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
         //set up sort by spinner
 
-        val sortArray:Array<String> = arrayOf("Recent","Most popular","Duration")
-
         sortSpinner.adapter= context?.let { context->
             ArrayAdapter(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,sortArray)
         }
@@ -61,9 +59,10 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
         sortSpinner.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when(p2){
-                    0->loadVideos("-createdAt", view)
-                    1->loadVideos("-views",view)
-                    2->loadVideos("-duration",view)
+                    0->{loadVideos(sortToArray[0], view) }
+                    1->{loadVideos(sortToArray[1],view) }
+                    2->{loadVideos(sortToArray[2],view) }
+                    3->{loadVideos(sortToArray[3],view) }
                 }
             }
 
@@ -170,11 +169,13 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     private fun loadMore(sortPos:Int){
 
         //get sorted videos based on spinner position
-        var sort:String="createdAt"
-        when(sortPos){
-            0->sort="createdAt"
-            1->sort="-views"
-            2->sort="-duration"
+        var sort="createdAt"
+        when(sortPos){ //also change
+            0->sort=sortToArray[0]
+            1->sort=sortToArray[1]
+            2->sort=sortToArray[2]
+            3->sort=sortToArray[3]
+
         }
 
         channelHandle?.let { ChikiFetcher().fetchVideosOfaChannel(it,currentListOfVideos.size,sortBy = sort).observe(viewLifecycleOwner
@@ -216,6 +217,10 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
             }
             //hide loading bar after loading list
             progressBar.visibility = View.GONE
+
+
+
+
         }
         }
     }
@@ -245,6 +250,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
             //remove progress bar after loading
             progressBar?.visibility = View.GONE
         }
+
 
     }
 

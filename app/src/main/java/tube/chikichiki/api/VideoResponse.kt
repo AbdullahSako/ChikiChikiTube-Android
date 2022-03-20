@@ -6,4 +6,7 @@ import tube.chikichiki.model.Video
 class VideoResponse {
     @SerializedName("data")
     lateinit var videoItems:List<Video>
+
+    @SerializedName("total")
+    var total:Int=0
 }

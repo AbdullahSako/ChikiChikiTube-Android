@@ -3,25 +3,22 @@ package tube.chikichiki.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
-
 import tube.chikichiki.R
 import tube.chikichiki.view.CustomExoPlayerView
 
@@ -33,8 +30,8 @@ const val EXTRA_PLAYBACK_POSITION:String="PLAYBACKPOSITION"
 const val EXTRA_PLAY_WHEN_READY_BACK:String="PLAYBACKWHENREADY"
 class FullScreenVideoActivity : AppCompatActivity() {
     private var videoPlayer:ExoPlayer ?=null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private var playlistUrl:String?=null
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_video)
 
@@ -58,8 +55,11 @@ class FullScreenVideoActivity : AppCompatActivity() {
         //get extras
         val playbackPosition=intent.extras?.getLong(EXTRA_POSITION)
         val playWhenReady=intent.extras?.getBoolean(EXTRA_PLAY_WHEN_READY)
-        val playlistUrl=intent.extras?.getString(EXTRA_PLAYLIST_URL)
+        playlistUrl=intent.extras?.getString(EXTRA_PLAYLIST_URL)
         val videoName = intent.extras?.getString(EXTRA_VIDEO_NAME)
+
+
+
 
         //setup video title
         videoTitleTextView.visibility=View.VISIBLE //player control view video title is gone by default so it doesn't show up !fullscreen
@@ -77,9 +77,9 @@ class FullScreenVideoActivity : AppCompatActivity() {
             videoPlayer?.playWhenReady=playWhenReady
         }
 
-        //play
-        videoPlayer?.prepare()
-        videoPlayer?.play()
+
+
+
 
     }
 
@@ -128,6 +128,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
                     )
                 )
             }
+
         }
         //seek forward 10 seconds
         forward.setOnClickListener {
@@ -176,16 +177,34 @@ class FullScreenVideoActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+
+        //prepares video player when initially opening full screen activity and when returning from other applications
+        //if screen is locked this code isn't run
+        if(hasFocus){
+            //prepares and plays video
+            videoPlayer?.prepare()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        videoPlayer?.prepare()
         hideStatusBars()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+
     }
 
     override fun onStop() {
         super.onStop()
         Log.d("TESTLOG", "FULLSCREEN VIDEO PLAYER stopped")
+
         videoPlayer?.stop()
+
     }
 
     override fun onDestroy() {
@@ -193,6 +212,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
         Log.d("TESTLOG", "FULLSCREEN VIDEO PLAYER DESTROYED")
         videoPlayer?.release()
     }
+
 
 
     companion object{

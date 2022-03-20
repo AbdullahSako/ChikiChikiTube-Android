@@ -2,21 +2,16 @@ package tube.chikichiki.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-
-import androidx.fragment.app.Fragment
 import android.view.View
-
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
-
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import tube.chikichiki.R
-
 import tube.chikichiki.adapter.PlaylistAdapter
 import tube.chikichiki.api.ChikiFetcher
 import tube.chikichiki.model.VideoPlaylist
@@ -35,8 +30,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         super.onViewCreated(view, savedInstanceState)
         channelId=arguments?.getInt(ARG_CHANNEL_ID)
 
-        val noPlaylistsTextView:TextView=view.findViewById(R.id.no_playlists_textView)
-        val progressBar:ProgressBar=view.findViewById(R.id.progressBar)
+
         val rootLayout: ConstraintLayout =view.findViewById(R.id.root_layout_playlist)
         playListRecyclerView=view.findViewById(R.id.playlist_recycler_view)
 
@@ -53,22 +47,40 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         grainAnimation.start()
 
         //get playlists from api
-        ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner) {
-            val listOfPlaylists = playlistsOfChannel(it)
-            val playlistAdapter = PlaylistAdapter(listOfPlaylists)
+        ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner) { playlistList ->
 
-            playListRecyclerView.apply {
-                playlistAdapter.setPlaylistViewClickListener(this@PlaylistFragment)
-                adapter = playlistAdapter
+
+            if(playlistList.size==100){
+                //fetch next 100 playlists
+                ChikiFetcher().fetchPlaylists(100).observe(viewLifecycleOwner) {
+                    loadPlaylists(playlistList + it)
+                }
+            }
+            else{
+                loadPlaylists(playlistList)
             }
 
-            //remove progressbar after loading playlists
-            progressBar.visibility = View.GONE
+        }
+    }
 
-            //if there are no playlists for the channel add textview telling the user
-            if (listOfPlaylists.isEmpty()) {
-                noPlaylistsTextView.visibility = View.VISIBLE
-            }
+    private fun loadPlaylists(list: List<VideoPlaylist>){
+        val noPlaylistsTextView:TextView?= view?.findViewById(R.id.no_playlists_textView)
+        val progressBar:ProgressBar?=view?.findViewById(R.id.progressBar)
+
+        val listOfPlaylists = playlistsOfChannel(list)
+        val playlistAdapter = PlaylistAdapter(listOfPlaylists)
+
+        playListRecyclerView.apply {
+            playlistAdapter.setPlaylistViewClickListener(this@PlaylistFragment)
+            adapter = playlistAdapter
+        }
+
+        //remove progressbar after loading playlists
+        progressBar?.visibility = View.GONE
+
+        //if there are no playlists for the channel add textview telling the user
+        if (listOfPlaylists.isEmpty()) {
+            noPlaylistsTextView?.visibility = View.VISIBLE
         }
     }
 

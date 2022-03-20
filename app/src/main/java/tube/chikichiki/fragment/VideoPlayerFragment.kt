@@ -23,7 +23,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
@@ -51,8 +50,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private lateinit var playlistVideosAdapter:VideoAdapter
     private lateinit var videoId:UUID
     private lateinit var videoName:String
+    private var resultBack=false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         val motionLayout: MotionLayout = view.findViewById(R.id.video_player_motion_layout)
         val closeFragment: ImageButton = view.findViewById(R.id.close_video_icon)
@@ -102,6 +103,9 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         //using playlist url on exoplayer gets correct video duration
         ChikiFetcher().fetchStreamingPlaylist(videoId)
             .observe(viewLifecycleOwner) {
+                //enable full screen button when files are received (opening fullscreen before receiving video file crashes the app)
+
+
                 //fill views and published date text views
                 viewsText.text = getString(R.string.views, it[0].views)
                 videoPublishedAt.text = getFormattedDate(it[0].publishedAt)
@@ -218,10 +222,16 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
         })
 
-        //TODO ADD VIEW
-        //add a view on the video
-       // ChikiFetcher().addAView(videoId)
+
+
+
+        //add view unless back from fullscreen video player or screen rotated
+        if(savedInstanceState==null && !resultBack){
+            ChikiFetcher().addAView(videoId)
+        }
+
     }
+
 
     //searches through all playlists based on video name and gets video's playlist videos
     private fun setUpPlaylistVideosRecyclerView(playlists:List<VideoPlaylist>, videoName: String){
@@ -329,7 +339,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                     }
                 }
 
-
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
@@ -337,6 +346,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 //this progresses main activity to start state
                 if (currentId == motionLayout?.endState) {
                     mainActivityMotionLayout?.transitionToStart()
+                    channelActivityMotionLayout?.transitionToStart()
                 }
 
                 // double check if video player controller got enabled in onTransitionChange
@@ -413,6 +423,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                     it
                 )
             }
+            resultBack=true
             videoPlayer?.prepare()
 
 

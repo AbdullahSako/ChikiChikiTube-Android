@@ -19,6 +19,7 @@ import tube.chikichiki.api.ChikiFetcher
 import java.util.*
 
 private const val ARG_SEARCH_TERM="SEARCHTERM"
+private const val TAG_SEARCH_VIDEO_PLAYER="SEARCHVIDEOPLAYER"
 class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.VideoViewClick{
     private lateinit var grainAnimation: AnimationDrawable
 
@@ -73,7 +74,8 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
 
         //open video fragment
         parentFragmentManager.beginTransaction().apply {
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+            replace(R.id.main_search_video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription),
+                TAG_SEARCH_VIDEO_PLAYER)
             commit()
         }
     }
@@ -81,6 +83,10 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
     override fun onDestroy() {
         super.onDestroy()
         Log.d("TESTLOG","SEARCH DESTROYED")
+        val fragment=parentFragmentManager.findFragmentByTag(TAG_SEARCH_VIDEO_PLAYER)
+        if (fragment != null) {
+            parentFragmentManager.beginTransaction().remove(fragment).commit()
+        }
     }
 
 

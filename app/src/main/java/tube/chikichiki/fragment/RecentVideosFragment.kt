@@ -18,14 +18,14 @@ import java.util.*
 
 class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdapter.VideoViewClick {
     private lateinit var grainAnimation: AnimationDrawable
-    private lateinit var recentVideosViewModel: RecentVideosViewModel
+    private var recentVideosViewModel: RecentVideosViewModel? = null
     private lateinit var recentRecyclerView: RecyclerView
     private lateinit var videoAdapter:VideoAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recentVideosViewModel= ViewModelProvider(this).get(RecentVideosViewModel::class.java)
+        recentVideosViewModel= activity?.let { ViewModelProvider(it).get(RecentVideosViewModel::class.java) }
 
     }
 
@@ -49,7 +49,7 @@ class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdap
 
 
         //retrieve video list from api
-        recentVideosViewModel.recentVideosLiveData.observe(viewLifecycleOwner) {
+        recentVideosViewModel?.recentVideosLiveData?.observe(viewLifecycleOwner) {
             videoAdapter = VideoAdapter()
             videoAdapter.submitList(it)
             videoAdapter.setVideoViewClickListener(this)

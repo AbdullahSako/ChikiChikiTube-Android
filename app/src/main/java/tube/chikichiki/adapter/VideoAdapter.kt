@@ -15,7 +15,7 @@ import java.util.*
 
 class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
-    var videoViewClick:VideoViewClick?=null
+    private var videoViewClick:VideoViewClick?=null
 
     inner class VideoHolder(view: View): RecyclerView.ViewHolder(view){
         val banner: ImageView = itemView.findViewById(R.id.video_banner)

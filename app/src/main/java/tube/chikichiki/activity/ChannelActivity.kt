@@ -27,7 +27,7 @@ class ChannelActivity : AppCompatActivity() {
     private lateinit var pagerAdapter: PagerAdapter
 
     private val tabs: ArrayList<String> by lazy {
-        arrayListOf(getString(R.string.playlists), getString(R.string.videos))
+        arrayListOf( getString(R.string.videos),getString(R.string.playlists))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +38,7 @@ class ChannelActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.channel_tab_layout)
         val channelId = intent.extras?.get(EXTRA_CHANNEL_ID) as Int
         val channelHandle = intent.extras?.get(EXTRA_CHANNEL_HANDLE) as String
+
 
         val fragmentList = prepareFragmentsList(channelId, channelHandle)
 
@@ -62,17 +63,20 @@ class ChannelActivity : AppCompatActivity() {
 
     private fun prepareFragmentsList(channelId: Int, channelHandle: String): List<Fragment> {
         return listOf(
+            ChannelVideosFragment().apply {
+            arguments= getVideoArgsBundle(channelHandle)
+        },
             PlaylistFragment().apply {
                 arguments = getNavArgsBundle(channelId)
-            },
-            ChannelVideosFragment().apply {
-                arguments= getVideoArgsBundle(channelHandle)
             }
+
         )
 
 
 
     }
+
+
 
     companion object{
         fun newInstance(context:FragmentActivity?,channelId: Int, channelHandle: String):Intent {

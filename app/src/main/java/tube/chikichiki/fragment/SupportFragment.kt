@@ -3,13 +3,11 @@ package tube.chikichiki.fragment
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import tube.chikichiki.R
-import tube.chikichiki.api.ChikiFetcher
-import java.util.*
 
 class SupportFragment : Fragment(R.layout.fragment_support) {
     private lateinit var grainAnimation: AnimationDrawable

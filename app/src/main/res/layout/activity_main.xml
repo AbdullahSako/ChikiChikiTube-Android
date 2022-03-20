@@ -32,6 +32,8 @@
                 android:fontFamily="@font/mochiypoppone"
                 android:text="@string/header"
                 android:textColor="@color/orange"
+                android:layout_marginBottom="8dp"
+                android:textSize="14dp"
                 app:layout_constraintBottom_toTopOf="@+id/toolbar_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +55,7 @@
                 android:fontFamily="@font/mochiypoppone"
                 android:text="@string/chikichikitube"
                 android:textColor="@color/font_pink"
-                android:textSize="28sp"
+                android:textSize="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/toolbar_image"
                 app:layout_constraintTop_toBottomOf="@+id/header_text" />

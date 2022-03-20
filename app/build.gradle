@@ -74,10 +74,15 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.3"
 
     //exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.17.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
 
     //time ago
     implementation 'com.github.marlonlom:timeago:4.0.3'
+
+    //cast
+    implementation 'androidx.mediarouter:mediarouter:1.2.6'
+    implementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
+
 
 
 
