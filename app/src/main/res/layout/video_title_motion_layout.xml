@@ -93,4 +93,20 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/no_playlist_for_video_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mochiypoppone"
+        android:text="@string/no_playlist_for_this_video"
+        android:textAlignment="center"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        app:visibilityMode="ignore"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/video_player_playlist_videos_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
 </androidx.constraintlayout.motion.widget.MotionLayout>

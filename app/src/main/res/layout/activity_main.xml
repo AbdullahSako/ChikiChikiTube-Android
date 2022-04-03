@@ -9,30 +9,68 @@
     tools:context=".activity.MainActivity"
     >
 
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+    </FrameLayout>
+
+    <include
+        layout="@layout/video_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemIconTint="@drawable/bottom_nav_selector"
+        app:itemTextColor="@drawable/bottom_nav_selector"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ConstraintLayout"
+            android:id="@+id/toolbar_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="6dp">
+            tools:layout_editor_absoluteY="6dp"
+            >
 
             <TextView
                 android:id="@+id/header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/mochiypoppone"
                 android:text="@string/header"
                 android:textColor="@color/orange"
-                android:layout_marginBottom="8dp"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toTopOf="@+id/toolbar_image"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,9 +80,9 @@
                 android:id="@+id/toolbar_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:contentDescription="@string/content_desc_app_logo"
                 android:src="@drawable/ic_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:contentDescription="@string/content_desc_app_logo"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -66,12 +104,11 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/button_sel"
-                android:src="@drawable/ic_search"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/content_desc_search_for_videos"
-                />
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/toolbar_text" />
 
             <EditText
                 android:id="@+id/main_activity_search_edit_text"
@@ -79,12 +116,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/orange"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
+                android:textCursorDrawable="@drawable/custom_cursor_drawable"
                 android:visibility="gone"
-                android:importantForAutofill="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/main_activity_search_button"
                 app:layout_constraintStart_toEndOf="@+id/main_activity_back_image_button"
@@ -96,8 +135,8 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button_sel"
-                android:visibility="gone"
                 android:contentDescription="@string/content_desc_close_video_search"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -106,27 +145,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
-
-    <FrameLayout
-        android:id="@+id/main_fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-    </FrameLayout>
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

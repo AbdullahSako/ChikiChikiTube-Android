@@ -2,10 +2,12 @@ package tube.chikichiki.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class PagerAdapter(fa: FragmentActivity, private val list: List<Fragment>) :
-    FragmentStateAdapter(fa) {
+class PagerAdapter(fm: FragmentManager,lifeCycle:Lifecycle, private val list: List<Fragment>) :
+    FragmentStateAdapter(fm,lifeCycle) {
 
     override fun getItemCount(): Int {
         return list.size

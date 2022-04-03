@@ -83,6 +83,13 @@ dependencies {
     implementation 'androidx.mediarouter:mediarouter:1.2.6'
     implementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
 
+    //canary
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+
+
+
+
 
 
 

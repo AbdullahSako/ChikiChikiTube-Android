@@ -2,28 +2,12 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
     <item android:drawable="@drawable/grainbg_0" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_1" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_2" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_3" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_4" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_5" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_6" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_7" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_8" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_9" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_10" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_11" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_12" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_13" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_14" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_15" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_16" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_17" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_18" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_19" android:duration="40"/>
     <item android:drawable="@drawable/grainbg_20" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_21" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_22" android:duration="40"/>
-    <item android:drawable="@drawable/grainbg_23" android:duration="40"/>
 
 </animation-list>

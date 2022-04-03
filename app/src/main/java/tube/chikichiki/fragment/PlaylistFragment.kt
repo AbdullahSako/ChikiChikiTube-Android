@@ -11,13 +11,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
 import tube.chikichiki.R
 import tube.chikichiki.adapter.PlaylistAdapter
 import tube.chikichiki.api.ChikiFetcher
 import tube.chikichiki.model.VideoPlaylist
 
 private const val ARG_CHANNEL_ID="CHANNEL_ID"
-private const val TAG="playlistVideos"
 class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.PlaylistViewClick {
 
     private lateinit var grainAnimation: AnimationDrawable
@@ -61,6 +61,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
             }
 
         }
+
+        tabLayoutOnReselectGoToPositionZero()
     }
 
     private fun loadPlaylists(list: List<VideoPlaylist>){
@@ -97,24 +99,44 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         return filteredList
     }
 
+    private fun tabLayoutOnReselectGoToPositionZero(){
+
+        val tabLayout=activity?.findViewById<TabLayout>(R.id.channel_tab_layout)
+        tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                if(tab?.text == "Playlists"){
+                    playListRecyclerView.smoothScrollToPosition(0)
+                }
+            }
+
+        })
+    }
+
     companion object{
         //returns a bundle based on arg_channel_id string key
         fun getNavArgsBundle(channelId:Int):Bundle{
             return bundleOf(ARG_CHANNEL_ID to channelId)
         }
-
-
     }
+
+
 
     override fun onPlayListClick(view: View, playlistId: Int) {
         //just in case parent motion layout state isnt at start
-        activity?.findViewById<MotionLayout>(R.id.channel_activity_motion_layout)?.transitionToStart()
+       // activity?.findViewById<MotionLayout>(R.id.channel_fragment_motion_layout)?.transitionToStart()
 
 
 
         parentFragmentManager.beginTransaction().apply {
-            replace(R.id.root_layout_playlist,PlaylistVideosFragment.newInstance(playlistId))
-            addToBackStack(TAG)
+            add(R.id.root_layout_playlist,PlaylistVideosFragment.newInstance(playlistId))
             commit()
         }
     }

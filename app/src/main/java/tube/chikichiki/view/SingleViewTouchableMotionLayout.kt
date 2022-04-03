@@ -35,6 +35,7 @@ class SingleViewTouchableMotionLayout(context:Context,attr:AttributeSet?=null):M
 
     }
 
+
     private fun touchEventInsideTargetView(v:View,ev:MotionEvent):Boolean{
         if(ev.x > v.left && ev.x<v.right){
             if(ev.y >v.top&& ev.y<v.bottom){

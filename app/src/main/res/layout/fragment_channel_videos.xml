@@ -5,42 +5,19 @@
     android:id="@+id/channel_videos_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/fragment_channel_videos_scene"
 
-    >
-
+    app:layoutDescription="@xml/fragment_channel_videos_scene">
 
 
-    <include
-        android:id="@+id/include3"
-        layout="@layout/loading_progressbar" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/channel_videos_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-            />
-
-    <include layout="@layout/video_container"/>
-
-    <TextView
-        android:id="@+id/no_channel_videos_found_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/mochiypoppone"
-        android:text="@string/no_channel_videos_found"
-        android:textColor="@color/orange"
-        android:textSize="16sp"
-        android:visibility="gone"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/channel_videos_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/channel_videos_recycler_view" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -48,8 +25,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <Spinner
             android:id="@+id/sort_spinner"
@@ -61,7 +37,6 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -71,16 +46,30 @@
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/orange"
             android:hint="@string/search_hint"
             android:imeOptions="actionSearch"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1"
+            android:textCursorDrawable="@drawable/custom_cursor_drawable"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/search_image"
             app:layout_constraintStart_toEndOf="@+id/search_back"
-            app:layout_constraintTop_toTopOf="parent"
-            android:importantForAutofill="no" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/raws_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/orange"
+            android:checked="false"
+            android:fontFamily="@font/mochiypoppone"
+            android:text="@string/raws_check_box"
+            android:textColor="@color/font_pink"
+            app:layout_constraintStart_toEndOf="@+id/sort_spinner"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/search_image"
@@ -92,8 +81,7 @@
             android:src="@drawable/ic_search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/search_back"
@@ -106,9 +94,28 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/loading_progressbar" />
+
+    <TextView
+        android:id="@+id/no_channel_videos_found_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mochiypoppone"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/channel_videos_recycler_view"
+        app:visibilityMode="ignore" />
+
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

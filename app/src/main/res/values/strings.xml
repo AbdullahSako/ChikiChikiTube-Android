@@ -1,35 +1,31 @@
 <resources>
     <string name="app_name">ChikiChiki</string>
+
+    <!-- toolbar -->
+    <string name="chikichikitube">Chiki Chiki Tube</string>
+    <string name="header">第1回 ガキの使いやあらへんで</string>
+
+    <!-- bottom navigation view -->
     <string name="home">Home</string>
     <string name="most_viewed">Most viewed</string>
     <string name="recent">Recent</string>
     <string name="support">Support</string>
-    <string name="chikichikitube">Chiki Chiki Tube</string>
-    <string name="header">第1回 ガキの使いやあらへんで</string>
+
+    <!-- support fragment -->
     <string name="support_chiki_header">Support Chiki Chiki Tube</string>
     <string name="support_chiki">Chiki Chiki Tube has no specific operating expenses, so don\'t worry about that! But other forms of support are possible:</string>
-    <string name="support_chiki_p1">- Provide feedback on broken links/bad metadata etc</string>
-    <string name="support_chiki_p2">- Typesetting interesting and funny episodes that have as yet been unsubbed!</string>
-    <string name="support_chiki_p3">- Submitting any new releases to <a href="https://thesilentlibrary.xyz/">The Silent Library ➚</a></string>
-    <string name="support_chiki_p4">- Setting up your own <a href="https://docs.joinpeertube.org/install-any-os">Peertube server ➚</a> and mirroring videos via redundancy from chikichiki.tube. This will seamlessly increase the bandwidth thanks to peer to peer magic. (N.B. Just following the instance with your server doesn\'t do much for that)</string>
+    <string name="support_chiki_p1">\u2022&#160;&#160;&#160;Provide feedback on broken links/bad metadata etc</string>
+    <string name="support_chiki_p2">\u2022&#160;&#160;&#160;Typesetting interesting and funny episodes that have as yet been unsubbed!</string>
+    <string name="support_chiki_p3">\u2022&#160;&#160;&#160;Submitting any new releases to <a href="https://thesilentlibrary.xyz/">The Silent Library ➚</a></string>
+    <string name="support_chiki_p4">\u2022&#160;&#160;&#160;<a href="https://docs.joinpeertube.org/install-any-os">Setting up your own Peertube server ➚</a> and mirroring videos via redundancy from chikichiki.tube. This will seamlessly increase the bandwidth thanks to peer to peer magic. (N.B. Just following the instance with your server doesn\'t do much for that)</string>
     <string name="links">Links</string>
-    <string name="gaki_reddit"><a href="https://www.reddit.com/r/GakiNoTsukai/">Gaki Reddit (u/chikichikitube) ➚</a></string>
-    <string name="gaki_discord"><a href="https://discord.com/invite/gaki">Gaki Discord (@chikichiki.tube) ➚</a></string>
-    <string name="metadata">Metadata is from <a href="https://knightscoop.yabai.moe/">knightscoop.yabai.moe ➚</a> and <a href="http://ghia.chu.jp/wiki/">ghia.chu.jp/wiki ➚</a></string>
-    <string name="wecast">Have a look at some homemade comedy at <a href="https://wacast.net/">wacast.net ➚</a></string>
-    <string name="app_for_website"><a href="https://chikichiki.tube/">Chiki Chiki Tube ➚</a></string>
-    <string name="no_channel_playlists_found">There are no playlists for this channel</string>
-    <string name="no_channel_videos_found">There are no videos for this channel</string>
-    <string name="no_playlist_videos_found">There are no videos for this playlist</string>
-    <string name="no_playlist_for_this_video">There is no playlist for this video</string>
-    <string name="playlists">Playlists</string>
-    <string name="videos">Videos</string>
-    <string name="sort_by">Sort by</string>
-    <string name="search_hint">Search…</string>
-    <string name="description">Description</string>
-    <string name="slash">/</string>
-    <string name="views">%1$s Views</string>
-    <string name="no_search_videos_found">No videos found</string>
+    <string name="gaki_reddit">\u2022&#160;&#160;&#160;<a href="https://www.reddit.com/r/GakiNoTsukai/">Gaki Reddit (u/chikichikitube) ➚</a>&#160;</string>
+    <string name="gaki_discord">\u2022&#160;&#160;&#160;<a href="https://discord.com/invite/gaki">Gaki Discord (@chikichiki.tube) ➚</a>&#160;</string>
+    <string name="metadata">\u2022&#160;&#160;&#160;Metadata is from <a href="https://knightscoop.yabai.moe/">knightscoop.yabai.moe ➚</a> and <a href="http://ghia.chu.jp/wiki/">ghia.chu.jp/wiki ➚</a>&#160;</string>
+    <string name="wecast">\u2022&#160;&#160;&#160;Have a look at some homemade comedy at <a href="https://wacast.net/">wacast.net ➚</a>&#160;</string>
+    <string name="app_for_website">\u2022&#160;&#160;&#160;<a href="https://chikichiki.tube/">Chiki Chiki Tube ➚</a>&#160;</string>
+    <string name="app_github_link">\u2022&#160;&#160;&#160;<a href="https://github.com/AbdullahSako/ChikiChikiTube-Android">Chiki Chiki Tube app github ➚</a>&#160;</string>
+
 
     <!-- Content Descriptions -->
     <string name="content_desc_close_video">Close video</string>
@@ -50,6 +46,26 @@
     <string name="content_desc_search_for_videos">Search for videos</string>
     <string name="content_desc_app_logo">App Logo</string>
     <string name="content_desc_close_video_search">Close video search</string>
+
+
+    <!-- other -->
+    <string name="no_channel_playlists_found">There are no playlists for this channel</string>
+    <string name="no_channel_videos_found">There are no videos for this channel</string>
+    <string name="no_english_channel_videos_found">There are no english videos for this channel</string>
+    <string name="no_playlist_videos_found">There are no videos for this playlist</string>
+    <string name="no_playlist_for_this_video">There are no playlists for this video</string>
+    <string name="playlists">Playlists</string>
+    <string name="videos">Videos</string>
+    <string name="sort_by">Sort by</string>
+    <string name="search_hint">Search…</string>
+    <string name="description">Description</string>
+    <string name="slash">/</string>
+    <string name="views">%1$s Views</string>
+    <string name="no_search_videos_found">No videos found</string>
+    <string name="raws_check_box">Japanese Raws</string>
+    <string name="end_of_videos">End</string>
+
+
 
 
 </resources>

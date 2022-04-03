@@ -89,7 +89,7 @@ class ChikiFetcher {
 
     fun fetchVideosOfaChannel(channelHandle:String,startNumber:Int=0,sortBy:String="-createdAt"):LiveData<List<Video>>{
         val responseData:MutableLiveData<List<Video>> = MutableLiveData()
-        val request: Call<VideoResponse> =chikiApi.getVideosOfaChannel(channelHandle,50,startNumber,sortBy)
+        val request: Call<VideoResponse> =chikiApi.getVideosOfaChannel(channelHandle,100,startNumber,sortBy)
 
         request.enqueue(object :Callback<VideoResponse>{
             override fun onResponse(call: Call<VideoResponse>, response: Response<VideoResponse>) {
@@ -183,7 +183,7 @@ class ChikiFetcher {
 
     fun fetchVideosOfaPlaylist(playlistId:Int,startNumber:Int=0):LiveData<List<Video>>{
         val responseData:MutableLiveData<List<Video>> = MutableLiveData()
-        val request: Call<PlaylistVideoResponse> =chikiApi.getVideosOfAPlaylist(playlistId,50,startNumber)
+        val request: Call<PlaylistVideoResponse> =chikiApi.getVideosOfAPlaylist(playlistId,100,startNumber)
 
         request.enqueue(object :Callback<PlaylistVideoResponse>{
             override fun onResponse(call: Call<PlaylistVideoResponse>, response: Response<PlaylistVideoResponse>) {

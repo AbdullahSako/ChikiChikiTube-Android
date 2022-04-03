@@ -23,6 +23,7 @@ class SupportFragment : Fragment(R.layout.fragment_support) {
         val wacast:TextView=view.findViewById(R.id.wacast)
         val knightscoop:TextView=view.findViewById(R.id.knightscoop)
         val chikiChikiTube:TextView=view.findViewById(R.id.app_for_website_text)
+        val githubText:TextView=view.findViewById(R.id.github_link)
 
 
         //set up clickable text that redirects to a link
@@ -34,6 +35,7 @@ class SupportFragment : Fragment(R.layout.fragment_support) {
         wacast.movementMethod=linkMovementMethod
         knightscoop.movementMethod=linkMovementMethod
         chikiChikiTube.movementMethod=linkMovementMethod
+        githubText.movementMethod=linkMovementMethod
 
         constraint.apply {
             setBackgroundResource(R.drawable.grain_animation)

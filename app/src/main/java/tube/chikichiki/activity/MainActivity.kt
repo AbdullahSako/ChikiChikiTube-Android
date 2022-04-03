@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
@@ -30,33 +31,22 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar:Toolbar= findViewById(R.id.toolbar)
         val bottomNavBar:BottomNavigationView=findViewById(R.id.bottomNavigationView)
-        val mainFragment= MainFragment()
-        val mostViewedVideosFragment = MostViewedVideosFragment()
-        val recentVideosFragment= RecentVideosFragment()
-        val supportFragment=SupportFragment()
 
         if(savedInstanceState ==null){
-            setFragment(mainFragment)
+            setFragment(MainFragment())
         }
 
 
 
         //change fragments on bottom nav bar item selected
         bottomNavBar.setOnItemSelectedListener {
-            //remove open video player on item select
-            val view=findViewById<ConstraintLayout>(R.id.video_player_root)
-
-            if(view!=null){
-                val fragment=view.findFragment<VideoPlayerFragment>()
-                supportFragmentManager.beginTransaction().remove(fragment).commit()
-            }
 
             when(it.itemId){
 
-                R.id.mainFragment-> setFragment(mainFragment)
-                R.id.mostViewedVideosFragment->setFragment(mostViewedVideosFragment)
-                R.id.recentVideosFragment->setFragment(recentVideosFragment)
-                R.id.supportFragment->setFragment(supportFragment)
+                R.id.mainFragment-> setFragment(MainFragment())
+                R.id.mostViewedVideosFragment->setFragment(MostViewedVideosFragment())
+                R.id.recentVideosFragment->setFragment(RecentVideosFragment())
+                R.id.supportFragment->setFragment(SupportFragment())
 
             }
             true
@@ -146,12 +136,6 @@ class MainActivity : AppCompatActivity() {
             if(searchEditText.text.isNotEmpty()){
                 if(i==EditorInfo.IME_ACTION_SEARCH){
 
-                    //remove video player if a video is playing
-                    val view=findViewById<ConstraintLayout>(R.id.video_player_root)
-                    if(view!=null){
-                        val fragment=view.findFragment<VideoPlayerFragment>()
-                        supportFragmentManager.beginTransaction().remove(fragment).commit()
-                    }
 
                     //remove previous search fragment if it exists
                     val fragment=supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
@@ -181,6 +165,12 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.main_fragment_container,fragment)
             commit()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //bring back to start in case user clicked the home button while motion layout was at end
+        findViewById<MotionLayout>(R.id.activity_main_motion_layout).transitionToStart()
     }
 
 }

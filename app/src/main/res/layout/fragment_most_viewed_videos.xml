@@ -18,7 +18,6 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <include layout="@layout/video_container" />
 
     <include layout="@layout/loading_progressbar"/>
 

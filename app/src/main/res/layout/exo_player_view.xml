@@ -4,21 +4,24 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/exo_controller"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#CC000000">
+    android:background="#66000000"
+    >
 
 
-<ImageButton
+
+    <ImageButton
     android:id="@+id/control_view_play_btn"
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:background="@drawable/button_ripple"
     android:contentDescription="@string/content_desc_pause_or_play_video"
-    android:scaleType="fitXY"
     android:src="@drawable/ic_pause_circle"
+    android:scaleType="fitXY"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toTopOf="parent"
+    />
 
 <ImageButton
     android:id="@+id/control_view_forward_btn"
@@ -31,7 +34,9 @@ android:background="#CC000000">
     android:src="@drawable/ic_forward_ten"
     app:layout_constraintBottom_toBottomOf="@+id/control_view_play_btn"
     app:layout_constraintStart_toEndOf="@+id/control_view_play_btn"
-    app:layout_constraintTop_toTopOf="@+id/control_view_play_btn" />
+    app:layout_constraintTop_toTopOf="@+id/control_view_play_btn"
+
+    />
 
 <ImageButton
     android:id="@+id/control_view_replay_btn"
@@ -44,7 +49,9 @@ android:background="#CC000000">
     android:src="@drawable/ic_replay_10"
     app:layout_constraintBottom_toBottomOf="@+id/control_view_play_btn"
     app:layout_constraintEnd_toStartOf="@+id/control_view_play_btn"
-    app:layout_constraintTop_toTopOf="@+id/control_view_play_btn" />
+    app:layout_constraintTop_toTopOf="@+id/control_view_play_btn"
+
+    />
 
 <ImageButton
     android:id="@+id/control_view_fullscreen_btn"
@@ -57,6 +64,8 @@ android:background="#CC000000">
     android:src="@drawable/ic_fullscreen_enter"
     app:layout_constraintBottom_toTopOf="@+id/exo_progress"
     app:layout_constraintEnd_toEndOf="parent"
+    app:tint="@color/icon_yellow"
+
 
     />
 
@@ -77,22 +86,24 @@ android:background="#CC000000">
     android:includeFontPadding="false"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
-    android:textColor="#FFBEBEBE"
+    android:textColor="@color/icon_yellow"
     android:textSize="14sp"
     android:textStyle="bold"
     app:layout_constraintBottom_toTopOf="@+id/exo_progress"
-    app:layout_constraintStart_toEndOf="@+id/textView3" />
+    app:layout_constraintStart_toEndOf="@+id/textView3"
+    />
 
 <TextView
     android:id="@+id/textView3"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/slash"
-    android:textColor="#FFBEBEBE"
+    android:textColor="@color/icon_yellow"
     android:textSize="14sp"
     android:textStyle="bold"
     app:layout_constraintBottom_toBottomOf="@+id/exo_position"
-    app:layout_constraintStart_toEndOf="@+id/exo_position" />
+    app:layout_constraintStart_toEndOf="@+id/exo_position"
+    />
 
 <TextView
     android:id="@id/exo_position"
@@ -101,7 +112,7 @@ android:background="#CC000000">
     android:layout_marginStart="8dp"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
-    android:textColor="#FFBEBEBE"
+    android:textColor="@color/icon_yellow"
     android:textSize="14sp"
     android:textStyle="bold"
     app:layout_constraintBottom_toTopOf="@+id/exo_progress"
@@ -125,8 +136,18 @@ android:background="#CC000000">
         android:fontFamily="@font/mochiypoppone"
         android:textColor="@color/font_pink"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/media_route_button"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.mediarouter.app.MediaRouteButton
+        android:id="@+id/media_route_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:mediaRouteTypes="user"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

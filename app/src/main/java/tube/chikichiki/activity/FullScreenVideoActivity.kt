@@ -15,10 +15,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.mediarouter.app.MediaRouteButton
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
+import com.google.android.gms.cast.MediaInfo
+import com.google.android.gms.cast.MediaLoadRequestData
+import com.google.android.gms.cast.framework.*
 import tube.chikichiki.R
 import tube.chikichiki.view.CustomExoPlayerView
 
@@ -31,12 +35,72 @@ const val EXTRA_PLAY_WHEN_READY_BACK:String="PLAYBACKWHENREADY"
 class FullScreenVideoActivity : AppCompatActivity() {
     private var videoPlayer:ExoPlayer ?=null
     private var playlistUrl:String?=null
+    private var mCastSession: CastSession? = null
+    private lateinit var mSessionManager: SessionManager
+    private val mSessionManagerListener: SessionManagerListener<CastSession> =
+        SessionManagerListenerImpl()
+
+    private inner class SessionManagerListenerImpl : SessionManagerListener<CastSession> {
+        override fun onSessionEnded(p0: CastSession, p1: Int) {
+            finish()
+        }
+
+        override fun onSessionEnding(p0: CastSession) {
+
+        }
+
+        override fun onSessionResumeFailed(p0: CastSession, p1: Int) {
+        }
+
+        override fun onSessionResumed(p0: CastSession, p1: Boolean) {
+        }
+
+        override fun onSessionResuming(p0: CastSession, p1: String) {
+        }
+
+        override fun onSessionStartFailed(p0: CastSession, p1: Int) {
+            Log.d("TESTLOG",p0.requestStatus().toString()+ " "+p1)
+        }
+
+        override fun onSessionStarted(p0: CastSession, p1: String) {
+            val mediaInfo =
+                MediaInfo.Builder("https://vtr.chikichiki.tube/download/streaming-playlists/hls/videos/860926f3-e284-47ec-b4a4-f0ffb535a1ac-720-fragmented.mp4")
+                    .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
+                    .setContentType("videos/mp4")
+                    .build()
+
+            val remoteMediaClient = p0.remoteMediaClient
+            remoteMediaClient?.load(MediaLoadRequestData.Builder().setMediaInfo(mediaInfo).build())
+
+            p0.remoteMediaClient?.play()
+
+
+        }
+
+        override fun onSessionStarting(p0: CastSession) {
+
+
+        }
+
+        override fun onSessionSuspended(p0: CastSession, p1: Int) {
+            Log.d("TESTLOG",p0.requestStatus().toString()+ " "+p1)
+        }
+
+    }
+
+
+
+
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_video)
 
         val videoPlayerView=findViewById<CustomExoPlayerView>(R.id.video_player)
         val videoTitleTextView:TextView=videoPlayerView.findViewById(R.id.exo_player_view_video_title)
+        mSessionManager = CastContext.getSharedInstance(this).sessionManager
+
+        val mediaRouteButton = findViewById<View>(R.id.media_route_button) as MediaRouteButton
+        CastButtonFactory.setUpMediaRouteButton(applicationContext,mediaRouteButton)
 
         //set up video player
         videoPlayer=ExoPlayer.Builder(this).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000).build()
@@ -141,7 +205,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
         //seek bar colors
         timeBar.setScrubberColor(ContextCompat.getColor(this, R.color.orange))
-        timeBar.setPlayedColor(ContextCompat.getColor(this, R.color.orange))
+        timeBar.setPlayedColor(ContextCompat.getColor(this, R.color.icon_yellow))
 
         //send back playback position to video player fragment and close activity
         fullscreen.setOnClickListener {
@@ -191,12 +255,15 @@ class FullScreenVideoActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         hideStatusBars()
+        mCastSession = mSessionManager.currentCastSession
+        mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
 
     }
 
     override fun onPause() {
         super.onPause()
-
+        mSessionManager.removeSessionManagerListener(mSessionManagerListener, CastSession::class.java)
+        mCastSession = null
     }
 
     override fun onStop() {

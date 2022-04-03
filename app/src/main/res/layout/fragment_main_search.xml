@@ -16,9 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/main_search_video_container"
-        layout="@layout/video_container"/>
 
     <TextView
         android:id="@+id/main_search_no_videos_found_text"

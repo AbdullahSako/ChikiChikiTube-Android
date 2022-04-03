@@ -72,16 +72,10 @@ class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdap
 
         //open Video Player Fragment
         parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.slide_up,0)
             replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
             commit()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        //bring back to start in case user clicked the home button while motion layout was at end
-        activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToStart()
     }
 
 }

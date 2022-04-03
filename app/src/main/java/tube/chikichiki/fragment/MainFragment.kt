@@ -2,16 +2,20 @@ package tube.chikichiki.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
+import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Runnable
 import tube.chikichiki.viewModel.ChannelViewModel
 import tube.chikichiki.R
-import tube.chikichiki.activity.ChannelActivity
 import tube.chikichiki.adapter.ChannelAdapter
 import tube.chikichiki.model.VideoChannel
 
@@ -86,9 +90,23 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
 
 
     override fun onItemClick(view:View, channelId: Int, channelHandle:String) {
-        val intent= ChannelActivity.newInstance(activity,channelId,channelHandle)
-        startActivity(intent)
+
+
+        //hide tool bar and bottom nav bar and disable transition to start when opening a channel
+        val r:Runnable= Runnable { activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.end,R.id.end) }
+        activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd(r)
+
+
+
+        parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.slide_in,R.anim.fade_out,R.anim.fade_in,R.anim.slide_out)
+            add(R.id.main_fragment_container,ChannelFragment.newInstance(channelId,channelHandle))
+            commit()
+        }
+
     }
+
+
 
 
 }

@@ -13,7 +13,7 @@ import tube.chikichiki.R
 import tube.chikichiki.model.Video
 import java.util.*
 
-class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
+class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var videoViewClick:VideoViewClick?=null
 
@@ -25,6 +25,9 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
 
     }
+    inner class LoaderHolder(view: View): RecyclerView.ViewHolder(view)
+
+    inner class EndOfVideosHolder(view: View):RecyclerView.ViewHolder(view)
 
     fun setVideoViewClickListener(clickListener: VideoViewClick){
         videoViewClick=clickListener
@@ -43,29 +46,54 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
     private val diff = AsyncListDiffer(this,diffCallback)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_video, parent, false)
-        return VideoHolder(view)
+    override fun getItemViewType(position: Int): Int {
+        return diff.currentList[position].getUsedLayout()
     }
 
-    override fun onBindViewHolder(holder: VideoHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+
+
+        val holder:RecyclerView.ViewHolder =if(viewType==R.layout.list_item_video){
+            VideoHolder(view)
+        }
+        else if(viewType==R.layout.list_item_loader){
+            LoaderHolder(view)
+        }
+        else{
+            EndOfVideosHolder(view)
+        }
+
+        //set on click listener for videos
+        view.setOnClickListener {
+            val videoItem:Video = diff.currentList[holder.bindingAdapterPosition]
+            videoViewClick?.onVideoClick(
+                videoItem.uuid,
+                videoItem.name,
+                videoItem.description
+            )
+        }
+
+        return holder
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val videoItem = diff.currentList[position]
-        holder.apply {
-
-            Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).into(banner)
-            videoName.text=videoItem.name
-            videoDuration.text=videoItem.getFormattedDuration()
-
-            //set on click if its playing (this is for playlist videos inside video player fragment)
-                itemView.setOnClickListener {
-                    videoViewClick?.onVideoClick(
-                        videoItem.uuid,
-                        videoItem.name,
-                        videoItem.description
-                    )
+        when(holder.itemViewType)
+        {
+            R.layout.list_item_video->{
+                val videoHolder = holder as VideoHolder
+                videoHolder.apply {
+                    Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).into(banner)
+                    videoName.text=videoItem.name
+                    videoDuration.text=videoItem.getFormattedDuration()
                 }
+
+            }
         }
+
+
 
 
     }

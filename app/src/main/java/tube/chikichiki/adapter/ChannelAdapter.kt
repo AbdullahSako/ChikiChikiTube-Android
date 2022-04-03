@@ -38,7 +38,7 @@ class ChannelAdapter(private val channelItems: List<VideoChannel>) :
         holder.apply {
             //if there is no banner for a channel
             channelItem.banner?.let {
-                Glide.with(itemView.context).load(it.getFullPath()).into(banner)
+                Glide.with(itemView.context).load(it.getFullPath()).centerCrop().into(banner)
             }
 
             channelName.text = channelItem.displayName.trim('"')

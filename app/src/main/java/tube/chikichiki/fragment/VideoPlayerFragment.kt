@@ -51,6 +51,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private lateinit var videoId:UUID
     private lateinit var videoName:String
     private var resultBack=false
+    private lateinit var onBackPressCallback:OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -103,8 +104,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         //using playlist url on exoplayer gets correct video duration
         ChikiFetcher().fetchStreamingPlaylist(videoId)
             .observe(viewLifecycleOwner) {
-                //enable full screen button when files are received (opening fullscreen before receiving video file crashes the app)
-
 
                 //fill views and published date text views
                 viewsText.text = getString(R.string.views, it[0].views)
@@ -223,7 +222,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         })
 
 
-
+        //TODO REIMPLEMENT ADD VIEW WHEN DONE
 
         //add view unless back from fullscreen video player or screen rotated
         if(savedInstanceState==null && !resultBack){
@@ -237,6 +236,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private fun setUpPlaylistVideosRecyclerView(playlists:List<VideoPlaylist>, videoName: String){
         var playlist:VideoPlaylist?=null
         val progressBar:ProgressBar?=view?.findViewById(R.id.progressBar)
+        val noPlaylistsText:TextView?=view?.findViewById(R.id.no_playlist_for_video_text)
 
 
         //get playlist of a video
@@ -274,6 +274,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
             //hide progress bar if there is no playlist
             progressBar?.visibility = View.GONE
 
+            noPlaylistsText?.visibility=View.VISIBLE
+
+
+
         }
 
 
@@ -293,7 +297,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private fun setUpMotionLayoutListener(motionLayout: MotionLayout) {
 
         val channelActivityMotionLayout =
-            activity?.findViewById<MotionLayout>(R.id.channel_activity_motion_layout)
+            activity?.findViewById<MotionLayout>(R.id.channel_fragment_motion_layout)
         val mainActivityMotionLayout =
             activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)
         val videoPlayerView:StyledPlayerView?=view?.findViewById(R.id.video_player)
@@ -314,30 +318,35 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 endId: Int,
                 progress: Float
             ) {
-                //in case the video is opened from a channel - this hides/shows the tab layout based on whether the video is opened or minimized
-                channelActivityMotionLayout?.progress = (1.0f - abs(progress))
 
-                //in case the video is opened from a main activity - this hides/shows the toolbar and bottom nav bar based on whether the video is opened or minimized
-                mainActivityMotionLayout?.progress = (1.0f - abs(progress))
+                if(endId != R.id.close_state) { //if its not drag down to close fragment transition
+                    //in case the video is opened from a channel - this hides/shows the tab layout based on whether the video is opened or minimized
+                    channelActivityMotionLayout?.progress = (1.0f - abs(progress))
 
+                    //in case the video is opened from a main activity - this hides/shows the toolbar and bottom nav bar based on whether the video is opened or minimized
+                    mainActivityMotionLayout?.progress = (1.0f - abs(progress))
 
-                //remove video player control buttons
-                if(progress>0.1f) {
-                    if(videoPlayerView?.useController==true) {
-                        videoPlayerView.useController = false
-                        videoPlayerView.hideController()
-                    }
                 }
 
-                //showing video player controls at start state glitches height and width of the control view
-                //this ensures the control view is shown correctly
-                //show video player control button
-                if(progress<0.1f){
-                    if(videoPlayerView?.useController==false) {
-                        videoPlayerView.useController = true
-                        videoPlayerView.showController()
+
+                    //remove video player control buttons
+                    if (progress > 0.1f) {
+                        if (videoPlayerView?.useController == true) {
+                            videoPlayerView.useController = false
+                            videoPlayerView.hideController()
+                        }
                     }
-                }
+
+                    //showing video player controls at start state glitches height and width of the control view
+                    //this ensures the control view is shown correctly
+                    //show video player control button
+                    if (progress < 0.1f) {
+                        if (videoPlayerView?.useController == false) {
+                            videoPlayerView.useController = true
+                            videoPlayerView.showController()
+                        }
+                    }
+
 
             }
 
@@ -347,14 +356,27 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 if (currentId == motionLayout?.endState) {
                     mainActivityMotionLayout?.transitionToStart()
                     channelActivityMotionLayout?.transitionToStart()
+
+                    //remove on back press when minimized so the user can navigate back between fragments
+                    onBackPressCallback.remove()
                 }
 
                 // double check if video player controller got enabled in onTransitionChange
                 if(currentId ==motionLayout?.startState){
+
+                    //hides playlists/videos tab layout in channel activity by progressing motion layout
+                    activity?.findViewById<MotionLayout>(R.id.channel_fragment_motion_layout)?.transitionToEnd()
+
                     if(videoPlayerView?.useController==false){
                         videoPlayerView.useController=true
                         videoPlayerView.showController()
                     }
+                    addBackPressCallBack()
+                }
+
+                //remove video player fragment when video player is dragged down
+                if(currentId== R.id.close_state){
+                    parentFragmentManager.beginTransaction().remove(this@VideoPlayerFragment).commit()
                 }
 
             }
@@ -400,7 +422,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
         //seek bar colors
         timeBar.setScrubberColor(ContextCompat.getColor(requireContext(), R.color.orange))
-        timeBar.setPlayedColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        timeBar.setPlayedColor(ContextCompat.getColor(requireContext(), R.color.icon_yellow))
 
         //full screen button
         fullscreen.setOnClickListener {
@@ -430,15 +452,29 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         }
     }
 
+    private fun addBackPressCallBack(){
+        //minimize video on back press
+        onBackPressCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val videoMotionLayout: MotionLayout? =
+                    view?.findViewById(R.id.video_player_motion_layout)
+                //if video is not minimized minimize it
+                if (videoMotionLayout?.currentState == videoMotionLayout?.startState) {
+                    videoMotionLayout?.transitionToEnd()
+                }
+
+            }
+
+
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressCallback)
+    }
+
 
 
 
     override fun onStart() {
         super.onStart()
-
-
-        //hides playlists/videos tab layout in channel activity by progressing motion layout
-        activity?.findViewById<MotionLayout>(R.id.channel_activity_motion_layout)?.transitionToEnd()
 
         //when a video is up viewpager in channel activity is disabled since it affects motion layout
         activity?.findViewById<ViewPager2>(R.id.pager)?.isUserInputEnabled = false
@@ -467,24 +503,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        //minimize/close video on back press
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val videoMotionLayout: MotionLayout? =
-                    view?.findViewById(R.id.video_player_motion_layout)
-                //if video minimized close it else minimize it
-                if (videoMotionLayout?.currentState == videoMotionLayout?.endState) {
-                    parentFragmentManager.beginTransaction().remove(this@VideoPlayerFragment)
-                        .commit()
-                } else {
-                    videoMotionLayout?.transitionToEnd()
-                }
-
-
-            }
-
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+        addBackPressCallBack()
     }
 
 

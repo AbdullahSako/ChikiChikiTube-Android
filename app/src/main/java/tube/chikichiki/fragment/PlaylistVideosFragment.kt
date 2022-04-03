@@ -1,10 +1,13 @@
 package tube.chikichiki.fragment
 
+import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -107,10 +110,27 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         videoDescription: String
     ) {
 
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+            setCustomAnimations(R.anim.slide_up, 0)
+            replace(
+                R.id.video_container,
+                VideoPlayerFragment.newInstance(videoId, videoName, videoDescription)
+            )
             commit()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        //remove fragment on back press
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                parentFragmentManager.beginTransaction().remove(this@PlaylistVideosFragment).commit()
+            }
+
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
 
