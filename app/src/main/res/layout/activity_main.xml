@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_main_scene"
-    tools:context=".activity.MainActivity"
     >
 
     <FrameLayout
@@ -59,8 +57,6 @@
             android:id="@+id/toolbar_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="6dp"
             >
 
             <TextView
@@ -108,6 +104,8 @@
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar_text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/toolbar_text"
                 app:layout_constraintTop_toTopOf="@+id/toolbar_text" />
 
             <EditText

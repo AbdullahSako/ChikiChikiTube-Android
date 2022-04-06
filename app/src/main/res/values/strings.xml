@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ChikiChiki</string>
-
+    <string name="reciever_id">716A8087</string>
     <!-- toolbar -->
     <string name="chikichikitube">Chiki Chiki Tube</string>
     <string name="header">第1回 ガキの使いやあらへんで</string>

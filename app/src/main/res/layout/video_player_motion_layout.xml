@@ -22,7 +22,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <tube.chikichiki.view.CustomExoPlayerView
+    <tube.chikichiki.sako.view.CustomExoPlayerView
         android:id="@+id/video_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

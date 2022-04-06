@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/support_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
+    <ScrollView
+        android:id="@+id/support_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/mochiypoppone"
                 android:text="@string/support_chiki_header"
                 android:textColor="@color/font_pink"
@@ -31,7 +42,7 @@
                 android:text="@string/app_for_website"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/github_link" />
@@ -45,7 +56,7 @@
                 android:text="@string/metadata"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gaki_discord" />
@@ -71,7 +82,7 @@
                 android:text="@string/wecast"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/knightscoop" />
@@ -85,7 +96,7 @@
                 android:text="@string/support_chiki_p4"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/silent_library_link" />
@@ -93,9 +104,9 @@
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="0dp"
-                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/support_chiki"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -111,10 +122,12 @@
                 android:text="@string/support_chiki_p3"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                app:layout_constraintTop_toBottomOf="@+id/textView9"
+
+                />
 
             <TextView
                 android:id="@+id/gaki_discord"
@@ -124,7 +137,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/gaki_discord"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gaki_reddit" />
@@ -162,7 +175,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/gaki_reddit"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -175,10 +188,13 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/app_github_link"
                 android:textColorHighlight="@color/orange_complementary"
-                android:textColorLink="@color/orange"
+                android:textColorLink="@drawable/text_link_highlight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wacast" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
