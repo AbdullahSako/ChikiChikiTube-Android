@@ -13,7 +13,7 @@
 </p>
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/img/mainScreen.jpg" width=250/>
+<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/metadata/en_US/images/phoneScreenshots/mainScreen.jpg" width=250/>
 <img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/img/videoOpenGif.gif" width=250/>
-<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/img/videoOpen.jpg" width=250/>
+<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/metadata/en_US/images/phoneScreenshots/videoOpen.jpg" width=250/>
 </div>
