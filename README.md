@@ -8,17 +8,12 @@
 
 <h4 align="center">A fully native Android app for <a href="https://chikichiki.tube/" target="_blank">Chiki Chiki Tube</a>.</h4>
 
-<p align="center">
-  <a href="#Screenshots">Screenshots</a> •
-  <a href="#download">Download</a> •
-</p>
 
-![screenshot](url)
-
-## Screenshots
-
-
-
+<div align="center">
+<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/img/mainScreen.jpg" width=250/>
+<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/img/videoOpenGif.gif" width=250/>
+<img src="https://raw.githubusercontent.com/AbdullahSako/ChikiChikiTube-Android/master/img/videoOpen.jpg" width=250/>
+</div>
 ## Download
 
 fdroid
