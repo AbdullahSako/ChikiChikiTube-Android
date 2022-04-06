@@ -1,0 +1,6 @@
+An android app for the website chikichiki.tube
+A no-nonsense federated peer-to-peer video streaming site
+hosting Gaki no Tsukai and other related comedy videos.
+
+
+Source Code at: https://github.com/AbdullahSako/ChikiChikiTube-Android
