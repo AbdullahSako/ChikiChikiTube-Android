@@ -143,13 +143,11 @@ class FullScreenVideoActivity : AppCompatActivity() {
         }
 
 
-
-
-
     }
 
     private fun exoPlayerListener(playerView: CustomExoPlayerView){
         val exoPlayerProgressBar: ProgressBar =playerView.findViewById(R.id.exo_player_progress_bar)
+        val controlPlayBtn:ImageButton=playerView.findViewById(R.id.control_view_play_btn)
 
         videoPlayer?.addListener(object : Player.Listener{
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -159,6 +157,29 @@ class FullScreenVideoActivity : AppCompatActivity() {
                 }
                 else if(playbackState == Player.STATE_READY){
                     exoPlayerProgressBar.visibility=View.INVISIBLE
+                }
+            }
+
+            //change play/pause button
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                if (isPlaying) {
+                    //change player control view play button image to paused image
+                    controlPlayBtn.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            this@FullScreenVideoActivity,R.drawable.ic_pause_circle
+                        )
+                    )
+
+
+                } else {
+                    //change player control view pause button image to play image
+                    controlPlayBtn.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            this@FullScreenVideoActivity,
+                            R.drawable.ic_play_circle
+                        )
+                    )
                 }
             }
         })
@@ -177,21 +198,10 @@ class FullScreenVideoActivity : AppCompatActivity() {
         play.setOnClickListener {
             if (videoPlayer?.isPlaying == true) {
                 videoPlayer?.pause()
-                play.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.ic_play_circle
-                    )
-                )
+
             } else {
                 videoPlayer?.prepare()
                 videoPlayer?.play()
-                play.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.ic_pause_circle
-                    )
-                )
             }
 
         }

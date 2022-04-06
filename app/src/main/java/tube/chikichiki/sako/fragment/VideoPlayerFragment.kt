@@ -28,6 +28,7 @@ import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.activity.EXTRA_PLAYBACK_POSITION
+import tube.chikichiki.sako.activity.EXTRA_PLAY_WHEN_READY_BACK
 import tube.chikichiki.sako.activity.FullScreenVideoActivity
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
@@ -442,7 +443,12 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 videoPlayer?.seekTo(
                     it
                 )
+
             }
+            data?.extras?.getBoolean(EXTRA_PLAY_WHEN_READY_BACK)?.let {
+                videoPlayer?.playWhenReady=it
+            }
+
             resultBack=true
             videoPlayer?.prepare()
 
