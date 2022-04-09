@@ -63,8 +63,6 @@ dependencies {
     //time ago
     implementation 'com.github.marlonlom:timeago:4.0.3'
 
-    //cast
-    implementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
 
     //canary
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'

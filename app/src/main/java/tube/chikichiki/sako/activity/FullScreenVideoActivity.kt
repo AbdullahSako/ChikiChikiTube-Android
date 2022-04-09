@@ -15,14 +15,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.mediarouter.app.MediaRouteButton
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
-import com.google.android.gms.cast.MediaInfo
-import com.google.android.gms.cast.MediaLoadRequestData
-import com.google.android.gms.cast.framework.*
+
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.view.CustomExoPlayerView
 
@@ -35,61 +32,6 @@ const val EXTRA_PLAY_WHEN_READY_BACK:String="PLAYBACKWHENREADY"
 class FullScreenVideoActivity : AppCompatActivity() {
     private var videoPlayer:ExoPlayer ?=null
     private var playlistUrl:String?=null
-    private var mCastSession: CastSession? = null
-    private lateinit var mSessionManager: SessionManager
-    private val mSessionManagerListener: SessionManagerListener<CastSession> =
-        SessionManagerListenerImpl()
-    // only for testing cast for now
-    private inner class SessionManagerListenerImpl : SessionManagerListener<CastSession> {
-        override fun onSessionEnded(p0: CastSession, p1: Int) {
-            finish()
-        }
-
-        override fun onSessionEnding(p0: CastSession) {
-
-        }
-
-        override fun onSessionResumeFailed(p0: CastSession, p1: Int) {
-        }
-
-        override fun onSessionResumed(p0: CastSession, p1: Boolean) {
-        }
-
-        override fun onSessionResuming(p0: CastSession, p1: String) {
-        }
-
-        override fun onSessionStartFailed(p0: CastSession, p1: Int) {
-            Log.d("TESTLOG",p0.requestStatus().toString()+ " "+p1)
-        }
-
-        override fun onSessionStarted(p0: CastSession, p1: String) {
-            val mediaInfo = //TODO LOGGER
-                MediaInfo.Builder("https://vtr.chikichiki.tube/download/streaming-playlists/hls/videos/a7adc5f3-2485-473f-af37-5075bf60932a-720-fragmented.mp4")
-                    .setStreamType(MediaInfo.STREAM_TYPE_LIVE)
-                    .setStreamDuration((33 * 1000).toLong())
-                    .setContentType("video/mp4")
-                    .build()
-
-            val remoteMediaClient = p0.remoteMediaClient
-            remoteMediaClient?.load(MediaLoadRequestData.Builder().setMediaInfo(mediaInfo).build())
-            Log.d("TESTLOG",p0.sessionId.toString())
-            p0.remoteMediaClient?.play()
-
-
-        }
-
-        override fun onSessionStarting(p0: CastSession) {
-
-
-        }
-
-        override fun onSessionSuspended(p0: CastSession, p1: Int) {
-            Log.d("TESTLOG",p0.requestStatus().toString()+ " "+p1)
-        }
-
-    }
-
-
 
 
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,10 +40,6 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
         val videoPlayerView=findViewById<CustomExoPlayerView>(R.id.video_player)
         val videoTitleTextView:TextView=videoPlayerView.findViewById(R.id.exo_player_view_video_title)
-        mSessionManager = CastContext.getSharedInstance(this).sessionManager
-
-        val mediaRouteButton = findViewById<View>(R.id.media_route_button) as MediaRouteButton
-        CastButtonFactory.setUpMediaRouteButton(applicationContext,mediaRouteButton)
 
         //set up video player
         videoPlayer=ExoPlayer.Builder(this).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000).build()
@@ -266,15 +204,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         hideStatusBars()
-        mCastSession = mSessionManager.currentCastSession
-        mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
 
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mSessionManager.removeSessionManagerListener(mSessionManagerListener, CastSession::class.java)
-        mCastSession = null
     }
 
     override fun onStop() {

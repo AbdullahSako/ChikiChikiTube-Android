@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tube.chikichiki.sako"
-    android:versionName="1.0">
+    android:versionName="1.0"
+    android:versionCode="1"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
@@ -28,9 +30,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-            android:value="tube.chikichiki.sako.cast.CastProvider"
-            />
 
     </application>
 
