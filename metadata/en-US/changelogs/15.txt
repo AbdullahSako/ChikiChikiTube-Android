@@ -1,0 +1,2 @@
+-Fixed stretched thumbnails on tablets
+-video Fullscreen background color is now black

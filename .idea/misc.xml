@@ -14,6 +14,8 @@
         <entry key="..\:/ChikiChiki/app/src/main/res/drawable/text_link_highlight.xml" value="0.197" />
         <entry key="..\:/ChikiChiki/app/src/main/res/drawable/textview_highlighted_click.xml" value="0.197" />
         <entry key="..\:/ChikiChiki/app/src/main/res/font/font.xml" value="0.2520833333333333" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout-w600dp/list_item_playlist.xml" value="0.9" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout-w600dp/list_item_video.xml" value="0.9" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/activity_channel.xml" value="0.49846153846153846" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/activity_full_screen_video.xml" value="0.8246445497630331" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/activity_main.xml" value="0.375" />

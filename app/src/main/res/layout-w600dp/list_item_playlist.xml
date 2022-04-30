@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/playlist_banner"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/content_desc_playlist_thumbnail"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playlist_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/mochiypoppone"
+        android:textColor="@color/font_pink"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/playlist_banner"
+        app:layout_constraintTop_toTopOf="@+id/playlist_banner" />
+
+    <TextView
+        android:id="@+id/playlist_video_size"
+        android:layout_width="150dp"
+        android:layout_height="300dp"
+        android:alpha="0.8"
+        android:background="@color/black"
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/playlist_banner"
+        app:layout_constraintEnd_toEndOf="@+id/playlist_banner"
+        app:layout_constraintTop_toTopOf="@+id/playlist_banner" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_desc_playlist_icon"
+        android:src="@drawable/ic_playlist_play"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/playlist_video_size"
+        app:layout_constraintEnd_toEndOf="@+id/playlist_banner"
+        app:layout_constraintStart_toStartOf="@+id/playlist_video_size"
+        app:layout_constraintTop_toTopOf="@+id/playlist_video_size" />
+</androidx.constraintlayout.widget.ConstraintLayout>
