@@ -1,0 +1,1 @@
+-Fixed screen not turning off when the video is stopped and is in full screen
