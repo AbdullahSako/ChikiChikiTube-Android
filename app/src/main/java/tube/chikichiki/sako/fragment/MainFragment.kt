@@ -2,6 +2,7 @@ package tube.chikichiki.sako.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
@@ -76,6 +77,7 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
             val adapter = ChannelAdapter(sorted.filter { it.channelHandle != "root_channel" && it.channelHandle!="fearfulkyochan" && it.channelHandle!="chikichikitube" })
             adapter.setChannelViewClickListener(this@MainFragment)
             channelRecyclerView.adapter = adapter
+
 
             //remove progressbar after loading channel list
             progressbar.visibility = View.GONE

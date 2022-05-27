@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -103,6 +104,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
                 super.onIsPlayingChanged(isPlaying)
                 if (isPlaying) {
                     //change player control view play button image to paused image
+                    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     controlPlayBtn.setImageDrawable(
                         AppCompatResources.getDrawable(
                             this@FullScreenVideoActivity,R.drawable.ic_pause_circle
@@ -112,6 +114,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
                 } else {
                     //change player control view pause button image to play image
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     controlPlayBtn.setImageDrawable(
                         AppCompatResources.getDrawable(
                             this@FullScreenVideoActivity,

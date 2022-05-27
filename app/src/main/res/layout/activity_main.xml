@@ -106,7 +106,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/toolbar_text"
-                app:layout_constraintTop_toTopOf="@+id/toolbar_text" />
+                app:layout_constraintTop_toTopOf="@+id/toolbar_text"
+
+                />
 
             <EditText
                 android:id="@+id/main_activity_search_edit_text"
