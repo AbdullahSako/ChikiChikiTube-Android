@@ -4,8 +4,8 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@+id/descriptionEnd"
+        motion:constraintSetStart="@id/videoPlayerStart"
         motion:duration="1000">
        <KeyFrameSet>
            <KeyAttribute
@@ -16,12 +16,20 @@
                motion:motionTarget="@+id/view2"
                motion:framePosition="100"
                android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/comments_open_container"
+               motion:framePosition="100"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/viewComm"
+               motion:framePosition="100"
+               android:alpha="0" />
        </KeyFrameSet>
         <OnSwipe motion:touchAnchorId="@id/video_player_playlist_videos_recycler_view"
             />
     </Transition>
 
-    <ConstraintSet android:id="@+id/start">
+    <ConstraintSet android:id="@+id/videoPlayerStart">
         <Constraint
             motion:layout_editor_absoluteY="127dp"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -43,9 +51,16 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/view2"
             />
+        <Constraint
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:id="@+id/viewComm"
+            motion:layout_constraintTop_toBottomOf="@+id/comments_open_container"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/descriptionEnd">
 
         <Constraint
             android:id="@+id/description_open_container_clickable"
@@ -71,5 +86,23 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/view2"
             />
+        <Constraint
+            android:id="@+id/comments_open_container"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            motion:layout_constraintTop_toBottomOf="@+id/view2"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:translationY="-10dp" />
+        <Constraint
+            android:id="@+id/viewComm"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            motion:layout_constraintTop_toBottomOf="@+id/comments_open_container"
+            motion:layout_constraintHorizontal_bias="0.0"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:translationY="-10dp" />
+
     </ConstraintSet>
 </MotionScene>

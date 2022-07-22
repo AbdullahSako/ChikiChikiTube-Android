@@ -6,5 +6,6 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        Utils.initializeLikesAndDislikes(applicationContext)
     }
 }

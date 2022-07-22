@@ -1,15 +1,22 @@
 package tube.chikichiki.sako.activity
 
 import android.app.Activity
+import android.app.PictureInPictureParams
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Rational
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -22,31 +29,37 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.view.CustomExoPlayerView
 
-private const val EXTRA_POSITION:String="PLAYBACKPOSITION"
-private const val EXTRA_PLAY_WHEN_READY:String="PLAYWHENREADY"
-private const val EXTRA_PLAYLIST_URL:String="PLAYLISTURL"
-private const val EXTRA_VIDEO_NAME:String="VIDEONAME"
-const val EXTRA_PLAYBACK_POSITION:String="PLAYBACKPOSITION"
-const val EXTRA_PLAY_WHEN_READY_BACK:String="PLAYBACKWHENREADY"
+private const val EXTRA_POSITION: String = "PLAYBACKPOSITION"
+private const val EXTRA_PLAY_WHEN_READY: String = "PLAYWHENREADY"
+private const val EXTRA_PLAYLIST_URL: String = "PLAYLISTURL"
+private const val EXTRA_VIDEO_NAME: String = "VIDEONAME"
+const val EXTRA_PLAYBACK_POSITION: String = "PLAYBACKPOSITION"
+const val EXTRA_PLAY_WHEN_READY_BACK: String = "PLAYBACKWHENREADY"
+
 class FullScreenVideoActivity : AppCompatActivity() {
-    private var videoPlayer:ExoPlayer ?=null
-    private var playlistUrl:String?=null
+    private var videoPlayer: ExoPlayer? = null
+    private var playlistUrl: String? = null
+    private lateinit var videoPlayerView:CustomExoPlayerView
 
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_video)
 
-        val videoPlayerView=findViewById<CustomExoPlayerView>(R.id.video_player)
-        val videoTitleTextView:TextView=videoPlayerView.findViewById(R.id.exo_player_view_video_title)
+        videoPlayerView = findViewById<CustomExoPlayerView>(R.id.video_player)
+        val videoTitleTextView: TextView = videoPlayerView.findViewById(R.id.exo_player_view_video_title)
+        val pipBtn:ImageButton = videoPlayerView.findViewById(R.id.pipBtn)
 
         //set up video player
-        videoPlayer=ExoPlayer.Builder(this).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000).build()
+        videoPlayer =
+            ExoPlayer.Builder(this).setSeekBackIncrementMs(10000).setSeekForwardIncrementMs(10000)
+                .build()
 
         //set controller hide time
-        videoPlayerView.controllerShowTimeoutMs=3000
+        videoPlayerView.controllerShowTimeoutMs = 3000
 
         //bind exoplayer to view
         videoPlayerView.player = videoPlayer
@@ -57,17 +70,16 @@ class FullScreenVideoActivity : AppCompatActivity() {
         exoPlayerCustomControllerViewSetUp()
 
         //get extras
-        val playbackPosition=intent.extras?.getLong(EXTRA_POSITION)
-        val playWhenReady=intent.extras?.getBoolean(EXTRA_PLAY_WHEN_READY)
-        playlistUrl=intent.extras?.getString(EXTRA_PLAYLIST_URL)
+        val playbackPosition = intent.extras?.getLong(EXTRA_POSITION)
+        val playWhenReady = intent.extras?.getBoolean(EXTRA_PLAY_WHEN_READY)
+        playlistUrl = intent.extras?.getString(EXTRA_PLAYLIST_URL)
         val videoName = intent.extras?.getString(EXTRA_VIDEO_NAME)
 
 
-
-
         //setup video title
-        videoTitleTextView.visibility=View.VISIBLE //player control view video title is gone by default so it doesn't show up !fullscreen
-        videoTitleTextView.text=videoName
+        videoTitleTextView.visibility =
+            View.VISIBLE //player control view video title is gone by default so it doesn't show up !fullscreen
+        videoTitleTextView.text = videoName
 
         //setup media item
         val media: MediaItem = MediaItem.Builder().setUri(playlistUrl).build()
@@ -78,24 +90,36 @@ class FullScreenVideoActivity : AppCompatActivity() {
             videoPlayer?.seekTo(playbackPosition)
         }
         if (playWhenReady != null) {
-            videoPlayer?.playWhenReady=playWhenReady
+            videoPlayer?.playWhenReady = playWhenReady
         }
 
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            pipBtn.visibility = View.VISIBLE
+            pipBtn.setOnClickListener {
+                videoPlayer?.stop()
+                enterPipMode()
+            }
+        }
     }
 
-    private fun exoPlayerListener(playerView: CustomExoPlayerView){
-        val exoPlayerProgressBar: ProgressBar =playerView.findViewById(R.id.exo_player_progress_bar)
-        val controlPlayBtn:ImageButton=playerView.findViewById(R.id.control_view_play_btn)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun enterPipMode() {
+        val params = PictureInPictureParams.Builder().build()
+        enterPictureInPictureMode(params)
+    }
 
-        videoPlayer?.addListener(object : Player.Listener{
+    private fun exoPlayerListener(playerView: CustomExoPlayerView) {
+        val exoPlayerProgressBar: ProgressBar =
+            playerView.findViewById(R.id.exo_player_progress_bar)
+        val controlPlayBtn: ImageButton = playerView.findViewById(R.id.control_view_play_btn)
+
+        videoPlayer?.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 super.onPlaybackStateChanged(playbackState)
-                if(playbackState== Player.STATE_BUFFERING){
-                    exoPlayerProgressBar.visibility=View.VISIBLE
-                }
-                else if(playbackState == Player.STATE_READY){
-                    exoPlayerProgressBar.visibility=View.INVISIBLE
+                if (playbackState == Player.STATE_BUFFERING) {
+                    exoPlayerProgressBar.visibility = View.VISIBLE
+                } else if (playbackState == Player.STATE_READY) {
+                    exoPlayerProgressBar.visibility = View.INVISIBLE
                 }
             }
 
@@ -103,18 +127,28 @@ class FullScreenVideoActivity : AppCompatActivity() {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
                 if (isPlaying) {
-                    //change player control view play button image to paused image
+                    //add flag to restrict device to sleep
                     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+                    //in miui phones adding or clearing the flag results in status bar showing so i am hiding it again
+                    hideStatusBars()
+
+                    //change player control view play button image to paused image
                     controlPlayBtn.setImageDrawable(
                         AppCompatResources.getDrawable(
-                            this@FullScreenVideoActivity,R.drawable.ic_pause_circle
+                            this@FullScreenVideoActivity, R.drawable.ic_pause_circle
                         )
                     )
 
 
                 } else {
-                    //change player control view pause button image to play image
+                    //add flag to allow device to sleep
                     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+                    //in miui phones adding or clearing the flag results in status bar showing so i am hiding it again
+                    hideStatusBars()
+
+                    //change player control view pause button image to play image
                     controlPlayBtn.setImageDrawable(
                         AppCompatResources.getDrawable(
                             this@FullScreenVideoActivity,
@@ -124,6 +158,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
                 }
             }
         })
+
 
     }
 
@@ -168,25 +203,51 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
     }
 
-    private fun hideStatusBars(){
+
+    private fun hideStatusBars() {
 
         //hide status bar
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, window.decorView).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+
 
     }
 
-    private fun sendPlaybackDetailsBack(){
+    private fun sendPlaybackDetailsBack() {
         videoPlayer?.pause()
-        val data=intent.apply {
-            putExtra(EXTRA_PLAYBACK_POSITION,videoPlayer?.currentPosition)
-            putExtra(EXTRA_PLAY_WHEN_READY_BACK,videoPlayer?.playWhenReady)
+        val data = intent.apply {
+            putExtra(EXTRA_PLAYBACK_POSITION, videoPlayer?.currentPosition)
+            putExtra(EXTRA_PLAY_WHEN_READY_BACK, videoPlayer?.playWhenReady)
         }
-        setResult(Activity.RESULT_OK,data)
+        setResult(Activity.RESULT_OK, data)
     }
+
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration?
+    ) {
+
+        if(isInPictureInPictureMode){
+            videoPlayerView.useController=false
+
+            videoPlayer?.prepare()
+            videoPlayer?.play()
+        }
+        else{
+            videoPlayerView.useController=true
+        }
+
+
+        Utils.IsInPipMode = isInPictureInPictureMode
+
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+
+    }
+
 
     override fun onBackPressed() {
         sendPlaybackDetailsBack()
@@ -198,11 +259,12 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
         //prepares video player when initially opening full screen activity and when returning from other applications
         //if screen is locked this code isn't run
-        if(hasFocus){
+        if (hasFocus) {
             //prepares and plays video
             videoPlayer?.prepare()
         }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -225,14 +287,19 @@ class FullScreenVideoActivity : AppCompatActivity() {
     }
 
 
-
-    companion object{
-        fun newInstance(context: Context?,playbackPosition:Long?,playWhenReady:Boolean?,playlistUrl:String?,videoName:String?):Intent {
-            return Intent(context,FullScreenVideoActivity::class.java).apply {
-                putExtra(EXTRA_POSITION,playbackPosition)
-                putExtra(EXTRA_PLAY_WHEN_READY,playWhenReady)
-                putExtra(EXTRA_PLAYLIST_URL,playlistUrl)
-                putExtra(EXTRA_VIDEO_NAME,videoName)
+    companion object {
+        fun newInstance(
+            context: Context?,
+            playbackPosition: Long?,
+            playWhenReady: Boolean?,
+            playlistUrl: String?,
+            videoName: String?
+        ): Intent {
+            return Intent(context, FullScreenVideoActivity::class.java).apply {
+                putExtra(EXTRA_POSITION, playbackPosition)
+                putExtra(EXTRA_PLAY_WHEN_READY, playWhenReady)
+                putExtra(EXTRA_PLAYLIST_URL, playlistUrl)
+                putExtra(EXTRA_VIDEO_NAME, videoName)
             }
         }
     }

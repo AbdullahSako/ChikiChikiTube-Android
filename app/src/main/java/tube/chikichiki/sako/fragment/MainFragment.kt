@@ -2,7 +2,6 @@ package tube.chikichiki.sako.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
@@ -92,7 +91,7 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
 
 
         //hide tool bar and bottom nav bar and disable transition to start when opening a channel
-        val r= Runnable { activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.end,R.id.end) }
+        val r= Runnable { activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.main_end,R.id.main_end) }
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd(r)
 
 

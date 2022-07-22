@@ -4,8 +4,8 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start">
+        motion:constraintSetEnd="@+id/descriptionEnd"
+        motion:constraintSetStart="@id/videoPlayerStart">
         <KeyFrameSet>
             <KeyAttribute
                 motion:motionTarget="@+id/video_title_text_view"
@@ -66,7 +66,7 @@
             />
     </Transition>
 
-    <ConstraintSet android:id="@+id/start">
+    <ConstraintSet android:id="@+id/videoPlayerStart">
         <Constraint
             android:layout_height="300dp"
             motion:layout_constraintStart_toStartOf="parent"
@@ -80,9 +80,26 @@
             motion:layout_editor_absoluteY="73dp"
             motion:layout_constraintStart_toEndOf="@+id/video_views"
             android:id="@+id/textView2" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/constraintLayout7"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_editor_absoluteX="0dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="@+id/video_player"
+            android:layout_marginBottom="0dp" />
+        <Constraint
+            android:layout_height="0dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="1.0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:id="@+id/constraintLayout"
+            motion:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/descriptionEnd">
 
 
         <Constraint
@@ -154,11 +171,22 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:id="@+id/include2" />
+        <Constraint
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:id="@+id/constraintLayout7"
+            motion:layout_constraintBottom_toBottomOf="@+id/video_player"
+            android:layout_marginBottom="0dp"
+            motion:layout_constraintStart_toStartOf="@+id/video_player"
+            motion:layout_constraintEnd_toEndOf="@+id/video_player"
+            motion:layout_constraintTop_toTopOf="@+id/video_player"
+            android:layout_marginTop="0dp" />
+
 
     </ConstraintSet>
     <ConstraintSet
         android:id="@+id/close_state"
-        motion:deriveConstraintsFrom="@+id/end" >
+        motion:deriveConstraintsFrom="@+id/descriptionEnd" >
         <Constraint
             android:id="@+id/constraintLayout"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -214,12 +242,22 @@
             android:layout_width="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
-
+        <Constraint
+            android:id="@+id/constraintLayout7"
+            motion:layout_constraintEnd_toEndOf="@+id/video_player"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/video_player"
+            android:layout_marginBottom="0dp"
+            motion:layout_constraintTop_toTopOf="@+id/video_player"
+            motion:layout_constraintStart_toStartOf="@+id/video_player"
+            android:layout_marginTop="0dp"
+            android:translationY="5dp" />
 
 
     </ConstraintSet>
     <Transition
-        motion:constraintSetStart="@+id/end"
+        motion:constraintSetStart="@+id/descriptionEnd"
         motion:constraintSetEnd="@+id/close_state" >
         <KeyFrameSet >
             <KeyAttribute

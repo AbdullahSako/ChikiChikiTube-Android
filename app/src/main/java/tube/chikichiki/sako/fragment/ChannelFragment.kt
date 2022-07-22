@@ -83,7 +83,7 @@ class ChannelFragment :Fragment(R.layout.fragment_channel) {
             override fun handleOnBackPressed() {
 
                 //re enable transition to start
-                activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.start,R.id.end)
+                activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.main_start,R.id.main_end)
                 activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 
 

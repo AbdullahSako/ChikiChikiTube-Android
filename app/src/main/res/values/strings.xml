@@ -5,6 +5,10 @@
     <string name="chikichikitube">Chiki Chiki Tube</string>
     <string name="header">第1回 ガキの使いやあらへんで</string>
 
+    <!-- Shared Pref -->
+    <string name="likes">likes</string>
+    <string name="dislikes">dislikes</string>
+
     <!-- bottom navigation view -->
     <string name="home">Home</string>
     <string name="most_viewed">Most viewed</string>
@@ -46,7 +50,10 @@
     <string name="content_desc_search_for_videos">Search for videos</string>
     <string name="content_desc_app_logo">App Logo</string>
     <string name="content_desc_close_video_search">Close video search</string>
-
+    <string name="content_desc_close_comments">Close Comments</string>
+    <string name="content_desc_open_comments">Open Video comments</string>
+    <string name="content_desc_post_comment">Post a comment</string>
+    <string name="content_desc_pip_mode">Open video in Picture-in-picture mode</string>
 
     <!-- other -->
     <string name="no_channel_playlists_found">There are no playlists for this channel</string>
@@ -54,6 +61,7 @@
     <string name="no_english_channel_videos_found">There are no english videos for this channel</string>
     <string name="no_playlist_videos_found">There are no videos for this playlist</string>
     <string name="no_playlist_for_this_video">There are no playlists for this video</string>
+    <string name="no_comments_for_this_video">There are no comments for this video</string>
     <string name="playlists">Playlists</string>
     <string name="videos">Videos</string>
     <string name="sort_by">Sort by</string>
@@ -64,6 +72,10 @@
     <string name="no_search_videos_found">No videos found</string>
     <string name="raws_check_box">Japanese Raws</string>
     <string name="end_of_videos">End</string>
+    <string name="comments">Comments</string>
+    <string name="post">Post</string>
+    <string name="comment">Comment</string>
+    <string name="nickname">Nickname</string>
 
 
 

@@ -404,10 +404,10 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
         videoDescription: String
     ) {
 
-        activity?.supportFragmentManager?.beginTransaction()?.apply {
-            setCustomAnimations(R.anim.slide_up,0)
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
-            commit()
+            activity?.supportFragmentManager?.beginTransaction()?.apply {
+                setCustomAnimations(R.anim.slide_up,0)
+                replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+                commit()
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -16,8 +17,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.fragment.*
+import kotlin.random.Random
 
 private const val SEARCH_FRAGMENT_TAG:String="SEARCHFRAGMENT"
 class MainActivity : AppCompatActivity() {
@@ -33,6 +36,18 @@ class MainActivity : AppCompatActivity() {
             setFragment(MainFragment())
         }
 
+        //check if nickname exists in shared pref
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        if(sharedPref.getString("nickname","none") == "none"){
+            //generate a nickname and save to shared preferences
+            val nickname = Utils.animals[Random.nextInt(0,Utils.animals.size-1)] +" "+ Utils.animals[Random.nextInt(0,Utils.animals.size-1)]
+
+            with (sharedPref.edit()) {
+                putString("nickname",nickname)
+                apply()
+            }
+        }
+
 
 
         //change fragments on bottom nav bar item selected
@@ -41,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
 
                 R.id.mainFragment-> setFragment(MainFragment())
-                R.id.mostViewedVideosFragment->setFragment(MostViewedVideosFragment())
+                R.id.mostViewedVideosFragment-> setFragment(MostViewedVideosFragment())
                 R.id.recentVideosFragment->setFragment(RecentVideosFragment())
                 R.id.supportFragment->setFragment(SupportFragment())
 
@@ -167,7 +182,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         //bring back to start in case user clicked the home button while motion layout was at end
-        findViewById<MotionLayout>(R.id.activity_main_motion_layout).transitionToStart()
+        //findViewById<MotionLayout>(R.id.activity_main_motion_layout).transitionToStart()
     }
 
 }
