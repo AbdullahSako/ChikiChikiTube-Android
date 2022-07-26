@@ -36,6 +36,7 @@
         android:id="@+id/like_image_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@string/content_desc_like_comment"
         android:background="@drawable/button_sel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_text_view"
@@ -62,7 +63,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/like_count_text_view"
         app:layout_constraintStart_toEndOf="@+id/like_count_text_view"
         app:layout_constraintTop_toTopOf="@+id/like_count_text_view"
-        app:srcCompat="@drawable/comment_dislike_select" />
+        app:srcCompat="@drawable/comment_dislike_select"
+        android:contentDescription="@string/content_desc_dislike_comment"
+        />
 
     <TextView
         android:id="@+id/dislike_count_text_view"
@@ -70,7 +73,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/mochiypoppone"
-        android:text="TextView"
         android:textColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="@+id/disLike_Image_btn"
         app:layout_constraintStart_toEndOf="@+id/disLike_Image_btn"

@@ -48,7 +48,6 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         //get playlists from api
         ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner) { playlistList ->
 
-
             if(playlistList.size==100){
                 //fetch next 100 playlists
                 ChikiFetcher().fetchPlaylists(100).observe(viewLifecycleOwner) {
@@ -130,11 +129,10 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
 
     override fun onPlayListClick(view: View, playlistId: Int) {
         //just in case parent motion layout state isnt at start
-       // activity?.findViewById<MotionLayout>(R.id.channel_fragment_motion_layout)?.transitionToStart()
-
-
+        //activity?.findViewById<MotionLayout>(R.id.channel_fragment_motion_layout)?.transitionToStart()
 
         parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.slide_in,R.anim.slide_out)
             add(R.id.root_layout_playlist,PlaylistVideosFragment.newInstance(playlistId))
             commit()
         }

@@ -1,0 +1,4 @@
+-Added comments *Temporary*
+-Added Picture in picture mode for supported devices, Suggested by oilrig11
+-Fixed a bug where status bar/gesture navigation would show up in fullscreen for some devices
+-Fixed a bug where channel videos list/playlists would load slower than normal

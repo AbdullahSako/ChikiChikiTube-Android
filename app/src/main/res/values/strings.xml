@@ -54,6 +54,10 @@
     <string name="content_desc_open_comments">Open Video comments</string>
     <string name="content_desc_post_comment">Post a comment</string>
     <string name="content_desc_pip_mode">Open video in Picture-in-picture mode</string>
+    <string name="content_desc_like_comment">Like comment</string>
+    <string name="content_desc_dislike_comment">Dislike comment</string>
+    <string name="content_desc_post_current_comment">Post comment</string>
+    <string name="content_desc_post_comment_cancel">Cancel posting a comment</string>
 
     <!-- other -->
     <string name="no_channel_playlists_found">There are no playlists for this channel</string>

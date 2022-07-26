@@ -202,8 +202,8 @@ class ChikiFetcher {
 
     }
 
-    fun addAView(videoId:UUID){
-        val request: Call<String> =chikiApi.addView(videoId)
+    fun addAView(videoId:UUID,currentTimeSec:Int?){
+        val request: Call<String> =chikiApi.addView(videoId,currentTimeSec?:0)
 
         request.enqueue(object :Callback<String>{
             override fun onResponse(call: Call<String>, response: Response<String>) {

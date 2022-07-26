@@ -2,7 +2,6 @@ package tube.chikichiki.sako
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 
 object Utils {
 

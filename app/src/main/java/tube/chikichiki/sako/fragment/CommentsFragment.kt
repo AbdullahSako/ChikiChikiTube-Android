@@ -1,7 +1,6 @@
 package tube.chikichiki.sako.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
@@ -15,11 +14,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.CommentAdapter
-import tube.chikichiki.sako.api.ChikiCommentsApi
 import tube.chikichiki.sako.api.ChikiCommentsFetcher
-import tube.chikichiki.sako.model.Comment
 import java.util.*
-import kotlin.collections.ArrayList
 
 private const val ARG_VIDEO_ID:String = "VIDEOID"
 class CommentsFragment:Fragment(R.layout.comments_fragment_motion_layout),CommentAdapter.LikeClick,CommentAdapter.DisLikeClick {
@@ -27,15 +23,12 @@ class CommentsFragment:Fragment(R.layout.comments_fragment_motion_layout),Commen
     private lateinit var commentsRecyclerView:RecyclerView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        //TODO CHECK CONTAINER AFTER MINIMIZING PLAYER
-        //TODO TEST FRAGMENT
         super.onViewCreated(view, savedInstanceState)
         val closeBtn:ImageButton = view.findViewById(R.id.close_comments_image_btn)
         val fab:FloatingActionButton = view.findViewById(R.id.post_comment_fab)
         val commentsMotionLayout=view.findViewById<MotionLayout>(R.id.comments_motion_layout)
         commentsRecyclerView = view.findViewById(R.id.comments_recycler_view)
         val progressBar:ProgressBar=view.findViewById(R.id.progressBar)
-
 
         setMotionLayoutTransitionListener(commentsMotionLayout)
 
@@ -116,6 +109,12 @@ class CommentsFragment:Fragment(R.layout.comments_fragment_motion_layout),Commen
                     commentAdapter.setDisLikeClickListener(this@CommentsFragment)
                     adapter = commentAdapter
                 }
+
+                //hide no comments text view after loading
+                if(noCommentsTextView?.visibility == View.VISIBLE){
+                    noCommentsTextView.visibility=View.INVISIBLE
+                }
+
             }
         }
     }

@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import tube.chikichiki.sako.R
-import java.util.*
 
 private const val ARG_VIDEO_NAME: String = "VIDEOTITLE"
 private const val ARG_VIDEO_DESCRIPTION: String = "VIDEODESCRIPTION"

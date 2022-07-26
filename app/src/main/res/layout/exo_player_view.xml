@@ -81,7 +81,8 @@ android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/icon_yellow"
-        android:visibility="invisible"
+        android:visibility="gone"
+
         />
 
 <com.google.android.exoplayer2.ui.DefaultTimeBar

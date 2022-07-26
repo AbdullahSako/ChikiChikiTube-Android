@@ -110,7 +110,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 playlistUrl = it[0].playlistUrl
 
 
-
+                //check if pip mode is on
                 if(!Utils.IsInPipMode) {
                     //initialize video file and play on video player
                     val media: MediaItem = MediaItem.Builder().setUri(it[0].playlistUrl).build()
@@ -120,6 +120,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 }
                 else{
                     Toast.makeText(activity,"Picture In Picture Mode On",Toast.LENGTH_SHORT).show()
+                    hideControls(view)
                 }
 
             }
@@ -239,11 +240,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         })
 
 
-
-        //add view unless back from fullscreen video player or screen rotated
-        if(savedInstanceState==null && !resultBack){
-            ChikiFetcher().addAView(videoId)
-        }
 
     }
 
@@ -421,8 +417,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         val replay: ImageButton = playerView.findViewById(R.id.control_view_replay_btn)
         val fullscreen: ImageButton = playerView.findViewById(R.id.control_view_fullscreen_btn)
         val timeBar: DefaultTimeBar = playerView.findViewById(R.id.exo_progress)
-        val progressBar:ProgressBar=playerView.findViewById(R.id.exo_player_progress_bar)
-        val videoTitleTextView:TextView=playerView.findViewById(R.id.exo_player_view_video_title)
 
         //play / pause button on click listener
         play.setOnClickListener {
@@ -449,22 +443,37 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
         //full screen button
         fullscreen.setOnClickListener {
-            val intent=FullScreenVideoActivity.newInstance(activity,videoPlayer?.currentPosition,videoPlayer?.playWhenReady,playlistUrl,videoName)
+            val intent=FullScreenVideoActivity.newInstance(activity,videoPlayer?.currentPosition,videoPlayer?.playWhenReady,playlistUrl,videoName,videoId)
             videoPlayer?.stop()
             resultLauncher.launch(intent)
         }
 
-        //hide controls if in picture in picture mode
-        if(Utils.IsInPipMode){
-            play.visibility=View.INVISIBLE
-            forward.visibility=View.INVISIBLE
-            replay.visibility=View.INVISIBLE
-            fullscreen.visibility=View.INVISIBLE
-            timeBar.visibility=View.INVISIBLE
-            progressBar.visibility=View.INVISIBLE
-            videoTitleTextView.visibility=View.VISIBLE
-            videoTitleTextView.text = "Picture In Picture Mode On!"
-        }
+
+
+
+    }
+
+
+    //hide controls of the player
+    private fun hideControls(view:View){
+        val playerView= view.findViewById<CustomExoPlayerView>(R.id.video_player)
+        val play: ImageButton = playerView.findViewById(R.id.control_view_play_btn)
+        val forward: ImageButton = playerView.findViewById(R.id.control_view_forward_btn)
+        val replay: ImageButton = playerView.findViewById(R.id.control_view_replay_btn)
+        val fullscreen: ImageButton = playerView.findViewById(R.id.control_view_fullscreen_btn)
+        val timeBar: DefaultTimeBar = playerView.findViewById(R.id.exo_progress)
+        val progressBar:ProgressBar=playerView.findViewById(R.id.exo_player_progress_bar)
+        val videoTitleTextView:TextView=playerView.findViewById(R.id.exo_player_view_video_title)
+
+
+        play.visibility=View.INVISIBLE
+        forward.visibility=View.INVISIBLE
+        replay.visibility=View.INVISIBLE
+        fullscreen.visibility=View.INVISIBLE
+        timeBar.visibility=View.INVISIBLE
+        progressBar.visibility=View.INVISIBLE
+        videoTitleTextView.visibility=View.VISIBLE
+        videoTitleTextView.text = "Picture In Picture Mode On!"
 
 
     }

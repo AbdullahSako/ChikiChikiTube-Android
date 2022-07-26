@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/post_comment_motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +18,7 @@
         <View
             android:id="@+id/view4"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:background="@color/light_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +52,8 @@
             android:textColorHint="@color/nav"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <View
             android:id="@+id/view5"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:ems="10"
-
+            android:autofillHints="name"
             android:hint="@string/nickname"
             android:inputType="textPersonName"
             android:padding="16dp"
@@ -85,6 +85,7 @@
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/button_sel"
+            android:contentDescription="@string/content_desc_post_current_comment"
             android:src="@drawable/ic_submit"
             app:layout_constraintBottom_toBottomOf="@+id/comment_edit_text"
             app:layout_constraintEnd_toEndOf="@+id/comment_edit_text"
@@ -95,6 +96,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_desc_post_comment_cancel"
             android:background="@drawable/button_sel"
             app:layout_constraintBottom_toTopOf="@+id/nickname_edit_text"
             app:layout_constraintEnd_toEndOf="parent"

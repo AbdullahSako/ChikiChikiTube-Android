@@ -67,6 +67,8 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
         videoName: String,
         videoDescription: String
     ) {
+        //hides main activity toolbar and bottom nav bar by progressing motion layout
+        activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 
         //open video fragment
         parentFragmentManager.beginTransaction().apply {

@@ -55,6 +55,8 @@
         motion:constraintSetStart="@+id/Top"
         motion:constraintSetEnd="@+id/descriptionEnd" >
         <OnSwipe
+            motion:maxAcceleration="200"
+            motion:touchRegionId="@id/constraintLayout6"
             motion:touchAnchorId="@+id/constraintLayout6"
             motion:dragDirection="dragDown" />
     </Transition>

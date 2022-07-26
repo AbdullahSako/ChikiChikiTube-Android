@@ -27,7 +27,7 @@
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/chat_motion_layout.xml" value="0.8775" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/comments_fragment_motion_layout.xml" value="0.9375" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/description.xml" value="0.5031055900621118" />
-        <entry key="..\:/ChikiChiki/app/src/main/res/layout/description_motion_layout.xml" value="0.5370370370370371" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/description_motion_layout.xml" value="1.0056818181818181" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/exo_playback_control_view.xml" value="0.8246445497630331" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/exo_player_control_view.xml" value="0.8246445497630331" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/exo_player_controller.xml" value="0.8246445497630331" />
@@ -54,7 +54,7 @@
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/list_item_video.xml" value="0.3787878787878788" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/loading_progressbar.xml" value="0.88" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/no_videos_layout.xml" value="0.88" />
-        <entry key="..\:/ChikiChiki/app/src/main/res/layout/post_comment_motion_layout.xml" value="0.9316770186335404" />
+        <entry key="..\:/ChikiChiki/app/src/main/res/layout/post_comment_motion_layout.xml" value="0.5190156599552572" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/single_view_motion_layout.xml" value="0.8295687885010267" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/test.xml" value="0.88" />
         <entry key="..\:/ChikiChiki/app/src/main/res/layout/test_container.xml" value="0.88" />

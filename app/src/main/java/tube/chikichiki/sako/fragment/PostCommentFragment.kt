@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.RadioButton
+import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.sako.R
 
 class PostCommentFragment:Fragment(R.layout.post_comment_motion_layout) {
@@ -36,14 +35,27 @@ class PostCommentFragment:Fragment(R.layout.post_comment_motion_layout) {
 
         //post button listener
         postBtn.setOnClickListener {
-            with (sharedPref.edit()) {
-                putString("nickname",nickname.text.toString())
-                apply()
+
+            if(nickname.text.isEmpty() || nickname.text.isBlank()){
+                Toast.makeText(activity,"Please enter a nickname",Toast.LENGTH_LONG).show()
             }
+            else if(comment.text.isBlank() || comment.text.isEmpty()){
+                Toast.makeText(activity,"Please enter a comment",Toast.LENGTH_LONG).show()
+            }
+            else{
 
-            parentFragmentManager.setFragmentResult("POSTCOMMENT", bundleOf("nickname" to nickname.text.toString() , "comment" to comment.text.toString()))
+                //disable button so it is not pressed twice
+                postBtn.isEnabled=false
 
-            postCommentMotionLayout.transitionToState(R.id.postCommentEnd)
+                with (sharedPref.edit()) {
+                    putString("nickname",nickname.text.toString())
+                    apply()
+                }
+
+                parentFragmentManager.setFragmentResult("POSTCOMMENT", bundleOf("nickname" to nickname.text.toString() , "comment" to comment.text.toString()))
+
+                postCommentMotionLayout.transitionToState(R.id.postCommentEnd)
+            }
 
         }
 

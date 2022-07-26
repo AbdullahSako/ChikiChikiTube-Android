@@ -10,7 +10,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import tube.chikichiki.sako.model.Comment
 import tube.chikichiki.sako.model.CommentCount
-import tube.chikichiki.sako.model.VideoChannel
 import java.util.*
 
 class ChikiCommentsFetcher {
