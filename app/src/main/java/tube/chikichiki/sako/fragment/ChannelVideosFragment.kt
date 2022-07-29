@@ -48,8 +48,6 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
         val searchBackImageView:ImageButton=view.findViewById(R.id.search_back)
         val showRawCheckBox:CheckBox=view.findViewById(R.id.raws_checkBox)
 
-        //lazy fix for a bug , motion layout does not transition all the way to the end when opening channel fragment which results in ui bugs (slow loading)
-        activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 
 
         //get channel handle from fragment arguments

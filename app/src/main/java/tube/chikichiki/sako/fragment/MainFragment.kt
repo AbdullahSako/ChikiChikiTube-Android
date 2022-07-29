@@ -91,9 +91,10 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
 
 
         //hide tool bar and bottom nav bar and disable transition to start when opening a channel
-        val r= Runnable { activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.main_end,R.id.main_end) }
+        val r= Runnable {
+            activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.progress = 0f
+            activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.main_end,R.id.main_end) }
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd(r)
-
 
 
 
