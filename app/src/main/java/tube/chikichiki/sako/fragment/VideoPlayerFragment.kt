@@ -30,7 +30,6 @@ import tube.chikichiki.sako.activity.EXTRA_PLAYBACK_POSITION
 import tube.chikichiki.sako.activity.EXTRA_PLAY_WHEN_READY_BACK
 import tube.chikichiki.sako.activity.FullScreenVideoActivity
 import tube.chikichiki.sako.adapter.VideoAdapter
-import tube.chikichiki.sako.api.ChikiCommentsFetcher
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.VideoPlaylist
@@ -64,8 +63,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         val videoFullTitle: TextView = view.findViewById(R.id.video_title_full)
         val openDescriptionBtn: ConstraintLayout =
             view.findViewById(R.id.description_open_container_clickable)
-        val openCommentsBtn: ConstraintLayout = view.findViewById(R.id.comments_open_container)
-        val commentsCount:TextView = view.findViewById(R.id.comments_count_textView)
         val viewsText:TextView=view.findViewById(R.id.video_views)
         val videoPublishedAt:TextView=view.findViewById(R.id.published_at_date)
         playlistVideosRecyclerView=view.findViewById(R.id.video_player_playlist_videos_recycler_view)
@@ -125,12 +122,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
             }
 
-        //set number of comments for video
-        ChikiCommentsFetcher().fetchCommentsCount(videoId).observe(viewLifecycleOwner){
-            if(it.isNotEmpty()) {
-                commentsCount.text = it[0].count.toString()
-            }
-        }
 
         //set up recycler view by getting this video's playlist videos from api
         ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner){
@@ -150,15 +141,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
                 replace(R.id.video_title_fragment_container,DescriptionFragment.newInstance(videoName,videoDescription))
                 commit()
             }
-        }
-
-        //open comments button listener
-        openCommentsBtn.setOnClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.video_title_fragment_container,CommentsFragment.newInstance(videoId))
-                commit()
-            }
-
         }
 
 
