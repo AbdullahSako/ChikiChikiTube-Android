@@ -269,9 +269,10 @@ class FullScreenVideoActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, data)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
-        newConfig: Configuration?
+        newConfig: Configuration
     ) {
 
         if(!isInPictureInPictureMode){
@@ -284,6 +285,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
 
     }
+
 
 
     override fun onBackPressed() {

@@ -1,5 +1,6 @@
 package tube.chikichiki.sako.model
 
+
 import com.google.gson.annotations.SerializedName
 import tube.chikichiki.sako.R
 import java.util.*

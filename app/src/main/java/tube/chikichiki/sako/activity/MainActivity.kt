@@ -36,18 +36,6 @@ class MainActivity : AppCompatActivity() {
             setFragment(MainFragment())
         }
 
-        //check if nickname exists in shared pref
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        if(sharedPref.getString("nickname","none") == "none"){
-            //generate a nickname and save to shared preferences
-            val nickname = Utils.animals[Random.nextInt(0,Utils.animals.size-1)] +" "+ Utils.animals[Random.nextInt(0,Utils.animals.size-1)]
-
-            with (sharedPref.edit()) {
-                putString("nickname",nickname)
-                apply()
-            }
-        }
-
 
 
         //change fragments on bottom nav bar item selected
