@@ -66,14 +66,16 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
     override fun onVideoClick(
         videoId: UUID,
         videoName: String,
-        videoDescription: String
+        videoDescription: String,
+        previewPath: String,
+        duration: Int
     ) {
         //hides main activity toolbar and bottom nav bar by progressing motion layout
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 
         //open video fragment
         parentFragmentManager.beginTransaction().apply {
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription,previewPath,duration))
             commit()
         }
     }

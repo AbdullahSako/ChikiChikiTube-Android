@@ -1,10 +1,15 @@
 package tube.chikichiki.sako.fragment
 
+import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import tube.chikichiki.sako.R
@@ -49,6 +54,20 @@ class SupportFragment : Fragment(R.layout.fragment_support) {
     }
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        //remove fragment on back press instead of closing activity
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                //remove support fragment
+                parentFragmentManager.beginTransaction().remove(this@SupportFragment).commit()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+    }
 
 
 }

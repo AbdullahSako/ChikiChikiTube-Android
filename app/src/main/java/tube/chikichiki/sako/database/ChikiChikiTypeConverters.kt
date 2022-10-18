@@ -1,6 +1,7 @@
 package tube.chikichiki.sako.database
 
 import androidx.room.TypeConverter
+import java.util.Date
 import java.util.UUID
 
 class ChikiChikiTypeConverters {
@@ -13,6 +14,16 @@ class ChikiChikiTypeConverters {
     @TypeConverter
     fun fromUUID(uuid: UUID?):String?{
         return uuid?.toString()
+    }
+
+    @TypeConverter
+    fun fromDate(date:Date):Long{
+        return date.time
+    }
+
+    @TypeConverter
+    fun toDate(date:Long):Date{
+        return Date(date)
     }
 
 }

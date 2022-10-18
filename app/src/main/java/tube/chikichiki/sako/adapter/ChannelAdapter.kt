@@ -36,6 +36,7 @@ class ChannelAdapter(private val channelItems: List<VideoChannel>) :
 
     override fun onBindViewHolder(holder: ChannelHolder, position: Int) {
         val channelItem = channelItems[position]
+
         holder.apply {
             //if there is no banner for a channel
             channelItem.banner?.let {

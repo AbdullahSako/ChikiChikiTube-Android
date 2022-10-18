@@ -402,12 +402,14 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     override fun onVideoClick(
         videoId: UUID,
         videoName: String,
-        videoDescription: String
+        videoDescription: String,
+        previewPath: String,
+        duration: Int
     ) {
 
             activity?.supportFragmentManager?.beginTransaction()?.apply {
                 setCustomAnimations(R.anim.slide_up,0)
-                replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+                replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription,previewPath,duration))
                 commit()
         }
     }

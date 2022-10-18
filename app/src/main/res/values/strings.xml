@@ -71,6 +71,11 @@
     <string name="end_of_videos">End</string>
     <string name="post">Post</string>
 
+    <!-- library -->
+    <string name="library">Library</string>
+    <string name="history">History</string>
+    <string name="watch_later">Watch Later</string>
+
 
 
 

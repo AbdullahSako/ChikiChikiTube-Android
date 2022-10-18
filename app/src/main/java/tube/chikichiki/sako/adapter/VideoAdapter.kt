@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Video
 import java.util.*
 
@@ -22,6 +24,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val banner: ImageView = itemView.findViewById(R.id.video_banner)
         val videoName: TextView = itemView.findViewById(R.id.video_name)
         val videoDuration:TextView=itemView.findViewById(R.id.video_duration)
+        val watchedTimeProgressBar:ProgressBar = itemView.findViewById(R.id.watchedProgressBar)
 
 
 
@@ -68,15 +71,20 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
+
+
         //set on click listener for videos
         view.setOnClickListener {
             val videoItem:Video = diff.currentList[holder.bindingAdapterPosition]
             videoViewClick?.onVideoClick(
                 videoItem.uuid,
                 videoItem.name,
-                videoItem.description
+                videoItem.description,
+                videoItem.previewPath,
+                videoItem.duration
             )
         }
+
 
         return holder
     }
@@ -100,6 +108,8 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
 
+
+
     }
 
     override fun getItemCount(): Int {
@@ -111,7 +121,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     interface VideoViewClick{
-        fun onVideoClick(videoId: UUID, videoName: String, videoDescription: String)
+        fun onVideoClick(videoId: UUID, videoName: String, videoDescription: String,previewPath:String,duration:Int)
     }
 
 

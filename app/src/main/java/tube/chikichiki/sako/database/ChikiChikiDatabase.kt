@@ -7,7 +7,7 @@ import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.WatchedVideo
 
-@Database(entities = [HistoryVideoInfo::class,WatchedVideo::class], version = 1)
+@Database(entities = [HistoryVideoInfo::class,WatchedVideo::class], version = 3)
 @TypeConverters(ChikiChikiTypeConverters::class)
 abstract class ChikiChikiDatabase: RoomDatabase() {
 

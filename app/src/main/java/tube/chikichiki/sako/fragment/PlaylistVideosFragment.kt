@@ -106,7 +106,9 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
     override fun onVideoClick(
         videoId: UUID,
         videoName: String,
-        videoDescription: String
+        videoDescription: String,
+        previewPath: String,
+        duration: Int
     ) {
 
 
@@ -114,7 +116,7 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
             setCustomAnimations(R.anim.slide_up, 0)
             replace(
                 R.id.video_container,
-                VideoPlayerFragment.newInstance(videoId, videoName, videoDescription)
+                VideoPlayerFragment.newInstance(videoId, videoName, videoDescription,previewPath,duration)
             )
             commit()
         }

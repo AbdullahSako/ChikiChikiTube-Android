@@ -65,7 +65,9 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
     override fun onVideoClick(
         videoId: UUID,
         videoName: String,
-        videoDescription: String
+        videoDescription: String,
+        previewPath: String,
+        duration: Int
     ) {
         //hides main activity toolbar and bottom nav bar by progressing motion layout
         activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
@@ -73,7 +75,7 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
         //open video fragment
         parentFragmentManager.beginTransaction().apply {
             setCustomAnimations(R.anim.slide_up,0)
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription))
+            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription,previewPath,duration))
             commit()
         }
 

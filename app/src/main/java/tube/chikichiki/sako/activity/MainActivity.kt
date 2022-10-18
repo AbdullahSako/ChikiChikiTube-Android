@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment-> setFragment(MainFragment())
                 R.id.mostViewedVideosFragment-> setFragment(MostViewedVideosFragment())
                 R.id.recentVideosFragment->setFragment(RecentVideosFragment())
-                R.id.supportFragment->setFragment(SupportFragment())
+                R.id.libraryFragment->setFragment(LibraryFragment.newInstance())
 
             }
             true

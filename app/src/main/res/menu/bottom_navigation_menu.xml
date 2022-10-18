@@ -16,8 +16,8 @@
         android:title="@string/recent"
         />
     <item
-        android:id="@+id/supportFragment"
-        android:icon="@drawable/ic_support"
-        android:title="@string/support"
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/ic_library"
+        android:title="@string/library"
         />
 </menu>

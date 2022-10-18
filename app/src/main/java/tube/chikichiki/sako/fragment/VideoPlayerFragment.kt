@@ -31,6 +31,8 @@ import tube.chikichiki.sako.activity.EXTRA_PLAY_WHEN_READY_BACK
 import tube.chikichiki.sako.activity.FullScreenVideoActivity
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
+import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.VideoPlaylist
 import tube.chikichiki.sako.view.CustomExoPlayerView
@@ -42,6 +44,8 @@ import kotlin.math.abs
 private const val ARG_VIDEO_ID: String = "VIDEOID"
 private const val ARG_VIDEO_NAME: String = "VIDEONAME"
 private const val ARG_VIDEO_DESCRIPTION: String = "VIDEODESCRIPTION"
+private const val ARG_VIDEO_THUMBNAIL:String="VIDEOTHUMBNAIL"
+private const val ARG_VIDEO_DURATION:String="VIDEODURATION"
 class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) , VideoAdapter.VideoViewClick {
 
     private var videoPlayer: ExoPlayer? = null
@@ -50,6 +54,8 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private lateinit var playlistVideosAdapter:VideoAdapter
     private lateinit var videoId:UUID
     private lateinit var videoName:String
+    private var videoDuration: Int=0
+    private lateinit var videoThumbnailPath:String
     private var resultBack=false
     private lateinit var onBackPressCallback:OnBackPressedCallback
 
@@ -80,6 +86,8 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         //get argument
         videoId = arguments?.get(ARG_VIDEO_ID) as UUID
         videoName = arguments?.get(ARG_VIDEO_NAME) as String
+        videoThumbnailPath = arguments?.get(ARG_VIDEO_THUMBNAIL) as String
+        videoDuration = arguments?.get(ARG_VIDEO_DURATION) as Int
         val videoDescription = arguments?.get(ARG_VIDEO_DESCRIPTION) as String
 
         //set controller hide time
@@ -99,7 +107,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         //using playlist url on exoplayer gets correct video duration
         ChikiFetcher().fetchStreamingPlaylist(videoId)
             .observe(viewLifecycleOwner) {
-
                 //fill views and published date text views
                 viewsText.text = getString(R.string.views, it[0].views)
                 videoPublishedAt.text = getFormattedDate(it[0].publishedAt)
@@ -222,7 +229,9 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         })
 
 
+        //Add video to history
 
+        ChikiChikiDatabaseRepository.get().addToHistory(HistoryVideoInfo(videoId,videoName,videoDescription,videoThumbnailPath,videoDuration,Date()))
     }
 
 
@@ -544,11 +553,11 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
     companion object {
         fun newInstance(
-            videoId:UUID,videoName:String,videoDescription:String
+            videoId:UUID,videoName:String,videoDescription:String,thumbnailPreviewPath:String,videoDuration:Int
         ): VideoPlayerFragment {
             return VideoPlayerFragment().apply {
                 arguments = bundleOf(
-                    ARG_VIDEO_ID to videoId, ARG_VIDEO_NAME to videoName, ARG_VIDEO_DESCRIPTION to videoDescription
+                    ARG_VIDEO_ID to videoId, ARG_VIDEO_NAME to videoName, ARG_VIDEO_DESCRIPTION to videoDescription , ARG_VIDEO_THUMBNAIL to thumbnailPreviewPath, ARG_VIDEO_DURATION to videoDuration
                 )
 
             }
@@ -558,13 +567,16 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     override fun onVideoClick(
         videoId: UUID,
         videoName: String,
-        videoDescription: String
+        videoDescription: String,
+        previewPath: String,
+        duration: Int
     ) {
+            //FOR PLAYLIST VIDEOS UNDER THE VIDEO PLAYER
 
             activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.video_container,newInstance(videoId,videoName,videoDescription))
+                replace(R.id.video_container,newInstance(videoId,videoName,videoDescription,previewPath,duration))
                 commit()
 
         }
