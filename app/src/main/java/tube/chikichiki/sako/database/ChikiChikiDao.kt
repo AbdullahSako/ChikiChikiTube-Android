@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.model.Video
+import tube.chikichiki.sako.model.WatchLater
 import tube.chikichiki.sako.model.WatchedVideo
 import java.util.UUID
 
@@ -29,8 +30,28 @@ interface ChikiChikiDao {
     @Query("SELECT * FROM WatchedVideo where uuid=(:uuid)")
     fun getWatchedVideo(uuid:UUID):LiveData<WatchedVideo>
 
+    @Query("SELECT * FROM WatchedVideo")
+    fun getAllWatchedVideos():LiveData<List<WatchedVideo>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addWatchedVideo(watchedVideo: WatchedVideo)
+
+    @Delete
+    fun removeWatchedVideo(watchedVideo: WatchedVideo)
+
+    //Watch Later
+
+    @Query("SELECT * FROM WatchLater order by dateAdded desc")
+    fun getAllWatchLater():LiveData<List<WatchLater>>
+
+    @Query("SELECT * FROM WatchLater where uuid = (:uuid)")
+    fun getWatchLater(uuid: UUID):LiveData<WatchLater>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addToWatchLater(watchLater: WatchLater)
+
+    @Delete
+    fun removeFromWatchLater(watchLater: WatchLater)
 
 
 }

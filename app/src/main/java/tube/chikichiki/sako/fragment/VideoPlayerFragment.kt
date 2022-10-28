@@ -13,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.google.android.material.snackbar.Snackbar
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.activity.EXTRA_PLAYBACK_POSITION
@@ -31,10 +33,9 @@ import tube.chikichiki.sako.activity.EXTRA_PLAY_WHEN_READY_BACK
 import tube.chikichiki.sako.activity.FullScreenVideoActivity
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabase
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
-import tube.chikichiki.sako.model.HistoryVideoInfo
-import tube.chikichiki.sako.model.Video
-import tube.chikichiki.sako.model.VideoPlaylist
+import tube.chikichiki.sako.model.*
 import tube.chikichiki.sako.view.CustomExoPlayerView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,6 +56,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
     private lateinit var videoId:UUID
     private lateinit var videoName:String
     private var videoDuration: Int=0
+    private lateinit var videoDescription:String
     private lateinit var videoThumbnailPath:String
     private var resultBack=false
     private lateinit var onBackPressCallback:OnBackPressedCallback
@@ -73,8 +75,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         val videoPublishedAt:TextView=view.findViewById(R.id.published_at_date)
         playlistVideosRecyclerView=view.findViewById(R.id.video_player_playlist_videos_recycler_view)
         val videoPlayerView=view.findViewById<StyledPlayerView>(R.id.video_player)
-        val exoPlayerProgressBar:ProgressBar=videoPlayerView.findViewById(R.id.exo_player_progress_bar)
-        val controlPlayBtn: ImageButton = videoPlayerView.findViewById(R.id.control_view_play_btn)
 
 
 
@@ -88,7 +88,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
         videoName = arguments?.get(ARG_VIDEO_NAME) as String
         videoThumbnailPath = arguments?.get(ARG_VIDEO_THUMBNAIL) as String
         videoDuration = arguments?.get(ARG_VIDEO_DURATION) as Int
-        val videoDescription = arguments?.get(ARG_VIDEO_DESCRIPTION) as String
+        videoDescription = arguments?.get(ARG_VIDEO_DESCRIPTION) as String
 
         //set controller hide time
         videoPlayerView.controllerShowTimeoutMs=3000
@@ -171,67 +171,19 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
 
         //exoplayer (video player) listener
-        videoPlayer?.addListener(object : Player.Listener {
-
-            //hide progress bar when not buffering
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                super.onPlaybackStateChanged(playbackState)
-                if(playbackState== Player.STATE_BUFFERING){
-                    exoPlayerProgressBar.visibility=View.VISIBLE
-                }
-                else if(playbackState == Player.STATE_READY){
-                    exoPlayerProgressBar.visibility=View.INVISIBLE
-                }
-            }
-
-
-
-
-
-            //change minimized pause/play image based on player
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                super.onIsPlayingChanged(isPlaying)
-                if (isPlaying) {
-
-                    //change minimized play button image to paused image
-                    pauseOrPlayVideoBtn.setImageDrawable(context?.let {
-                        getDrawable(
-                            it,
-                            R.drawable.ic_pause
-                        )
-                    })
-                    //change player control view play button image to paused image
-                    controlPlayBtn.setImageDrawable(context?.let { it1 ->
-                        getDrawable(
-                            it1,
-                            R.drawable.ic_pause_circle
-                        )
-                    })
-
-
-                } else {
-                    //change minimized pause button image to play image
-                    pauseOrPlayVideoBtn.setImageDrawable(context?.let {
-                        getDrawable(
-                            it, R.drawable.ic_play
-                        )
-                    })
-                    //change player control view pause button image to play image
-                    controlPlayBtn.setImageDrawable(context?.let { it1 ->
-                        getDrawable(
-                            it1,
-                            R.drawable.ic_play_circle
-                        )
-                    })
-                }
-            }
-
-        })
+        setupExoPlayerListener(view,videoPlayerView)
 
 
         //Add video to history
-
         ChikiChikiDatabaseRepository.get().addToHistory(HistoryVideoInfo(videoId,videoName,videoDescription,videoThumbnailPath,videoDuration,Date()))
+
+        //setup watch later button
+        setUpWatchLater(videoPlayerView,videoId,videoName,videoDescription,videoThumbnailPath,videoDuration)
+
+
+
+
+
     }
 
 
@@ -256,19 +208,22 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
             playlist?.id?.let { it ->
                 ChikiFetcher().fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner) { videoList ->
 
+                    ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
 
-                    //filter out current video
-                    val temp:List<Video> = videoList.filter { it.uuid!=videoId }
+                        //filter out current video
+                        val temp:List<Video> = videoList.filter { it.uuid!=videoId }
 
-                    //set up recycler view adapter
-                    playlistVideosAdapter = VideoAdapter()
-                    playlistVideosAdapter.submitList(temp)
-                    playlistVideosAdapter.setVideoViewClickListener(this)
-                    playlistVideosRecyclerView.adapter = playlistVideosAdapter
+                        //set up recycler view adapter
+                        playlistVideosAdapter = VideoAdapter()
+                        playlistVideosAdapter.submitList(Utils.getPairOfVideos(temp,it))
+                        playlistVideosAdapter.setVideoViewClickListener(this)
+                        playlistVideosRecyclerView.adapter = playlistVideosAdapter
 
 
-                    //hide progress bar after loading
-                    progressBar?.visibility = View.GONE
+                        //hide progress bar after loading
+                        progressBar?.visibility = View.GONE
+
+                    }
 
                 }
             }
@@ -434,7 +389,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
         //full screen button
         fullscreen.setOnClickListener {
-            val intent=FullScreenVideoActivity.newInstance(activity,videoPlayer?.currentPosition,videoPlayer?.playWhenReady,playlistUrl,videoName,videoId)
+            val intent=FullScreenVideoActivity.newInstance(activity,videoPlayer?.currentPosition,videoPlayer?.playWhenReady,playlistUrl,videoName,videoId,videoDescription,videoDuration,videoThumbnailPath)
             videoPlayer?.stop()
             resultLauncher.launch(intent)
         }
@@ -444,6 +399,116 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
     }
 
+    private fun setupExoPlayerListener(view: View,videoPlayerView:View){
+
+        val exoPlayerProgressBar:ProgressBar=videoPlayerView.findViewById(R.id.exo_player_progress_bar)
+        val controlPlayBtn: ImageButton = videoPlayerView.findViewById(R.id.control_view_play_btn)
+        val pauseOrPlayVideoBtn: ImageButton = view.findViewById(R.id.pause_video_image_view)
+
+
+        videoPlayer?.addListener(object : Player.Listener {
+
+
+            //hide progress bar when not buffering
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                if(playbackState== Player.STATE_BUFFERING){
+                    exoPlayerProgressBar.visibility=View.VISIBLE
+                }
+                else if(playbackState == Player.STATE_READY){
+                    exoPlayerProgressBar.visibility=View.INVISIBLE
+                }
+            }
+
+
+
+
+
+            //change minimized pause/play image based on player
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                if (isPlaying) {
+
+                    //change minimized play button image to paused image
+                    pauseOrPlayVideoBtn.setImageDrawable(context?.let {
+                        getDrawable(
+                            it,
+                            R.drawable.ic_pause
+                        )
+                    })
+                    //change player control view play button image to paused image
+                    controlPlayBtn.setImageDrawable(context?.let { it1 ->
+                        getDrawable(
+                            it1,
+                            R.drawable.ic_pause_circle
+                        )
+                    })
+
+
+                } else {
+                    //change minimized pause button image to play image
+                    pauseOrPlayVideoBtn.setImageDrawable(context?.let {
+                        getDrawable(
+                            it, R.drawable.ic_play
+                        )
+                    })
+                    //change player control view pause button image to play image
+                    controlPlayBtn.setImageDrawable(context?.let { it1 ->
+                        getDrawable(
+                            it1,
+                            R.drawable.ic_play_circle
+                        )
+                    })
+                }
+            }
+
+        })
+    }
+
+    private fun setUpWatchLater(videoPlayerView: View,videoId:UUID,videoName: String,videoDescription: String,videoThumbnailPath:String,videoDuration: Int){
+        val watchLaterBtn:ImageButton = videoPlayerView.findViewById(R.id.control_view_watchlater)
+        val rootView=view?.findViewById<ConstraintLayout>(R.id.video_player_motion_layout)
+
+        ChikiChikiDatabaseRepository.get().getWatchLaterItem(videoId).observe(viewLifecycleOwner){ watchLaterItem ->
+
+            if(watchLaterItem == null){ //if not added yet
+                watchLaterBtn.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_add_to_watchlater))
+
+                watchLaterBtn.setOnClickListener {
+                    ChikiChikiDatabaseRepository.get().addToWatchLater(WatchLater(videoId,videoName,videoDescription,videoThumbnailPath,videoDuration,Date()))
+
+                    if (rootView != null) {
+                        val snack = Snackbar.make(rootView,R.string.video_added_watch_later, Snackbar.LENGTH_SHORT).setAnchorView(R.id.bottomNavigationView).setTextColor(ContextCompat.getColor(requireActivity(),R.color.font_pink)).setBackgroundTint(ContextCompat.getColor(requireActivity(),R.color.dark_grey))
+
+                        //change snack bar text font
+                        snack.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).typeface =
+                            ResourcesCompat.getFont(requireActivity(),R.font.mochiypoppone)
+                        snack.show()
+                    }
+                }
+            }
+            else{ //if already added to watch later
+                watchLaterBtn.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.ic_added_to_watchlater))
+
+                watchLaterBtn.setOnClickListener {
+                    ChikiChikiDatabaseRepository.get().removeFromWatchLater(watchLaterItem)
+
+                    if (rootView != null) {
+                        val snack =Snackbar.make(rootView,R.string.video_removed_watch_later, Snackbar.LENGTH_SHORT).setAnchorView(R.id.bottomNavigationView).setTextColor(ContextCompat.getColor(requireActivity(),R.color.font_pink)).setBackgroundTint(ContextCompat.getColor(requireActivity(),R.color.dark_grey))
+
+                        //change snack bar text font
+                        snack.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).typeface =
+                            ResourcesCompat.getFont(requireActivity(),R.font.mochiypoppone)
+                        snack.show()
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
 
     //hide controls of the player
     private fun hideControls(view:View){
@@ -534,6 +599,18 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container) ,
 
     override fun onDestroy() {
         super.onDestroy()
+
+
+        //save how much the user watched if it is more than 30% or the video duration
+        val current = videoPlayer?.currentPosition
+        //default is 23:55
+        val minDuration = videoPlayer?.contentDuration?.times((0.3))?.toLong() ?: (1434856).toLong()
+
+        if (current != null) {
+            if(current >= minDuration){
+                ChikiChikiDatabaseRepository.get().addWatchedVideo(WatchedVideo(videoId,current))
+            }
+        }
 
         videoPlayer?.release()
         Log.d("TESTLOG", "VIDEO PLAYER DESTROYED")

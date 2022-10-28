@@ -2,6 +2,7 @@ package tube.chikichiki.sako.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
@@ -12,7 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.VideoAdapter
+import tube.chikichiki.sako.database.ChikiChikiDatabase
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
+import tube.chikichiki.sako.model.Video
 
 import tube.chikichiki.sako.viewModel.MostViewedVideosViewModel
 import java.util.*
@@ -28,6 +33,7 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
         super.onCreate(savedInstanceState)
         mostViewedVideosViewModel= activity?.let { ViewModelProvider(it).get(
             MostViewedVideosViewModel::class.java) }
+
     }
 
 
@@ -38,8 +44,10 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
         val constraint: ConstraintLayout =view.findViewById(R.id.most_view_constraint_layout)
         mostViewedVideosRecyclerView=view.findViewById(R.id.most_viewed_videos_recycler_view)
 
-        //set recycler view layout manager
+        //set recycler view layout manager and adapter
         mostViewedVideosRecyclerView.layoutManager=LinearLayoutManager(context)
+        videoAdapter = VideoAdapter()
+        mostViewedVideosRecyclerView.adapter = videoAdapter
 
         //set fragment background animation and start it
         constraint.apply {
@@ -49,14 +57,19 @@ class MostViewedVideosFragment : Fragment(R.layout.fragment_most_viewed_videos),
         grainAnimation.start()
 
         //retrieve video list from api
-        mostViewedVideosViewModel?.mostViewedVideosLiveData?.observe(viewLifecycleOwner) {
-            videoAdapter = VideoAdapter()
-            videoAdapter.submitList(it)
-            videoAdapter.setVideoViewClickListener(this)
-            mostViewedVideosRecyclerView.adapter = videoAdapter
+        mostViewedVideosViewModel?.mostViewedVideosLiveData?.observe(viewLifecycleOwner) { videos ->
 
-            //remove progressbar after loading video list
-            progressbar.visibility = View.GONE
+            //retrieve watched time for videos from room database
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){ watchedTimeObjList ->
+
+                val pairedVideos=Utils.getPairOfVideos(videos,watchedTimeObjList)
+                videoAdapter.submitList(pairedVideos)
+                videoAdapter.setVideoViewClickListener(this)
+
+
+                //remove progressbar after loading video list
+                progressbar.visibility = View.GONE
+            }
         }
 
 

@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -29,10 +30,13 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
+import com.google.android.material.snackbar.Snackbar
 
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
+import tube.chikichiki.sako.model.WatchLater
 import tube.chikichiki.sako.view.CustomExoPlayerView
 import java.util.*
 
@@ -44,6 +48,9 @@ private const val EXTRA_VIDEO_ID:String="VIDEOID"
 const val EXTRA_PLAYBACK_POSITION: String = "PLAYBACKPOSITION"
 const val EXTRA_PLAY_WHEN_READY_BACK: String = "PLAYBACKWHENREADY"
 private const val STATE_EXTRA_POSITION:String ="STATEPLAYBACKPOSITION"
+private const val EXTRA_VIDEO_DESCRIPTION:String="VIDEODESCRIPTION"
+private const val EXTRA_VIDEO_DURATION:String="VIDEODURATION"
+private const val EXTRA_VIDEO_THUMBNAIL:String="VIDEOTHUMBNAIL"
 
 class FullScreenVideoActivity : AppCompatActivity() {
     private var videoPlayer: ExoPlayer? = null
@@ -96,6 +103,9 @@ class FullScreenVideoActivity : AppCompatActivity() {
         playlistUrl = intent.extras?.getString(EXTRA_PLAYLIST_URL)
         val videoName = intent.extras?.getString(EXTRA_VIDEO_NAME)
         videoId = intent.extras?.get(EXTRA_VIDEO_ID) as UUID
+        val videoDescription = intent.extras?.get(EXTRA_VIDEO_DESCRIPTION) as String
+        val videoDuration = intent.extras?.get(EXTRA_VIDEO_DURATION) as Int
+        val videoThumbnailPath = intent.extras?.get(EXTRA_VIDEO_THUMBNAIL) as String
 
 
         //setup video title
@@ -130,6 +140,10 @@ class FullScreenVideoActivity : AppCompatActivity() {
 
         //run runnable to add view
         handlerT.postDelayed(runnable,1000)
+
+
+        //setup watch later
+        setUpWatchLater(videoPlayerView, videoId,videoName,videoDescription,videoThumbnailPath,videoDuration)
 
     }
 
@@ -269,6 +283,34 @@ class FullScreenVideoActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, data)
     }
 
+    private fun setUpWatchLater(videoPlayerView:View,videoId:UUID?,videoName:String?,videoDescription: String,videoThumbnailPath:String,videoDuration: Int){
+        val watchLaterBtn:ImageButton = videoPlayerView.findViewById(R.id.control_view_watchlater)
+
+        if (videoId != null) {
+            ChikiChikiDatabaseRepository.get().getWatchLaterItem(videoId).observe(this){ watchLaterItem ->
+
+                if(watchLaterItem == null){ //if not added yet
+                    watchLaterBtn.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_add_to_watchlater))
+
+                    watchLaterBtn.setOnClickListener {
+                        ChikiChikiDatabaseRepository.get().addToWatchLater(WatchLater(videoId,
+                            videoName.toString(),videoDescription,videoThumbnailPath,videoDuration,Date()))
+                    }
+                }
+                else{ //if already added to watch later
+                    watchLaterBtn.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_added_to_watchlater))
+
+                    watchLaterBtn.setOnClickListener {
+                        ChikiChikiDatabaseRepository.get().removeFromWatchLater(watchLaterItem)
+                    }
+
+                }
+
+            }
+        }
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
@@ -377,7 +419,10 @@ class FullScreenVideoActivity : AppCompatActivity() {
             playWhenReady: Boolean?,
             playlistUrl: String?,
             videoName: String?,
-            videoId:UUID?
+            videoId:UUID?,
+            videoDescription:String,
+            videoDuration:Int,
+            videoThumbnailPath:String
         ): Intent {
             return Intent(context, FullScreenVideoActivity::class.java).apply {
                 putExtra(EXTRA_POSITION, playbackPosition)
@@ -385,6 +430,9 @@ class FullScreenVideoActivity : AppCompatActivity() {
                 putExtra(EXTRA_PLAYLIST_URL, playlistUrl)
                 putExtra(EXTRA_VIDEO_NAME, videoName)
                 putExtra(EXTRA_VIDEO_ID,videoId)
+                putExtra(EXTRA_VIDEO_DESCRIPTION,videoDescription)
+                putExtra(EXTRA_VIDEO_THUMBNAIL,videoThumbnailPath)
+                putExtra(EXTRA_VIDEO_DURATION,videoDuration)
             }
         }
     }

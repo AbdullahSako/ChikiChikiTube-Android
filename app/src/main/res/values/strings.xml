@@ -75,6 +75,11 @@
     <string name="library">Library</string>
     <string name="history">History</string>
     <string name="watch_later">Watch Later</string>
+    <string name="video_added_watch_later">Video added to watch later playlist</string>
+    <string name="video_removed_history">Video removed from history</string>
+    <string name="video_removed_watch_later">Video removed from watch later playlist</string>
+    <string name="history_no_videos">No video in history</string>
+    <string name="watch_later_no_videos">No videos in watch later playlist</string>
 
 
 

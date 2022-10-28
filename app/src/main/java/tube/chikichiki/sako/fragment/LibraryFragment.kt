@@ -56,9 +56,11 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
     private fun setupButtons(view:View){
         val supportBtn:Button = view.findViewById(R.id.library_support_btn)
         val historyBtn:Button = view.findViewById(R.id.library_history_btn)
+        val watchLaterBtn:Button = view.findViewById(R.id.library_watchLater_btn)
 
         supportBtn.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
+                setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
                 add(R.id.main_fragment_container,SupportFragment())
                 commit()
             }
@@ -67,11 +69,22 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
         historyBtn.setOnClickListener {
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
+                setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
                 add(R.id.main_fragment_container,HistoryFragment())
                 commit()
             }
 
         }
+
+        watchLaterBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
+                add(R.id.main_fragment_container,WatchLaterFragment())
+                commit()
+            }
+        }
+
+
 
     }
 

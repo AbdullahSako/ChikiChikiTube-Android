@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import java.util.*
 
 private const val ARG_SEARCH_TERM="SEARCHTERM"
@@ -34,8 +36,9 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
         //get arg
         val searchTerm=arguments?.getString(ARG_SEARCH_TERM)
 
-        //set recycler view layout manager
+        //set recycler view layout manager and adapter
         searchRecyclerView.layoutManager=LinearLayoutManager(context)
+        searchRecyclerView.adapter = videoAdapter
 
         //set fragment background animation and start it
         rootView.apply {
@@ -46,17 +49,20 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
 
 
         if (searchTerm != null) {
-            ChikiFetcher().searchForVideos(searchTerm).observe(viewLifecycleOwner) {
-                videoAdapter.submitList(it)
-                videoAdapter.setVideoViewClickListener(this)
-                searchRecyclerView.adapter = videoAdapter
+            ChikiFetcher().searchForVideos(searchTerm).observe(viewLifecycleOwner) { videos ->
+                ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
 
-                //remove progressbar after loading video list
-                progressbar.visibility = View.GONE
+                    videoAdapter.submitList(Utils.getPairOfVideos(videos,it))
+                    videoAdapter.setVideoViewClickListener(this)
 
-                //if empty show text
-                if (it.isEmpty()) {
-                    noVideosText.visibility = View.VISIBLE
+
+                    //remove progressbar after loading video list
+                    progressbar.visibility = View.GONE
+
+                    //if empty show text
+                    if (videos.isEmpty()) {
+                        noVideosText.visibility = View.VISIBLE
+                    }
                 }
             }
         }

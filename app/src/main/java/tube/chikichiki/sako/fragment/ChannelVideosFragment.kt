@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Banner
 import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.VideoChannel
@@ -53,8 +55,10 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
         //get channel handle from fragment arguments
         channelHandle=arguments?.getString(ARG_CHANNEL_HANDLE)
 
-        //set up recycler view layout manager
+        //set up recycler view layout manager and adapter
         channelVideosRecyclerView.layoutManager=LinearLayoutManager(context)
+        videoAdapter = VideoAdapter()
+        channelVideosRecyclerView.adapter = videoAdapter
 
         //set up sort by spinner
 
@@ -191,45 +195,54 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
                 ChikiFetcher().fetchVideosOfaChannel(channel, loadStartNumber,sortBy = sort).observe(viewLifecycleOwner
                 ) { list ->
 
-                    var videos = list.toMutableList()
-                    Log.d("TESTLOG","VIDEO SIZE BEFORE ${videos.size}")
 
-                    //if there are no videos (english and japanese) stop recursion
-                    if(videos.size==0){
+
+                    ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
+
+                        var videos = list.toMutableList()
+                        Log.d("TESTLOG","VIDEO SIZE BEFORE ${videos.size}")
+
+                        //if there are no videos (english and japanese) stop recursion
+                        if(videos.size==0){
+                            isLoading = false
+
+                            //remove loading progress bar from currentlistofvideos position at last index since there are no more videos left
+                            addEndOfVideosLine()
+
+
+                            videoAdapter.submitList(Utils.getPairOfVideos(currentListOfVideos,
+                                it
+                            ))
+
+
+                            return@observe
+                        }
+
+
+                        //if user choses to hide raws
+                        if(!showRaws){
+                            videos=videos.filter { it.description.contains("en") }.toMutableList()
+                        }
+                        loadStartNumber += 100
+                        Log.d("TESTLOG","VIDEO SIZE after ${videos.size}")
+                        //if there are no english videos from request , request next batch
+                        if(videos.size <= 5){
+                            loadMore(sortPos)
+                        }
+
+                        //remove loading progress bar from last index before appending more video into it
+                        removeLoadMoreProgressBar()
+
+                        currentListOfVideos =
+                            (currentListOfVideos + videos).toMutableList() //add lists to get all available videos size
+
+                        //add loading progress bar after the last item
+                        addLoadMoreProgressBar()
+                        videoAdapter.submitList(Utils.getPairOfVideos(currentListOfVideos,it)) //load new videos in recyclerview
+
                         isLoading = false
 
-                        //remove loading progress bar from currentlistofvideos position at last index since there are no more videos left
-                        addEndOfVideosLine()
-                        videoAdapter.submitList(currentListOfVideos)
-
-
-                        return@observe
                     }
-
-
-                    //if user choses to hide raws
-                    if(!showRaws){
-                        videos=videos.filter { it.description.contains("en") }.toMutableList()
-                    }
-                    loadStartNumber += 100
-                    Log.d("TESTLOG","VIDEO SIZE after ${videos.size}")
-                    //if there are no english videos from request , request next batch
-                    if(videos.size==0){
-                        loadMore(sortPos)
-                    }
-
-                    //remove loading progress bar from last index before appending more video into it
-                    removeLoadMoreProgressBar()
-
-                    currentListOfVideos =
-                        (currentListOfVideos + videos).toMutableList() //add lists to get all available videos size
-
-                    //add loading progress bar after the last item
-                    addLoadMoreProgressBar()
-
-                    videoAdapter.submitList(currentListOfVideos) //load new videos in recyclerview
-
-                    isLoading = false
                 }
             }
     }
@@ -251,49 +264,50 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
         channelHandle?.let { ChikiFetcher().fetchVideosOfaChannel(it,sortBy = sort).observe(viewLifecycleOwner
         ) { list ->
+                ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
 
 
-            var videos = list.toMutableList()
-            //if user choses to hide raws
-            if(!showRaws){
-                videos=videos.filter { it.description.contains("en") }.toMutableList()
+                    var videos = list.toMutableList()
+                    //if user choses to hide raws
+                    if(!showRaws){
+                        videos=videos.filter { it.description.contains("en") }.toMutableList()
+                    }
+                    //add loading progress bar after the last item
+                    if(videos.isNotEmpty()) {
+                        videos.add(
+                            Video(
+                                UUID.randomUUID(), "", "", "", VideoChannel(
+                                    -1, "",
+                                    Banner(), "", ""
+                                ), 0, 1
+                            )
+                        )
+                    }
+
+                    //apply recycler view adapter with retrieved list
+                    channelVideosRecyclerView.apply {
+                        videoAdapter.submitList(Utils.getPairOfVideos(videos,it))
+                        videoAdapter.setVideoViewClickListener(this@ChannelVideosFragment)
+
+                    }
+
+                    currentListOfVideos = videos.toMutableList()
+
+                    //if there are no videos for the channel show text view
+                    if (list.isEmpty()) {
+                        noVideosTextview.text=getString(R.string.no_channel_videos_found)
+                        noVideosTextview.visibility = View.VISIBLE
+                    }
+                    else if(videos.isEmpty()){
+
+                        noVideosTextview.text=getString(R.string.no_english_channel_videos_found)
+                        noVideosTextview.visibility=View.VISIBLE
+                    }
+                    //hide loading bar after loading list
+                    progressBar.visibility = View.GONE
+
+                }
             }
-            //add loading progress bar after the last item
-            if(videos.isNotEmpty()) {
-                videos.add(
-                    Video(
-                        UUID.randomUUID(), "", "", "", VideoChannel(
-                            -1, "",
-                            Banner(), "", ""
-                        ), 0, 1
-                    )
-                )
-            }
-
-            //apply recycler view adapter with retrieved list
-            channelVideosRecyclerView.apply {
-                videoAdapter = VideoAdapter()
-                videoAdapter.submitList(videos)
-                videoAdapter.setVideoViewClickListener(this@ChannelVideosFragment)
-                adapter = videoAdapter
-            }
-
-            currentListOfVideos = videos.toMutableList()
-
-            //if there are no videos for the channel show text view
-            if (list.isEmpty()) {
-                noVideosTextview.text=getString(R.string.no_channel_videos_found)
-                noVideosTextview.visibility = View.VISIBLE
-            }
-            else if(videos.isEmpty()){
-
-                noVideosTextview.text=getString(R.string.no_english_channel_videos_found)
-                noVideosTextview.visibility=View.VISIBLE
-            }
-            //hide loading bar after loading list
-            progressBar.visibility = View.GONE
-
-        }
         }
     }
 
@@ -344,18 +358,20 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
         ChikiFetcher().searchForVideos(searchText).observe(viewLifecycleOwner) { list ->
 
-            //get all videos from the current channel
-            list.forEach {
-                if (it.videoChannel.channelHandle == channelHandle) {
-                    tempList.add(it)
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
+                //get all videos from the current channel
+                list.forEach {
+                    if (it.videoChannel.channelHandle == channelHandle) {
+                        tempList.add(it)
+                    }
                 }
-            }
 
-            //update recycler view adapter with the new list
-            videoAdapter.submitList(tempList)
-            //remove progress bar after loading
-            progressBar?.visibility = View.GONE
-        }
+                //update recycler view adapter with the new list
+                videoAdapter.submitList(Utils.getPairOfVideos(tempList,it))
+                //remove progress bar after loading
+                progressBar?.visibility = View.GONE
+            }
+            }
 
 
     }

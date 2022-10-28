@@ -1,5 +1,6 @@
 package tube.chikichiki.sako.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,14 +38,20 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         videoViewClick=clickListener
     }
 
-    private val diffCallback= object : DiffUtil.ItemCallback<Video>(){
+    private val diffCallback= object : DiffUtil.ItemCallback<Pair<Video,Long>>(){
 
-        override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean {
-            return oldItem.uuid == newItem.uuid
+        override fun areItemsTheSame(
+            oldItem: Pair<Video, Long>,
+            newItem: Pair<Video, Long>
+        ): Boolean {
+            return oldItem.first.uuid == newItem.first.uuid
         }
 
-        override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean {
-            return oldItem.name == newItem.name
+        override fun areContentsTheSame(
+            oldItem: Pair<Video, Long>,
+            newItem: Pair<Video, Long>
+        ): Boolean {
+            return oldItem.first.uuid == newItem.first.uuid
         }
 
     }
@@ -52,7 +59,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val diff = AsyncListDiffer(this,diffCallback)
 
     override fun getItemViewType(position: Int): Int {
-        return diff.currentList[position].getUsedLayout()
+        return diff.currentList[position].first.getUsedLayout()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -75,7 +82,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         //set on click listener for videos
         view.setOnClickListener {
-            val videoItem:Video = diff.currentList[holder.bindingAdapterPosition]
+            val videoItem:Video = diff.currentList[holder.bindingAdapterPosition].first
             videoViewClick?.onVideoClick(
                 videoItem.uuid,
                 videoItem.name,
@@ -91,7 +98,8 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val videoItem = diff.currentList[position]
+        val pair = diff.currentList[position]
+        val videoItem = pair.first
         when(holder.itemViewType)
         {
             R.layout.list_item_video->{
@@ -100,6 +108,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).format(DecodeFormat.PREFER_RGB_565).into(banner)
                     videoName.text=videoItem.name
                     videoDuration.text=videoItem.getFormattedDuration()
+                    watchedTimeProgressBar.progress = pair.second.toInt() % 100
                 }
 
             }
@@ -116,7 +125,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return diff.currentList.size
     }
 
-    fun submitList(list:List<Video>){
+    fun submitList(list:List<Pair<Video,Long>>){
         diff.submitList(list)
     }
 

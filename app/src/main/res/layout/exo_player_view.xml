@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/exo_controller"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
@@ -78,10 +79,10 @@ android:layout_height="match_parent"
         android:background="@drawable/button_ripple"
         android:contentDescription="@string/content_desc_pip_mode"
         android:src="@drawable/ic_pip"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/icon_yellow"
-        android:visibility="gone"
 
         />
 
@@ -149,11 +150,24 @@ android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="@font/mochiypoppone"
         android:textColor="@color/font_pink"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/control_view_watchlater"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/control_view_watchlater"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_ripple"
+        android:src="@drawable/ic_add_to_watchlater"
+        app:tint="@color/icon_yellow"
+        app:layout_constraintEnd_toStartOf="@+id/pipBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
 

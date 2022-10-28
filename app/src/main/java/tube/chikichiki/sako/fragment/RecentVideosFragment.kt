@@ -2,6 +2,7 @@ package tube.chikichiki.sako.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
@@ -11,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.VideoAdapter
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.viewModel.RecentVideosViewModel
 import java.util.*
 
@@ -27,6 +30,8 @@ class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdap
         super.onCreate(savedInstanceState)
         recentVideosViewModel= activity?.let { ViewModelProvider(it).get(RecentVideosViewModel::class.java) }
 
+
+
     }
 
 
@@ -37,8 +42,12 @@ class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdap
         val constraint: ConstraintLayout =view.findViewById(R.id.recent_constraint_layout)
         recentRecyclerView =view.findViewById(R.id.recent_videos_recycler_view)
 
-        //set recycler view layout manager
+
+
+        //set recycler view layout manager and adapter
         recentRecyclerView.layoutManager=LinearLayoutManager(context)
+        videoAdapter = VideoAdapter()
+        recentRecyclerView.adapter = videoAdapter
 
         //set fragment background animation and start it
         constraint.apply {
@@ -49,15 +58,19 @@ class RecentVideosFragment : Fragment(R.layout.fragment_recent_videos),VideoAdap
 
 
         //retrieve video list from api
-        recentVideosViewModel?.recentVideosLiveData?.observe(viewLifecycleOwner) {
-            videoAdapter = VideoAdapter()
-            videoAdapter.submitList(it)
-            videoAdapter.setVideoViewClickListener(this)
-            recentRecyclerView.adapter = videoAdapter
+        recentVideosViewModel?.recentVideosLiveData?.observe(viewLifecycleOwner) { videos ->
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
 
 
-            //remove progressbar after loading video list
-            progressbar.visibility = View.GONE
+                videoAdapter.submitList(Utils.getPairOfVideos(videos,it))
+                videoAdapter.setVideoViewClickListener(this)
+
+
+
+                //remove progressbar after loading video list
+                progressbar.visibility = View.GONE
+
+            }
         }
 
     }

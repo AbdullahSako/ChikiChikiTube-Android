@@ -18,18 +18,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.adapter.HistoryVerticalAdapter
+import tube.chikichiki.sako.adapter.WatchLaterAdapter
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
-import tube.chikichiki.sako.model.HistoryVideoInfo
+import tube.chikichiki.sako.model.WatchLater
 import java.util.*
 
-class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter.HistoryViewClick,HistoryVerticalAdapter.HistoryRemoveClick {
+class WatchLaterFragment:Fragment(R.layout.fragment_watch_later),WatchLaterAdapter.WatchLaterClick,WatchLaterAdapter.WatchLaterRemoveClick {
     private lateinit var grainAnimation: AnimationDrawable
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rootView:ConstraintLayout = view.findViewById(R.id.history_root_view)
-        val recyclerView:RecyclerView=view.findViewById(R.id.history_recycler_view)
+        val rootView:ConstraintLayout = view.findViewById(R.id.watch_later_root_view)
+        val recyclerView:RecyclerView = view.findViewById(R.id.watch_later_recycler_view)
 
         //set fragment background animation and start it
         rootView.apply {
@@ -38,18 +40,19 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
         }
         grainAnimation.start()
 
-        //setup up recycler view
         setupRecyclerView(recyclerView)
 
 
     }
 
+
     private fun setupRecyclerView(recyclerView: RecyclerView){
-        val noVideosTxt:TextView? = view?.findViewById(R.id.no_videos_history_text)
+        val noVideosTxt:TextView? = view?.findViewById(R.id.no_videos_text_watch_later)
 
-        recyclerView.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+        recyclerView.layoutManager = LinearLayoutManager(activity,
+            LinearLayoutManager.VERTICAL,false)
 
-        ChikiChikiDatabaseRepository.get().getHistoryBig().observe(viewLifecycleOwner){
+        ChikiChikiDatabaseRepository.get().getAllWatchLater().observe(viewLifecycleOwner){
             if(it.isEmpty()){
                 noVideosTxt?.visibility = View.VISIBLE
             }
@@ -57,13 +60,13 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
                 noVideosTxt?.visibility = View.GONE
             }
 
-            val adp = HistoryVerticalAdapter(it)
+            val adp = WatchLaterAdapter(it)
 
             //set video on click listener
-            adp.setHistoryViewClickListener(this)
+            adp.setWatchLaterOnClickListener(this)
 
             //set remove on click listener
-            adp.setHistoryRemoveClickListener(this)
+            adp.setWatchLaterRemoveOnClickListener(this)
 
             recyclerView.adapter = adp
         }
@@ -72,18 +75,16 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onRemoveClick(watchLater: WatchLater) {
+        ChikiChikiDatabaseRepository.get().removeFromWatchLater(watchLater)
 
-        //remove fragment on back press instead of closing activity
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-
-                //remove support fragment
-                parentFragmentManager.beginTransaction().remove(this@HistoryFragment).commit()
-            }
+        val root=view?.findViewById<ConstraintLayout>(R.id.watch_later_root_view)
+        if (root != null) {
+            val snack = Snackbar.make(root,R.string.video_removed_watch_later, Snackbar.LENGTH_SHORT).setTextColor(ContextCompat.getColor(requireActivity(),R.color.font_pink)).setBackgroundTint(ContextCompat.getColor(requireActivity(),R.color.dark_grey)).setAnchorView(R.id.bottomNavigationView)
+            snack.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).typeface =
+                ResourcesCompat.getFont(requireActivity(),R.font.mochiypoppone)
+            snack.show()
         }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
     }
 
@@ -105,28 +106,20 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
         }
     }
 
-    override fun onRemoveClick(historyItem: HistoryVideoInfo) {
-        val root=view?.findViewById<ConstraintLayout>(R.id.history_root_view)
 
-        //remove history item
-        ChikiChikiDatabaseRepository.get().removeFromHistory(historyItem)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
 
-        //remove watched time if available
-        ChikiChikiDatabaseRepository.get().getWatchedVideo(historyItem.uuid).observe(viewLifecycleOwner){
-            if(it != null) {
-                ChikiChikiDatabaseRepository.get().removeWatchedVideo(it)
+        //remove fragment on back press instead of closing activity
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                //remove support fragment
+                parentFragmentManager.beginTransaction().remove(this@WatchLaterFragment).commit()
             }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
-        //show snack bar
-        if (root != null) {
-            val snack=Snackbar.make(root,R.string.video_removed_history,Snackbar.LENGTH_SHORT).setAnchorView(R.id.bottomNavigationView).setTextColor(
-                ContextCompat.getColor(requireActivity(),R.color.font_pink)).setBackgroundTint(
-                ContextCompat.getColor(requireActivity(),R.color.dark_grey))
-            snack.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).typeface =
-                ResourcesCompat.getFont(requireActivity(),R.font.mochiypoppone)
-            snack.show()
-        }
     }
 
 

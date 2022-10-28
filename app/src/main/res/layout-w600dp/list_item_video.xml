@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="-7dp"
         android:progressBackgroundTint="@android:color/transparent"
-        android:progressTint="@color/icon_yellow"
+        android:progressTint="@color/orange"
         app:layout_constraintBottom_toBottomOf="@+id/video_banner"
         app:layout_constraintEnd_toEndOf="@+id/video_banner"
         app:layout_constraintStart_toStartOf="@+id/video_banner" />

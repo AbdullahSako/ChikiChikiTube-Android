@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Video
 import java.util.*
 
@@ -40,30 +42,35 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         //get playlist id from fragment arguments
         playlistId=arguments?.getInt(ARG_PLAYLIST_ID)
 
-        //set up recycler view layout manager
+        //set up recycler view layout manager and adapter
         playlistVideosRecyclerView.layoutManager= LinearLayoutManager(context)
+        videoAdapter = VideoAdapter()
+        playlistVideosRecyclerView.adapter = videoAdapter
+
         //retrieve playlist videos from api
         playlistId?.let { ChikiFetcher().fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner
         ) { list ->
 
-            //apply recycler view adapter with retrieved list
-            playlistVideosRecyclerView.apply {
-                videoAdapter = VideoAdapter()
-                videoAdapter.submitList(list)
-                videoAdapter.setVideoViewClickListener(this@PlaylistVideosFragment)
-                adapter = videoAdapter
-            }
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
 
-            currentListOfVideos = list
+                //apply recycler view adapter with retrieved list
+                playlistVideosRecyclerView.apply {
 
-            //if there are no videos for the channel show text view
-            if (list.isEmpty()) {
-                noVideosTextview.visibility = View.VISIBLE
+                    videoAdapter.submitList(Utils.getPairOfVideos(list,it))
+                    videoAdapter.setVideoViewClickListener(this@PlaylistVideosFragment)
+                }
+
+                currentListOfVideos = list
+
+                //if there are no videos for the channel show text view
+                if (list.isEmpty()) {
+                    noVideosTextview.visibility = View.VISIBLE
+                }
+                //hide loading bar after loading list
+                progressBar.visibility = View.GONE
             }
-            //hide loading bar after loading list
-            progressBar.visibility = View.GONE
         }
-        }
+    }
 
 
         //retrieve more videos from api if scrolled down far enough in recycler view
@@ -95,11 +102,15 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
     private fun loadMore(){
         playlistId?.let { ChikiFetcher().fetchVideosOfaPlaylist(it,currentListOfVideos.size).observe(viewLifecycleOwner
         ) { list ->
-            currentListOfVideos =
-                currentListOfVideos + list //add lists to get all available videos size
-            videoAdapter.submitList(currentListOfVideos) //load new videos in recyclerview
-            isLoading = false
-        }
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){ watchedTime ->
+                currentListOfVideos =
+                    currentListOfVideos + list //add lists to get all available videos size
+                videoAdapter.submitList(Utils.getPairOfVideos(currentListOfVideos,watchedTime)) //load new videos in recyclerview
+                isLoading = false
+            }
+
+
+            }
         }
     }
 
