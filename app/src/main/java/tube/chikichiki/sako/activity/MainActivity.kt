@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import tube.chikichiki.sako.Utils
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbarGrainAnimation: AnimationDrawable
     override fun onCreate(savedInstanceState: Bundle?) {
+        //handle splash screen transition
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
