@@ -15,9 +15,10 @@ import com.bumptech.glide.load.DecodeFormat
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Video
+import tube.chikichiki.sako.model.VideoAndWatchedTimeModel
 import java.util.*
 
-class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class VideoAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var videoViewClick:VideoViewClick?=null
 
@@ -27,7 +28,31 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val videoDuration:TextView=itemView.findViewById(R.id.video_duration)
         val watchedTimeProgressBar:ProgressBar = itemView.findViewById(R.id.watchedProgressBar)
 
+        private var videoModel:VideoAndWatchedTimeModel?=null
 
+        init {
+            itemView.setOnClickListener {
+
+                videoModel?.let { model->
+                    videoViewClick?.onVideoClick(
+                        model.video.uuid,
+                        model.video.name,
+                        model.video.description,
+                        model.video.previewPath,
+                        model.video.duration
+                    )
+                }
+            }
+        }
+
+        fun bind(item:VideoAndWatchedTimeModel){
+            videoModel = item
+
+            Glide.with(itemView.context).load(item.video.getFullThumbnailPath()).format(DecodeFormat.PREFER_RGB_565).into(banner)
+            videoName.text=item.video.name
+            videoDuration.text=item.video.getFormattedDuration()
+            watchedTimeProgressBar.progress = item.watchedTime.toInt() % 101
+        }
 
     }
     inner class LoaderHolder(view: View): RecyclerView.ViewHolder(view)
@@ -38,20 +63,20 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         videoViewClick=clickListener
     }
 
-    private val diffCallback= object : DiffUtil.ItemCallback<Pair<Video,Long>>(){
+    private val diffCallback= object : DiffUtil.ItemCallback<VideoAndWatchedTimeModel>(){
 
         override fun areItemsTheSame(
-            oldItem: Pair<Video, Long>,
-            newItem: Pair<Video, Long>
+            oldItem: VideoAndWatchedTimeModel,
+            newItem: VideoAndWatchedTimeModel
         ): Boolean {
-            return oldItem.first.uuid == newItem.first.uuid
+            return oldItem.video.uuid == newItem.video.uuid
         }
 
         override fun areContentsTheSame(
-            oldItem: Pair<Video, Long>,
-            newItem: Pair<Video, Long>
+            oldItem: VideoAndWatchedTimeModel,
+            newItem: VideoAndWatchedTimeModel
         ): Boolean {
-            return oldItem.first.uuid == newItem.first.uuid
+            return oldItem.video.uuid == newItem.video.uuid && oldItem.watchedTime == newItem.watchedTime
         }
 
     }
@@ -59,7 +84,7 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val diff = AsyncListDiffer(this,diffCallback)
 
     override fun getItemViewType(position: Int): Int {
-        return diff.currentList[position].first.getUsedLayout()
+        return diff.currentList[position].video.getUsedLayout()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -81,16 +106,16 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
         //set on click listener for videos
-        view.setOnClickListener {
-            val videoItem:Video = diff.currentList[holder.bindingAdapterPosition].first
-            videoViewClick?.onVideoClick(
-                videoItem.uuid,
-                videoItem.name,
-                videoItem.description,
-                videoItem.previewPath,
-                videoItem.duration
-            )
-        }
+//        view.setOnClickListener {
+//            val videoItem:Video = diff.currentList[holder.bindingAdapterPosition].video
+//            videoViewClick?.onVideoClick(
+//                videoItem.uuid,
+//                videoItem.name,
+//                videoItem.description,
+//                videoItem.previewPath,
+//                videoItem.duration
+//            )
+//        }
 
 
         return holder
@@ -98,26 +123,26 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val pair = diff.currentList[position]
-        val videoItem = pair.first
-        when(holder.itemViewType)
-        {
-            R.layout.list_item_video->{
-                val videoHolder = holder as VideoHolder
-                videoHolder.apply {
-                    Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).format(DecodeFormat.PREFER_RGB_565).into(banner)
-                    videoName.text=videoItem.name
-                    videoDuration.text=videoItem.getFormattedDuration()
-                    watchedTimeProgressBar.progress = pair.second.toInt() % 100
-                }
+        val item = diff.currentList[position]
 
-            }
+        if (holder is VideoHolder){
+            holder.bind(item)
         }
 
-
-
-
-
+//        val videoItem = item.video
+//        when(holder.itemViewType)
+//        {
+//            R.layout.list_item_video->{
+//                val videoHolder = holder as VideoHolder
+//                videoHolder.apply {
+//                    Glide.with(itemView.context).load(videoItem.getFullThumbnailPath()).format(DecodeFormat.PREFER_RGB_565).into(banner)
+//                    videoName.text=videoItem.name
+//                    videoDuration.text=videoItem.getFormattedDuration()
+//                    watchedTimeProgressBar.progress = item.watchedTime.toInt() % 100
+//                }
+//
+//            }
+//        }
 
     }
 
@@ -125,13 +150,14 @@ class VideoAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return diff.currentList.size
     }
 
-    fun submitList(list:List<Pair<Video,Long>>){
+    fun submitList(list:List<VideoAndWatchedTimeModel>){
         diff.submitList(list)
     }
 
     interface VideoViewClick{
         fun onVideoClick(videoId: UUID, videoName: String, videoDescription: String,previewPath:String,duration:Int)
     }
+
 
 
 

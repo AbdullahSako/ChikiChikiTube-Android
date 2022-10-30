@@ -66,10 +66,19 @@
         <entry key="..\:/ChikiChiki/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.75" />
         <entry key="..\:/ChikiChiki/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.196" />
         <entry key="..\:/ChikiChiki/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.196" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/fragment_channel.xml" value="0.32037037037037036" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/fragment_channel_videos.xml" value="0.32037037037037036" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/fragment_playlist.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/fragment_video_player_container.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/video_container.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/video_player_motion_layout.xml" value="0.32037037037037036" />
+        <entry key="..\:/ChikiChikiTube-Android/app/src/main/res/layout/video_title_motion_layout.xml" value="0.32037037037037036" />
+        <entry key="..\:/ChikiChikiTube-Android/chikichikitv/src/main/res/layout/activity_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/ChikiChikiTube-Android/chikichikitv/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
