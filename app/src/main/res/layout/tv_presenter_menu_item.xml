@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_presenter_menu_item_textview"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:background="@color/dark_grey"
+    android:textColor="@color/white" />

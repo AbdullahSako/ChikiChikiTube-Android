@@ -74,4 +74,9 @@ dependencies {
 
     //splash screen
     implementation("androidx.core:core-splashscreen:1.0.0")
+
+    //leanback
+    implementation("androidx.leanback:leanback:1.2.0-alpha02")
+
+
 }

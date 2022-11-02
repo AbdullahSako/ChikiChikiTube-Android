@@ -5,6 +5,8 @@
     android:versionCode="18"
     >
 
+    <uses-feature android:name="android.software.leanback" android:required="false"/>
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".BaseApplication"
@@ -14,12 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Starting"
+        android:banner="@drawable/banner"
         >
         <activity
             android:name="tube.chikichiki.sako.activity.FullScreenVideoActivity"
             android:supportsPictureInPicture="true"
             android:launchMode="singleTask"
             android:exported="false"
+            android:theme="@style/Theme.ChikiChiki"
             android:screenOrientation="sensorLandscape"
             />
         <activity
@@ -30,6 +34,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".tv.TvActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+            </intent-filter>
+
         </activity>
 
 
