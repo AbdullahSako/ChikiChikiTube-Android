@@ -63,7 +63,7 @@ class ChannelTvPresenter():Presenter() {
 
     companion object{
 
-        private const val CARD_WIDTH=1800
+        private const val CARD_WIDTH=1600
         private const val CARD_HEIGHT = 500
     }
 

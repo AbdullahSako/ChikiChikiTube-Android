@@ -1,0 +1,220 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+MERGED from [androidx.core:core-ktx:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\878605a43b682e151455bd454081bf6b\transformed\core-ktx-1.7.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.leanback:leanback:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\b204752405731ce2fb07225c8d69b66f\transformed\leanback-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:glide:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\5453d0772d591e08b9148986a9f6d9d0\transformed\glide-4.11.0\AndroidManifest.xml:2:1-12:12
+MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\810b7b9561680fae9a13a1dc8ec6abb0\transformed\fragment-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\af14eff71b33efe793a52ccb42c98424\transformed\recyclerview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\00ed24d7950a5ef9c4bb0a9f70e59455\transformed\vectordrawable-animated-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7474c68a8271b21159aebf50099d21d9\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3f22c1ae167ef2ae56a5cda3eee4b006\transformed\media-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\c210b4f16e788c043d4afbd8c4620f93\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\f518e281f5af8ea3fb2028da909434bf\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\bac11a343899d778f4d197aced935bf5\transformed\coordinatorlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7e2a221bb594bcd2cf37c355c040fa10\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\5a9ff643bd7e8dbbb93683893cece63f\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\b608d6e5e1cdad44fe7a70bac04af639\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\1e0d56618c6fe4a4c75940154b51f8af\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\f16dd5850f9688003e3c2f1e5c485e68\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\6cf2d94e12bb70cced7305f7d897d0fd\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\ed7039034d801270ccdffb1c1dcb1290\transformed\vectordrawable-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:17:1-26:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\1328d295302c4ff0db23c31908381602\transformed\gifdecoder-4.11.0\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3dd64c3d04959a5b4c83415a9234f70f\transformed\exifinterface-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] C:\Users\abed\.gradle\caches\transforms-3\f8ff40c4a97021c9c25401b35551d130\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\abed\.gradle\caches\transforms-3\e2e424eb466b136c3788c6d85b5b153c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\2051b5b66c57d6f5f0e4b4cb3aa1f2a0\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3ded070ba752d3d950e1e7c2bb6ff7aa\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\949a4b80b5e67030f88f57f1ffe106ac\transformed\lifecycle-viewmodel-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\6a2e46179c04b86c18e9d59a1e59f714\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\73a515ee3805e8cdb30caa57b5333b9f\transformed\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\abed\.gradle\caches\transforms-3\4873d878c8b871d9b303201b36f282a4\transformed\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7a86fc1d9209d08218cfbeab01f5c520\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3c6422f994bff0efc9d0f9498e417c1b\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\88ea5c3bb878e3c4542d0550094668b0\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\abed\.gradle\caches\transforms-3\d5efc4479fc6a387f023f7aec8fff3c3\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+	package
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:4:5-37
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:1-46:12
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:6:5-67
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:6:22-64
+uses-feature#android.hardware.touchscreen
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:8:5-10:36
+	android:required
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:10:9-33
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:9:9-52
+uses-feature#android.software.leanback
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:11:5-13:35
+	android:required
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:13:9-32
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:12:9-49
+application
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:15:5-44:19
+MERGED from [com.github.bumptech.glide:glide:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\5453d0772d591e08b9148986a9f6d9d0\transformed\glide-4.11.0\AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:glide:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\5453d0772d591e08b9148986a9f6d9d0\transformed\glide-4.11.0\AndroidManifest.xml:10:5-20
+MERGED from [androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:24:5-89
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\1328d295302c4ff0db23c31908381602\transformed\gifdecoder-4.11.0\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\1328d295302c4ff0db23c31908381602\transformed\gifdecoder-4.11.0\AndroidManifest.xml:9:5-20
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\abed\.gradle\caches\transforms-3\e2e424eb466b136c3788c6d85b5b153c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\abed\.gradle\caches\transforms-3\e2e424eb466b136c3788c6d85b5b153c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:19:9-35
+	android:label
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:18:9-41
+	android:icon
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:17:9-43
+	android:allowBackup
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:16:9-35
+	android:theme
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:20:9-48
+activity#tube.chikichikitv.sako.MainActivity
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:21:9-34:20
+	android:screenOrientation
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:28:13-50
+	android:label
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:26:13-45
+	android:exported
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:24:13-36
+	android:icon
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:25:13-59
+	android:banner
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:23:13-61
+	android:logo
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:27:13-59
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:22:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LEANBACK_LAUNCHER
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:29:13-33:29
+action#android.intent.action.MAIN
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:30:17-69
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:30:25-66
+category#android.intent.category.LEANBACK_LAUNCHER
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:32:17-86
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:32:27-83
+activity#tube.chikichikitv.sako.DetailsActivity
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:35:9-37:40
+	android:exported
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:37:13-37
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:36:13-44
+activity#tube.chikichikitv.sako.PlaybackActivity
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:38:9-40:40
+	android:exported
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:40:13-37
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:39:13-45
+activity#tube.chikichikitv.sako.BrowseErrorActivity
+ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:41:9-43:40
+	android:exported
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:43:13-37
+	android:name
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:42:13-48
+uses-sdk
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+MERGED from [androidx.core:core-ktx:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\878605a43b682e151455bd454081bf6b\transformed\core-ktx-1.7.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\878605a43b682e151455bd454081bf6b\transformed\core-ktx-1.7.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.leanback:leanback:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\b204752405731ce2fb07225c8d69b66f\transformed\leanback-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.leanback:leanback:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\b204752405731ce2fb07225c8d69b66f\transformed\leanback-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:glide:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\5453d0772d591e08b9148986a9f6d9d0\transformed\glide-4.11.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\5453d0772d591e08b9148986a9f6d9d0\transformed\glide-4.11.0\AndroidManifest.xml:6:5-8:41
+MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\810b7b9561680fae9a13a1dc8ec6abb0\transformed\fragment-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\810b7b9561680fae9a13a1dc8ec6abb0\transformed\fragment-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\af14eff71b33efe793a52ccb42c98424\transformed\recyclerview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\af14eff71b33efe793a52ccb42c98424\transformed\recyclerview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\00ed24d7950a5ef9c4bb0a9f70e59455\transformed\vectordrawable-animated-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\00ed24d7950a5ef9c4bb0a9f70e59455\transformed\vectordrawable-animated-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7474c68a8271b21159aebf50099d21d9\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7474c68a8271b21159aebf50099d21d9\transformed\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3f22c1ae167ef2ae56a5cda3eee4b006\transformed\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3f22c1ae167ef2ae56a5cda3eee4b006\transformed\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\c210b4f16e788c043d4afbd8c4620f93\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\c210b4f16e788c043d4afbd8c4620f93\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\f518e281f5af8ea3fb2028da909434bf\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\f518e281f5af8ea3fb2028da909434bf\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\bac11a343899d778f4d197aced935bf5\transformed\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\bac11a343899d778f4d197aced935bf5\transformed\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7e2a221bb594bcd2cf37c355c040fa10\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7e2a221bb594bcd2cf37c355c040fa10\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\5a9ff643bd7e8dbbb93683893cece63f\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\5a9ff643bd7e8dbbb93683893cece63f\transformed\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\b608d6e5e1cdad44fe7a70bac04af639\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\b608d6e5e1cdad44fe7a70bac04af639\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\1e0d56618c6fe4a4c75940154b51f8af\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\1e0d56618c6fe4a4c75940154b51f8af\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\f16dd5850f9688003e3c2f1e5c485e68\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\f16dd5850f9688003e3c2f1e5c485e68\transformed\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\6cf2d94e12bb70cced7305f7d897d0fd\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\6cf2d94e12bb70cced7305f7d897d0fd\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\ed7039034d801270ccdffb1c1dcb1290\transformed\vectordrawable-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\ed7039034d801270ccdffb1c1dcb1290\transformed\vectordrawable-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\1328d295302c4ff0db23c31908381602\transformed\gifdecoder-4.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] C:\Users\abed\.gradle\caches\transforms-3\1328d295302c4ff0db23c31908381602\transformed\gifdecoder-4.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3dd64c3d04959a5b4c83415a9234f70f\transformed\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3dd64c3d04959a5b4c83415a9234f70f\transformed\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] C:\Users\abed\.gradle\caches\transforms-3\f8ff40c4a97021c9c25401b35551d130\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] C:\Users\abed\.gradle\caches\transforms-3\f8ff40c4a97021c9c25401b35551d130\transformed\lifecycle-runtime-2.3.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\abed\.gradle\caches\transforms-3\e2e424eb466b136c3788c6d85b5b153c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\abed\.gradle\caches\transforms-3\e2e424eb466b136c3788c6d85b5b153c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\2051b5b66c57d6f5f0e4b4cb3aa1f2a0\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\2051b5b66c57d6f5f0e4b4cb3aa1f2a0\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3ded070ba752d3d950e1e7c2bb6ff7aa\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3ded070ba752d3d950e1e7c2bb6ff7aa\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\949a4b80b5e67030f88f57f1ffe106ac\transformed\lifecycle-viewmodel-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\949a4b80b5e67030f88f57f1ffe106ac\transformed\lifecycle-viewmodel-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\6a2e46179c04b86c18e9d59a1e59f714\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\6a2e46179c04b86c18e9d59a1e59f714\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\73a515ee3805e8cdb30caa57b5333b9f\transformed\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\abed\.gradle\caches\transforms-3\73a515ee3805e8cdb30caa57b5333b9f\transformed\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\abed\.gradle\caches\transforms-3\4873d878c8b871d9b303201b36f282a4\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\abed\.gradle\caches\transforms-3\4873d878c8b871d9b303201b36f282a4\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7a86fc1d9209d08218cfbeab01f5c520\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\7a86fc1d9209d08218cfbeab01f5c520\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3c6422f994bff0efc9d0f9498e417c1b\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\3c6422f994bff0efc9d0f9498e417c1b\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\88ea5c3bb878e3c4542d0550094668b0\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\abed\.gradle\caches\transforms-3\88ea5c3bb878e3c4542d0550094668b0\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\abed\.gradle\caches\transforms-3\d5efc4479fc6a387f023f7aec8fff3c3\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\abed\.gradle\caches\transforms-3\d5efc4479fc6a387f023f7aec8fff3c3\transformed\annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		ADDED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+		INJECTED from D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml

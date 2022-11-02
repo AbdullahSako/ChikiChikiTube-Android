@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\drawable_default_background.xml.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\drawable\\default_background.xml"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\drawable_app_icon_your_company.png.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\drawable\\app_icon_your_company.png"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\layout_activity_main.xml.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\layout_activity_details.xml.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\layout\\activity_details.xml"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\drawable_movie.png.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\drawable\\movie.png"
+    },
+    {
+        "merged": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "D:\\ChikiChikiTube-Android\\chikichikitv\\src\\main\\res\\mipmap-mdpi\\ic_launcher.webp"
+    }
+]

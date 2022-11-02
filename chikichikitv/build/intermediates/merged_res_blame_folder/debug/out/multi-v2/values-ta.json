@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ta\\values-ta.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\abed\\.gradle\\caches\\transforms-3\\e832209c9770ea513ea9778c787127cd\\transformed\\core-1.7.0\\res\\values-ta\\values-ta.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "41",
+                        "startColumns": "4",
+                        "startOffsets": "4600",
+                        "endColumns": "100",
+                        "endOffsets": "4696"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\abed\\.gradle\\caches\\transforms-3\\b204752405731ce2fb07225c8d69b66f\\transformed\\leanback-1.0.0\\res\\values-ta\\values-ta.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,212,313,409,501,637,751,873,966,1096,1224,1332,1459,1628,1747,1864,1972,2069,2211,2302,2420,2537,2657,2752,2874,2998,3111,3220,3326,3437,3563,3695,3823,3957,4044,4127,4224,4361,4512",
+                        "endColumns": "106,100,95,91,135,113,121,92,129,127,107,126,168,118,116,107,96,141,90,117,116,119,94,121,123,112,108,105,110,125,131,127,133,86,82,96,136,150,87",
+                        "endOffsets": "207,308,404,496,632,746,868,961,1091,1219,1327,1454,1623,1742,1859,1967,2064,2206,2297,2415,2532,2652,2747,2869,2993,3106,3215,3321,3432,3558,3690,3818,3952,4039,4122,4219,4356,4507,4595"
+                    }
+                }
+            ]
+        }
+    ]
+}

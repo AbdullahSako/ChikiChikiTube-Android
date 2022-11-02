@@ -3,6 +3,11 @@ package tube.chikichiki.sako.tv.fragment
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
+import androidx.core.view.marginStart
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.RowsSupportFragment
@@ -12,6 +17,7 @@ import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.ListRowView
+import tube.chikichiki.sako.R
 import tube.chikichiki.sako.adapter.ChannelAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.VideoChannel
@@ -27,6 +33,17 @@ class ChannelTVFragment:BrowseSupportFragment(),MainFragmentAdapterProvider {
         this.headersState = BrowseSupportFragment.HEADERS_DISABLED
 
         loadAndShowChannels()
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val browseContainer = this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_container_dock)
+        browseContainer?.setPadding(64,0,0,0)
+
+
 
     }
 

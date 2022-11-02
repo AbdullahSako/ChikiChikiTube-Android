@@ -1,0 +1,32 @@
+R_DEF: Internal format may change without notice
+local
+color background_gradient_end
+color background_gradient_start
+color default_background
+color fastlane_background
+color search_opaque
+color selected_background
+drawable app_icon_your_company
+drawable default_background
+drawable movie
+id details_fragment
+id main_browse_fragment
+layout activity_details
+layout activity_main
+mipmap ic_launcher
+string app_name
+string browse_title
+string buy_1
+string buy_2
+string dismiss_error
+string error_fragment
+string error_fragment_message
+string grid_view
+string movie
+string personal_settings
+string related_movies
+string rent_1
+string rent_2
+string watch_trailer_1
+string watch_trailer_2
+style Theme.ChikiChiki

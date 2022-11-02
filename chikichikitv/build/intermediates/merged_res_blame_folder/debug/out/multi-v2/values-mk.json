@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\ChikiChikiTube-Android\\chikichikitv\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mk\\values-mk.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\abed\\.gradle\\caches\\transforms-3\\b204752405731ce2fb07225c8d69b66f\\transformed\\leanback-1.0.0\\res\\values-mk\\values-mk.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,212,313,411,505,637,752,850,944,1078,1209,1317,1441,1632,1758,1881,1988,2082,2214,2304,2410,2522,2625,2728,2848,2985,3098,3208,3317,3433,3548,3669,3782,3901,3988,4076,4189,4330,4491",
+                        "endColumns": "106,100,97,93,131,114,97,93,133,130,107,123,190,125,122,106,93,131,89,105,111,102,102,119,136,112,109,108,115,114,120,112,118,86,87,112,140,160,98",
+                        "endOffsets": "207,308,406,500,632,747,845,939,1073,1204,1312,1436,1627,1753,1876,1983,2077,2209,2299,2405,2517,2620,2723,2843,2980,3093,3203,3312,3428,3543,3664,3777,3896,3983,4071,4184,4325,4486,4585"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\abed\\.gradle\\caches\\transforms-3\\e832209c9770ea513ea9778c787127cd\\transformed\\core-1.7.0\\res\\values-mk\\values-mk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "41",
+                        "startColumns": "4",
+                        "startOffsets": "4590",
+                        "endColumns": "100",
+                        "endOffsets": "4686"
+                    }
+                }
+            ]
+        }
+    ]
+}

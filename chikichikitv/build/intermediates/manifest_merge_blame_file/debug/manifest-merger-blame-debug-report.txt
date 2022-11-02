@@ -1,0 +1,93 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="tube.chikichikitv.sako"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:6:5-67
+11-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:6:22-64
+12
+13    <uses-feature
+13-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:8:5-10:36
+14        android:name="android.hardware.touchscreen"
+14-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:9:9-52
+15        android:required="false" />
+15-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:10:9-33
+16    <uses-feature
+16-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:11:5-13:35
+17        android:name="android.software.leanback"
+17-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:12:9-49
+18        android:required="true" />
+18-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:13:9-32
+19
+20    <application
+20-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:15:5-44:19
+21        android:allowBackup="true"
+21-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:16:9-35
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.7.0] C:\Users\abed\.gradle\caches\transforms-3\e832209c9770ea513ea9778c787127cd\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+23        android:debuggable="true"
+24        android:icon="@mipmap/ic_launcher"
+24-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:17:9-43
+25        android:label="@string/app_name"
+25-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:18:9-41
+26        android:supportsRtl="true"
+26-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:19:9-35
+27        android:testOnly="true"
+28        android:theme="@style/Theme.ChikiChiki" >
+28-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:20:9-48
+29        <activity
+29-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:21:9-34:20
+30            android:name="tube.chikichikitv.sako.MainActivity"
+30-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:22:13-41
+31            android:banner="@drawable/app_icon_your_company"
+31-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:23:13-61
+32            android:exported="true"
+32-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:24:13-36
+33            android:icon="@drawable/app_icon_your_company"
+33-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:25:13-59
+34            android:label="@string/app_name"
+34-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:26:13-45
+35            android:logo="@drawable/app_icon_your_company"
+35-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:27:13-59
+36            android:screenOrientation="landscape" >
+36-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:28:13-50
+37            <intent-filter>
+37-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:29:13-33:29
+38                <action android:name="android.intent.action.MAIN" />
+38-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:30:17-69
+38-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:30:25-66
+39
+40                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+40-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:32:17-86
+40-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:32:27-83
+41            </intent-filter>
+42        </activity>
+43        <activity
+43-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:35:9-37:40
+44            android:name="tube.chikichikitv.sako.DetailsActivity"
+44-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:36:13-44
+45            android:exported="false" />
+45-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:37:13-37
+46        <activity
+46-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:38:9-40:40
+47            android:name="tube.chikichikitv.sako.PlaybackActivity"
+47-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:39:13-45
+48            android:exported="false" />
+48-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:40:13-37
+49        <activity
+49-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:41:9-43:40
+50            android:name="tube.chikichikitv.sako.BrowseErrorActivity"
+50-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:42:13-48
+51            android:exported="false" />
+51-->D:\ChikiChikiTube-Android\chikichikitv\src\main\AndroidManifest.xml:43:13-37
+52    </application>
+53
+54</manifest>
