@@ -2,10 +2,16 @@ package tube.chikichiki.sako.tv.presenter
 
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.core.view.marginLeft
 import androidx.leanback.widget.ImageCardView
+import androidx.leanback.widget.NonOverlappingLinearLayout
 import androidx.leanback.widget.Presenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
@@ -29,6 +35,8 @@ class ChannelTvPresenter():Presenter() {
         }
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
+        cardView.findViewById<RelativeLayout>(androidx.leanback.R.id.info_field).findViewById<TextView>(
+            androidx.leanback.R.id.title_text).height = 0
         updateCardBackgroundColor(cardView,false)
         return ViewHolder(cardView)
 
