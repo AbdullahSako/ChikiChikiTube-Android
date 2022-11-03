@@ -17,4 +17,8 @@
     <color name="light_dark_grey">#4f4f4f</color>
     <color name="black_overlay">#66000000</color>
     <color name="nav">#b5b5b5</color>
+
+    <!-- overriding -->
+    <color name="lb_browse_header_color">#d5564c</color>
+
 </resources>

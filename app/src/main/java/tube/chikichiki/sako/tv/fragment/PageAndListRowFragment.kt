@@ -1,6 +1,9 @@
 package tube.chikichiki.sako.tv.fragment
 
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
@@ -12,17 +15,18 @@ import java.lang.Thread.sleep
 
 const val HEADER_ID_1: Long = 1
 const val HEADER_NAME_1 = "Shows"
+const val HEADER_ID_2: Long = 2
+const val HEADER_NAME_2 = "Most Viewed"
+const val HEADER_ID_3: Long = 3
+const val HEADER_NAME_3 = "Settings Fragment"
+const val HEADER_ID_4: Long = 4
+const val HEADER_NAME_4 = "User agreement Fragment"
 
 class PageAndListRowFragment:BrowseSupportFragment() {
 
-     val HEADER_ID_2: Long = 2
-     val HEADER_NAME_2 = "Rows Fragment"
-     val HEADER_ID_3: Long = 3
-     val HEADER_NAME_3 = "Settings Fragment"
-     val HEADER_ID_4: Long = 4
-     val HEADER_NAME_4 = "User agreement Fragment"
-    private lateinit var backgroundManager:BackgroundManager
 
+    private lateinit var grainAnimation: AnimationDrawable
+    private lateinit var backgroundManager:BackgroundManager
     private lateinit var mRowsAdapter:ArrayObjectAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,15 +36,30 @@ class PageAndListRowFragment:BrowseSupportFragment() {
         loadData()
         backgroundManager =BackgroundManager.getInstance(activity)
         backgroundManager.attach(activity?.window)
+
         mainFragmentRegistry.registerFragment(PageRow::class.java,PageRowFragmentFactory(backgroundManager))
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val browseContainer = this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_container_dock)
+        browseContainer.apply {
+
+            //set animation to background
+            browseContainer?.background = ContextCompat.getDrawable(requireActivity(),R.drawable.grain_animation)
+            grainAnimation= this?.background as AnimationDrawable
+        }
+        grainAnimation.start()
+
+    }
+
+
     private fun setupUi(){
         this.headersState = BrowseSupportFragment.HEADERS_ENABLED
-        this.isHeadersTransitionOnBackEnabled = true
-        this.brandColor = ContextCompat.getColor(requireActivity(), R.color.orange)
-        this.title = "Chiki Chiki Tube"
+        this.isHeadersTransitionOnBackEnabled = false
+        this.brandColor = ContextCompat.getColor(requireActivity(), R.color.dark_grey)
 
 
         this.setOnSearchClickedListener {
@@ -55,10 +74,12 @@ class PageAndListRowFragment:BrowseSupportFragment() {
         this.adapter = mRowsAdapter
 
         Thread{
-            sleep(2000)
+            sleep(1000)
             createRows()
             startEntranceTransition()
         }.start()
+
+        progressBarManager.hide()
     }
 
     private fun createRows(){
@@ -66,10 +87,11 @@ class PageAndListRowFragment:BrowseSupportFragment() {
         val pageRow1 = PageRow(headerItem1)
         mRowsAdapter.add(pageRow1)
 
-        /*val headerItem2 = HeaderItem(HEADER_ID_2,HEADER_NAME_2)
+        val headerItem2 = HeaderItem(HEADER_ID_2,HEADER_NAME_2)
         val pageRow2 = PageRow(headerItem2)
         mRowsAdapter.add(pageRow2)
 
+        /*
         val headerItem3 = HeaderItem(HEADER_ID_3,HEADER_NAME_3)
         val pageRow3 = PageRow(headerItem3)
         mRowsAdapter.add(pageRow3)

@@ -35,8 +35,20 @@ class ChannelTvPresenter():Presenter() {
         }
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
-        cardView.findViewById<RelativeLayout>(androidx.leanback.R.id.info_field).findViewById<TextView>(
+
+
+        val channelImageCardView = cardView.findViewById<RelativeLayout>(androidx.leanback.R.id.info_field)
+
+        //make space for content text by removing title space
+        channelImageCardView.findViewById<TextView>(
             androidx.leanback.R.id.title_text).height = 0
+
+        //change max lines of context text to 3
+        channelImageCardView.findViewById<TextView>(
+            androidx.leanback.R.id.content_text).apply {
+                this.maxLines = 3
+        }
+
         updateCardBackgroundColor(cardView,false)
         return ViewHolder(cardView)
 

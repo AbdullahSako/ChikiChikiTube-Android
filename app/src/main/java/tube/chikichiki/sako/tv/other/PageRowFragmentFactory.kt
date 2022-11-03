@@ -5,9 +5,7 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.Row
 import tube.chikichiki.sako.fragment.SupportFragment
-import tube.chikichiki.sako.tv.fragment.ChannelTVFragment
-import tube.chikichiki.sako.tv.fragment.HEADER_ID_1
-import tube.chikichiki.sako.tv.fragment.PageAndListRowFragment
+import tube.chikichiki.sako.tv.fragment.*
 
 class PageRowFragmentFactory(backgroundManager: BackgroundManager) :
     BrowseSupportFragment.FragmentFactory<Fragment>() {
@@ -22,6 +20,9 @@ class PageRowFragmentFactory(backgroundManager: BackgroundManager) :
         when(r.headerItem.id){
             HEADER_ID_1 -> {
                 return ChannelTVFragment()
+            }
+            HEADER_ID_2 ->{
+                return MostViewedVideosTvFragment()
             }
         }
 
