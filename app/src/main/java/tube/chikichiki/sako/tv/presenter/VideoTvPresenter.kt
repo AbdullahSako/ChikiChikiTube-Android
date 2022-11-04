@@ -1,5 +1,6 @@
 package tube.chikichiki.sako.tv.presenter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.leanback.widget.ImageCardView
@@ -28,6 +29,7 @@ class VideoTvPresenter:Presenter() {
             }
         }
 
+
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
 
@@ -40,7 +42,9 @@ class VideoTvPresenter:Presenter() {
         val video = item as Video
         val cardView = viewHolder?.view as ImageCardView
 
+
         cardView.titleText = video.name
+
         Glide.with(cardView.context).load(video.getFullThumbnailPath()).centerCrop().format(
             DecodeFormat.PREFER_RGB_565).into(cardView.mainImageView)
     }
