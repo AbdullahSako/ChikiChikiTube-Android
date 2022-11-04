@@ -2,6 +2,8 @@ package tube.chikichiki.sako.tv.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -31,7 +33,6 @@ class PageAndListRowFragment:BrowseSupportFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setupUi()
         loadData()
         backgroundManager =BackgroundManager.getInstance(activity)
@@ -60,7 +61,6 @@ class PageAndListRowFragment:BrowseSupportFragment() {
         this.headersState = BrowseSupportFragment.HEADERS_ENABLED
         this.isHeadersTransitionOnBackEnabled = false
         this.brandColor = ContextCompat.getColor(requireActivity(), R.color.dark_grey)
-
 
         this.setOnSearchClickedListener {
             Toast.makeText(activity,"SEARCH",Toast.LENGTH_SHORT).show()

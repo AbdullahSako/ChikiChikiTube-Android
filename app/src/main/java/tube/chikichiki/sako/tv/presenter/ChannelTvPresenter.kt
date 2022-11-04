@@ -58,8 +58,12 @@ class ChannelTvPresenter():Presenter() {
         val channel = item as VideoChannel
         val cardView = viewHolder?.view as ImageCardView
 
+        val metrics = cardView.context.resources.displayMetrics
+        val width = (metrics.widthPixels / 1.2).toInt()
+        val height = (metrics.heightPixels / 2.1).toInt()
+
         cardView.contentText = channel.description
-        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
+        cardView.setMainImageDimensions(width, height)
         Glide.with(cardView.context).load(channel.banner?.getFullPath()).centerCrop().format(DecodeFormat.PREFER_RGB_565).into(cardView.mainImageView)
 
 
