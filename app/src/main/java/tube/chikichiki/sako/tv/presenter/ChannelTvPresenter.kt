@@ -15,6 +15,7 @@ import androidx.leanback.widget.NonOverlappingLinearLayout
 import androidx.leanback.widget.Presenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.request.RequestOptions
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.model.VideoChannel
 
@@ -24,8 +25,8 @@ class ChannelTvPresenter():Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
         parent?.context?.let {
-            selectedBackgroundColor = ContextCompat.getColor(it, R.color.light_dark_grey)
-            defaultBackgroundColor = ContextCompat.getColor(it,R.color.dark_grey)
+            selectedBackgroundColor = ContextCompat.getColor(it, R.color.light_tv_bg)
+            defaultBackgroundColor = ContextCompat.getColor(it,R.color.tv_bg)
         }
         val cardView = object :ImageCardView(parent?.context){
             override fun setSelected(selected: Boolean) {
@@ -61,6 +62,8 @@ class ChannelTvPresenter():Presenter() {
         val metrics = cardView.context.resources.displayMetrics
         val width = (metrics.widthPixels / 1.2).toInt()
         val height = (metrics.heightPixels / 2.1).toInt()
+
+
 
         cardView.contentText = channel.description
         cardView.setMainImageDimensions(width, height)

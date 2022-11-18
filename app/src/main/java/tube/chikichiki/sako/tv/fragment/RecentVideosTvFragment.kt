@@ -2,8 +2,6 @@ package tube.chikichiki.sako.tv.fragment
 
 import android.os.Bundle
 import androidx.leanback.app.BrowseSupportFragment
-import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapter
-import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
@@ -11,16 +9,21 @@ import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.tv.activity.VideoPlayerActivity
 import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
-import tube.chikichiki.sako.viewModel.MostViewedVideosViewModel
+import tube.chikichiki.sako.viewModel.RecentVideosViewModel
 
-class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdapterProvider,OnItemViewClickedListener,OnItemViewSelectedListener {
+class RecentVideosTvFragment: VerticalGridSupportFragment(),
+    BrowseSupportFragment.MainFragmentAdapterProvider, OnItemViewClickedListener,
+    OnItemViewSelectedListener {
+
     private lateinit var mGridAdapter: ArrayObjectAdapter
     private val ZOOM_FACTOR = FocusHighlight.ZOOM_FACTOR_MEDIUM
-    private var mostViewedVideosViewModel: MostViewedVideosViewModel? = null
+    private var recentVideosViewModel: RecentVideosViewModel? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mostViewedVideosViewModel = activity?.let { ViewModelProvider(it).get(MostViewedVideosViewModel::class.java) }
+        recentVideosViewModel= activity?.let { ViewModelProvider(it).get(RecentVideosViewModel::class.java) }
 
         setupUi()
 
@@ -36,17 +39,18 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
 
         mGridAdapter = ArrayObjectAdapter(VideoTvPresenter())
         adapter =mGridAdapter
+
         prepareEntranceTransition()
 
 
-        loadAndShowMostViewedVideos()
+        loadAndShowRecentVideos()
 
 
     }
 
-    private fun loadAndShowMostViewedVideos(){
+    private fun loadAndShowRecentVideos(){
 
-        mostViewedVideosViewModel?.mostViewedVideosLiveData?.observe(this){ videos ->
+        recentVideosViewModel?.recentVideosLiveData?.observe(this){ videos ->
             mGridAdapter.addAll(mGridAdapter.size(),videos)
             startEntranceTransition()
 
@@ -55,8 +59,10 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
 
     }
 
+
+
     override fun getMainFragmentAdapter(): BrowseSupportFragment.MainFragmentAdapter<*> {
-        return MainFragmentAdapter(this)
+        return BrowseSupportFragment.MainFragmentAdapter(this)
     }
 
     override fun onItemClicked(
@@ -83,7 +89,4 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
     ) {
 
     }
-
-
 }
-

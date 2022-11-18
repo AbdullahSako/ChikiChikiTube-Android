@@ -2,8 +2,6 @@ package tube.chikichiki.sako.tv.fragment
 
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -12,7 +10,7 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import tube.chikichiki.sako.R
-import tube.chikichiki.sako.tv.other.PageRowFragmentFactory
+import tube.chikichiki.sako.tv.other.MainFragmentFactory
 import java.lang.Thread.sleep
 
 const val HEADER_ID_1: Long = 1
@@ -20,9 +18,9 @@ const val HEADER_NAME_1 = "Shows"
 const val HEADER_ID_2: Long = 2
 const val HEADER_NAME_2 = "Most Viewed"
 const val HEADER_ID_3: Long = 3
-const val HEADER_NAME_3 = "Settings Fragment"
+const val HEADER_NAME_3 = "Recent"
 const val HEADER_ID_4: Long = 4
-const val HEADER_NAME_4 = "User agreement Fragment"
+const val HEADER_NAME_4 = "Library"
 
 class PageAndListRowFragment:BrowseSupportFragment() {
 
@@ -35,10 +33,9 @@ class PageAndListRowFragment:BrowseSupportFragment() {
         super.onCreate(savedInstanceState)
         setupUi()
         loadData()
-        backgroundManager =BackgroundManager.getInstance(activity)
-        backgroundManager.attach(activity?.window)
 
-        mainFragmentRegistry.registerFragment(PageRow::class.java,PageRowFragmentFactory(backgroundManager))
+
+        mainFragmentRegistry.registerFragment(PageRow::class.java,MainFragmentFactory(backgroundManager))
 
     }
 
@@ -58,9 +55,12 @@ class PageAndListRowFragment:BrowseSupportFragment() {
 
 
     private fun setupUi(){
+        backgroundManager =BackgroundManager.getInstance(activity)
+        backgroundManager.attach(activity?.window)
+
         this.headersState = BrowseSupportFragment.HEADERS_ENABLED
         this.isHeadersTransitionOnBackEnabled = false
-        this.brandColor = ContextCompat.getColor(requireActivity(), R.color.dark_grey)
+        this.brandColor = ContextCompat.getColor(requireActivity(), R.color.tv_bg)
 
         this.setOnSearchClickedListener {
             Toast.makeText(activity,"SEARCH",Toast.LENGTH_SHORT).show()
@@ -91,16 +91,18 @@ class PageAndListRowFragment:BrowseSupportFragment() {
         val pageRow2 = PageRow(headerItem2)
         mRowsAdapter.add(pageRow2)
 
-        /*
+
         val headerItem3 = HeaderItem(HEADER_ID_3,HEADER_NAME_3)
         val pageRow3 = PageRow(headerItem3)
         mRowsAdapter.add(pageRow3)
 
+
         val headerItem4 = HeaderItem(HEADER_ID_4,HEADER_NAME_4)
         val pageRow4 = PageRow(headerItem4)
-        mRowsAdapter.add(pageRow4)*/
+        mRowsAdapter.add(pageRow4)
 
     }
+
 
 
 

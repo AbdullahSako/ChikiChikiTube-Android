@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.leanback.widget.ImageCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/channel_presenter_root"
-    android:layout_width="192dp"
-    android:layout_height="wrap_content"
-    android:focusable="true"
-    android:focusableInTouchMode="true" />

@@ -1,14 +1,11 @@
-package tube.chikichiki.sako.tv
+package tube.chikichiki.sako.tv.activity
 
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import tube.chikichiki.sako.R
-import tube.chikichiki.sako.tv.fragment.ChannelTVFragment
 import tube.chikichiki.sako.tv.fragment.PageAndListRowFragment
 
-class TvActivity:FragmentActivity(R.layout.tv_activity_tv) {
+class TvActivity:FragmentActivity(R.layout.activity_tv_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,5 +15,7 @@ class TvActivity:FragmentActivity(R.layout.tv_activity_tv) {
         }
 
     }
+
+
 
 }

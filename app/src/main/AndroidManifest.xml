@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".tv.TvActivity"
+        <activity android:name=".tv.activity.TvActivity"
             android:exported="true"
             android:theme="@style/Theme.Leanback"
             >
@@ -47,6 +47,10 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".tv.activity.VideoPlayerActivity"
+            android:theme="@style/Theme.Leanback"
+            />
 
 
     </application>

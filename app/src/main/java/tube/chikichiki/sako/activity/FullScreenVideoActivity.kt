@@ -226,7 +226,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
         val replay: ImageButton = findViewById(R.id.control_view_replay_btn)
         val fullscreen: ImageButton = findViewById(R.id.control_view_fullscreen_btn)
         val timeBar: DefaultTimeBar = findViewById(R.id.exo_progress)
-
+        //TODO API LANGUAGE
         //play / pause button on click listener
         play.setOnClickListener {
             if (videoPlayer?.isPlaying == true) {
@@ -410,6 +410,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
         pIPPlayBackPosition?.let { videoPlayer?.seekTo(it) }
 
     }
+
 
 
     companion object {

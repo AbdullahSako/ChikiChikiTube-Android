@@ -4,11 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.Row
-import androidx.leanback.widget.VerticalGridPresenter
 import tube.chikichiki.sako.tv.fragment.*
 
 
-class PageRowFragmentFactory(backgroundManager: BackgroundManager) :
+class MainFragmentFactory(backgroundManager: BackgroundManager) :
     BrowseSupportFragment.FragmentFactory<Fragment>() {
 
     private val mBackgroundManager = backgroundManager
@@ -24,6 +23,12 @@ class PageRowFragmentFactory(backgroundManager: BackgroundManager) :
             }
             HEADER_ID_2 ->{
                 return MostViewedVideosTvFragment()
+            }
+            HEADER_ID_3 ->{
+                return RecentVideosTvFragment()
+            }
+            HEADER_ID_4 ->{
+                return LibraryTvFragment()
             }
         }
 

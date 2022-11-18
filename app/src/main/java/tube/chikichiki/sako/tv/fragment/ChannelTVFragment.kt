@@ -9,10 +9,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.HeaderItem
-import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import tube.chikichiki.sako.R
@@ -25,6 +22,8 @@ import tube.chikichiki.sako.viewModel.ChannelViewModel
 class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
     private lateinit var mRowsAdapter: ArrayObjectAdapter
     private var channelViewModel: ChannelViewModel? = null
+    private val ZOOM_FACTOR = FocusHighlight.ZOOM_FACTOR_SMALL
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +31,7 @@ class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
         this.headersState = BrowseSupportFragment.HEADERS_DISABLED
         channelViewModel = activity?.let { ViewModelProvider(it).get(ChannelViewModel::class.java) }
 
+        prepareEntranceTransition()
         loadAndShowChannels()
 
 
@@ -66,15 +66,11 @@ class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
                 listRowAdapter.add(videoChannel)
                 val header = HeaderItem(mRowsAdapter.size().toLong(), videoChannel.displayName)
                 mRowsAdapter.add(ListRow(header, listRowAdapter))
-
+                startEntranceTransition()
             }
 
 
-
-            progressBarManager.hide()
-
         }
-        progressBarManager.show()
         adapter = mRowsAdapter
 
 

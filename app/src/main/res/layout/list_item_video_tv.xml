@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="250dp"
+    >
+
+    <ImageView
+        android:id="@+id/tv_video_image"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:layout_height="200dp"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:alpha="0.8"
+        android:background="@color/black"
+        android:backgroundTint="@color/black"
+        android:elevation="5dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:textColor="@color/white"
+        android:layout_above="@id/tv_video_title"
+        android:layout_alignParentEnd="true"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="11:11" />
+
+    <TextView
+        android:id="@+id/tv_video_title"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_below="@id/tv_video_image"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:textColor="@color/font_pink"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
+
+
