@@ -48,9 +48,12 @@
 
         </activity>
 
-        <activity android:name=".tv.activity.VideoPlayerActivity"
+        <activity android:name=".tv.activity.TVVideoPlayerActivity"
             android:theme="@style/Theme.Leanback"
             />
+
+        <activity android:name=".tv.activity.TVPlaylistVideosActivity"
+            android:theme="@style/Theme.Leanback"/>
 
 
     </application>

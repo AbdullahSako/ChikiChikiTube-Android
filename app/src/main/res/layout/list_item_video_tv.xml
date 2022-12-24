@@ -15,7 +15,7 @@
 
 
     <TextView
-        android:id="@+id/tv_video_duration"
+        android:id="@+id/tv_playlist_no_of_videos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -27,14 +27,14 @@
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
         android:textColor="@color/white"
-        android:layout_above="@id/tv_video_title"
+        android:layout_above="@id/tv_playlist_title"
         android:layout_alignParentEnd="true"
 
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="11:11" />
 
     <TextView
-        android:id="@+id/tv_video_title"
+        android:id="@+id/tv_playlist_title"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

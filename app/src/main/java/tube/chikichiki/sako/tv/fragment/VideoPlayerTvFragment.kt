@@ -21,6 +21,7 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
+import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.model.WatchLater
 import tube.chikichiki.sako.tv.other.VideoPlayerTvGlue
 import java.util.*
@@ -65,6 +66,8 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
 
         setupPlayer()
 
+        //add to history
+        ChikiChikiDatabaseRepository.get().addToHistory(HistoryVideoInfo(videoId,videoTitle,videoDescription,videoPreviewPath,videoDuration,Date()))
 
 
     }
@@ -89,7 +92,6 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
     }
 
     private fun setupWatchLaterAction(){
-        //TODO BASED ON WHENEVER WATCHLATER HAS VIDEO OR NOT CHANGE ICON
 
         //initialize watch later action
         watchLaterAction = Action(7,getString(R.string.watch_later),null,ContextCompat.getDrawable(requireContext(),R.drawable.ic_add_to_watchlater))

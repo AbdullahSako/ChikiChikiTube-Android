@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/focus_state"
+    >
+
+    <ImageView
+        android:id="@+id/playlist_tv_banner"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_desc_playlist_thumbnail"
+        />
+
+    <TextView
+        android:id="@+id/playlist_tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/mochiypoppone"
+        android:textColor="@color/font_pink"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playlist_tv_banner" />
+
+    <TextView
+        android:id="@+id/playlist_video_tv_size"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:alpha="0.8"
+        android:background="@color/black"
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/playlist_tv_name"
+        app:layout_constraintEnd_toEndOf="@+id/playlist_tv_banner"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="25 Videos" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

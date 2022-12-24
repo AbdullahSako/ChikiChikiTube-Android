@@ -1,9 +1,11 @@
 package tube.chikichiki.sako.tv.other
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.Row
+import androidx.leanback.widget.SearchOrbView
 import tube.chikichiki.sako.tv.fragment.*
 
 
@@ -28,7 +30,13 @@ class MainFragmentFactory(backgroundManager: BackgroundManager) :
                 return RecentVideosTvFragment()
             }
             HEADER_ID_4 ->{
-                return LibraryTvFragment()
+                return HistoryTvFragment()
+            }
+            HEADER_ID_5 ->{
+                return  WatchLaterTvFragment()
+            }
+            HEADER_ID_6 ->{
+                return SupportTvFragmentFragment()
             }
         }
 

@@ -1,37 +1,29 @@
 package tube.chikichiki.sako.tv.fragment
 
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
+import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import tube.chikichiki.sako.R
-import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.Utils.sortChannels
 import tube.chikichiki.sako.model.VideoChannel
 import tube.chikichiki.sako.tv.presenter.ChannelTvPresenter
 import tube.chikichiki.sako.tv.presenter.CustomListRowPresenter
 import tube.chikichiki.sako.viewModel.ChannelViewModel
 
-class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
+class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
     private lateinit var mRowsAdapter: ArrayObjectAdapter
     private var channelViewModel: ChannelViewModel? = null
-    private val ZOOM_FACTOR = FocusHighlight.ZOOM_FACTOR_SMALL
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.headersState = BrowseSupportFragment.HEADERS_DISABLED
+
         channelViewModel = activity?.let { ViewModelProvider(it).get(ChannelViewModel::class.java) }
 
-        prepareEntranceTransition()
         loadAndShowChannels()
 
 
@@ -42,13 +34,15 @@ class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
 
         //move channels a bit to the right
         val browseContainer =
-            this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_container_dock)
+            this.view?.findViewById<VerticalGridView>(androidx.leanback.R.id.container_list)
         val metrics = resources.displayMetrics
 
         val padLeft = (metrics.widthPixels / 30).toInt()
         browseContainer.apply {
             browseContainer?.setPadding(padLeft, 0, 0, 0)
         }
+
+        setUpListeners()
 
 
     }
@@ -66,7 +60,6 @@ class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
                 listRowAdapter.add(videoChannel)
                 val header = HeaderItem(mRowsAdapter.size().toLong(), videoChannel.displayName)
                 mRowsAdapter.add(ListRow(header, listRowAdapter))
-                startEntranceTransition()
             }
 
 
@@ -76,58 +69,44 @@ class ChannelTVFragment : BrowseSupportFragment(), MainFragmentAdapterProvider {
 
     }
 
+    private fun setUpListeners(){
 
-    private fun sortChannels(channels: List<VideoChannel>): List<VideoChannel> {
+        setOnItemViewClickedListener { itemViewHolder, item, rowViewHolder, row ->
+            val channel = item as VideoChannel
 
-        val sortedChannels = arrayOf(
-            "gakinotsukai",
-            "gottsueekanji",
-            "knightscoop",
-            "suiyoubinodowntown",
-            "documental",
-            "lincoln",
-            "downtownnow",
-            "worlddowntown",
-            "heyheyhey",
-            "matsumotoke",
-            "ashitagaarusa",
-            "mhk",
-            "suberanaihanashi",
-            "visualbum",
-            "hitoshimatsumotostore"
-        )
-        val temp: MutableList<Pair<Int, VideoChannel>> = mutableListOf()
-        val leftOver = mutableListOf<VideoChannel>()
 
-        //sort channels based on sorted channels array
-        channels.forEach {
-            val index = sortedChannels.indexOf(it.channelHandle)
-            if (index != -1) {
-                temp.add(index to it)
-            } else {
-                leftOver.add(it)
+
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                add(R.id.tv_fragment_container,ChannelAndPlaylistParentTvFragment.newInstance(channel.channelHandle,channel.id,channel.displayName))
+                addToBackStack(null)
+                commit()
             }
+
         }
 
-        temp.sortBy { it.first }
-        leftOver.forEach { leftOverListItem -> temp.add(channels.size to leftOverListItem) }
-
-        val sorted: MutableList<VideoChannel> = mutableListOf()
-
-        temp.forEach { sorted.add(it.second) }
-
-
-        //remove empty channels
-        return sorted.filter { it.channelHandle != "root_channel" && it.channelHandle != "fearfulkyochan" && it.channelHandle != "chikichikitube" }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        val temp = parentFragment as MainTvFragment
+        temp.showSearchOrbAndTitle()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val temp = parentFragment as MainTvFragment
+        temp.hideSearchOrbAndTitle()
+
+    }
+
+
 
     companion object {
         fun newInstance() = ChannelTVFragment()
-    }
-
-    override fun getMainFragmentAdapter(): MainFragmentAdapter<*> {
-        return MainFragmentAdapter(this)
     }
 
 }

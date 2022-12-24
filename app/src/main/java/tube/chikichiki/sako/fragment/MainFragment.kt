@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import tube.chikichiki.sako.viewModel.ChannelViewModel
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.adapter.ChannelAdapter
 import tube.chikichiki.sako.model.VideoChannel
 
@@ -49,31 +50,9 @@ class MainFragment : Fragment(R.layout.fragment_main) ,ChannelAdapter.ChannelVie
         //retrieve channel list from api
         channelViewModel?.channelItemLiveData?.observe(viewLifecycleOwner) {
 
-            val sortedChannels= arrayOf("gakinotsukai","gottsueekanji","knightscoop","suiyoubinodowntown","documental","lincoln","downtownnow","worlddowntown","heyheyhey","matsumotoke","ashitagaarusa","mhk","suberanaihanashi","visualbum","hitoshimatsumotostore")
-            val temp:MutableList<Pair<Int,VideoChannel>> = mutableListOf()
-            val leftOver= mutableListOf<VideoChannel>()
+            val filteredChannels = Utils.sortChannels(it)
 
-            //sort channels based on sorted channels array
-            it.forEach {
-                val index=sortedChannels.indexOf(it.channelHandle)
-                if(index!=-1){
-                    temp.add(index to it)
-                }
-                else{
-                    leftOver.add(it)
-                }
-            }
-
-            temp.sortBy {it.first}
-            leftOver.forEach {leftOverListItem -> temp.add(it.size to leftOverListItem) }
-
-            val sorted:MutableList<VideoChannel> = mutableListOf()
-
-            temp.forEach { sorted.add(it.second) }
-
-
-            //remove empty channels
-            val adapter = ChannelAdapter(sorted.filter { it.channelHandle != "root_channel" && it.channelHandle!="fearfulkyochan" && it.channelHandle!="chikichikitube" })
+            val adapter = ChannelAdapter(filteredChannels)
             adapter.setChannelViewClickListener(this@MainFragment)
             channelRecyclerView.adapter = adapter
 

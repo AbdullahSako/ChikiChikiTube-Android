@@ -1,8 +1,6 @@
 package tube.chikichiki.sako
 
-import tube.chikichiki.sako.model.Video
-import tube.chikichiki.sako.model.VideoAndWatchedTimeModel
-import tube.chikichiki.sako.model.WatchedVideo
+import tube.chikichiki.sako.model.*
 
 
 object Utils {
@@ -31,6 +29,66 @@ object Utils {
 
         }
         return videoAndWatchedTime
+
+    }
+
+
+    //get playlists of a channel based on channel id
+     fun playlistsOfChannel(list:List<VideoPlaylist>,channelId:Int?):List<VideoPlaylist>{
+        val filteredList: MutableList<VideoPlaylist> = mutableListOf()
+
+        list.forEach {
+            if(it.videoChannel.id==channelId){
+                filteredList.add(it)
+            }
+        }
+
+        return filteredList
+    }
+
+
+    fun sortChannels(channels: List<VideoChannel>): List<VideoChannel> {
+
+        val sortedChannels = arrayOf(
+            "gakinotsukai",
+            "gottsueekanji",
+            "knightscoop",
+            "suiyoubinodowntown",
+            "documental",
+            "lincoln",
+            "downtownnow",
+            "worlddowntown",
+            "heyheyhey",
+            "matsumotoke",
+            "ashitagaarusa",
+            "mhk",
+            "suberanaihanashi",
+            "visualbum",
+            "hitoshimatsumotostore"
+        )
+        val temp: MutableList<Pair<Int, VideoChannel>> = mutableListOf()
+        val leftOver = mutableListOf<VideoChannel>()
+
+        //sort channels based on sorted channels array
+        channels.forEach {
+            val index = sortedChannels.indexOf(it.channelHandle)
+            if (index != -1) {
+                temp.add(index to it)
+            } else {
+                leftOver.add(it)
+            }
+        }
+
+        temp.sortBy { it.first }
+        leftOver.forEach { leftOverListItem -> temp.add(channels.size to leftOverListItem) }
+
+        val sorted: MutableList<VideoChannel> = mutableListOf()
+
+        temp.forEach { sorted.add(it.second) }
+
+
+        //remove empty channels
+        return sorted.filter { it.channelHandle != "root_channel" && it.channelHandle != "fearfulkyochan" && it.channelHandle != "chikichikitube" }
 
     }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.leanback.widget.TitleView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/browse_title_group"
+    style="?attr/browseTitleViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <Button
+        android:id="@+id/tv_history_title_view_button"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical|end"
+        android:text="@string/history_clear_all"
+        android:backgroundTint="@color/selector_btn_focus"
+        android:fontFamily="@font/mochiypoppone"
+        android:textColor="@color/font_pink"
+        />
+
+
+
+</androidx.leanback.widget.TitleView>

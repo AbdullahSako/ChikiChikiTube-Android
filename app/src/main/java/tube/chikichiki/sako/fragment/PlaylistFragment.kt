@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils.playlistsOfChannel
 import tube.chikichiki.sako.adapter.PlaylistAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.VideoPlaylist
@@ -67,7 +68,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         val noPlaylistsTextView:TextView?= view?.findViewById(R.id.no_playlists_textView)
         val progressBar:ProgressBar?=view?.findViewById(R.id.progressBar)
 
-        val listOfPlaylists = playlistsOfChannel(list)
+        val listOfPlaylists = playlistsOfChannel(list,channelId)
         val playlistAdapter = PlaylistAdapter(listOfPlaylists)
 
         playListRecyclerView.apply {
@@ -84,18 +85,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         }
     }
 
-    //get playlists of a channel based on channel id
-    private fun playlistsOfChannel(list:List<VideoPlaylist>):List<VideoPlaylist>{
-        val filteredList: MutableList<VideoPlaylist> = mutableListOf()
 
-        list.forEach {
-            if(it.videoChannel.id==channelId){
-                filteredList.add(it)
-            }
-        }
-
-        return filteredList
-    }
 
     private fun tabLayoutOnReselectGoToPositionZero(){
 
