@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
@@ -16,6 +17,7 @@ import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
+import tube.chikichiki.sako.adapter.PlaylistAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.VideoPlaylist
 import tube.chikichiki.sako.tv.activity.TVPlaylistVideosActivity
@@ -71,10 +73,10 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
 
     }
 
-    private fun loadAndShowPlaylists(channelId: Int?){
+    private fun loadAndShowPlaylists(channelId: Int?,startNumber:Int = 0){
 
         if (channelId != null) {
-            ChikiFetcher().fetchPlaylists().observe(this){
+            ChikiFetcher().fetchPlaylists(startNumber).observe(this){
                 val channelPlaylists = Utils.playlistsOfChannel(it,channelId)
 
                 if(channelPlaylists.isEmpty()){
@@ -82,15 +84,19 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
                 }
 
                 mGridAdapter.addAll(mGridAdapter.size(),channelPlaylists)
-                startEntranceTransition()
 
-
-
+                if(it.size==100){
+                    //fetch next 100 playlists
+                    loadAndShowPlaylists(channelId,100)
+                }else{
+                    startEntranceTransition()
+                }
 
             }
         }
 
     }
+
 
     private fun setTitleFontAndColor(){
         val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)

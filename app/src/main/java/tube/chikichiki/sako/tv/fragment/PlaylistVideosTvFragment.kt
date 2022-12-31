@@ -11,9 +11,13 @@ import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Video
+import tube.chikichiki.sako.model.VideoAndWatchedTimeModel
 import tube.chikichiki.sako.tv.activity.TVVideoPlayerActivity
 import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
 import tube.chikichiki.sako.viewModel.MostViewedVideosViewModel
@@ -25,6 +29,8 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
 
     private lateinit var grainAnimation: AnimationDrawable
     private lateinit var mGridAdapter: ArrayObjectAdapter
+    private var isLoading = false
+    private var playlistId:Int?=null
     private val ZOOM_FACTOR = FocusHighlight.ZOOM_FACTOR_MEDIUM
 
 
@@ -38,14 +44,8 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val container = this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_grid_dock)
-        container.apply {
-
-            //set animation to background
-            container?.background = ContextCompat.getDrawable(requireActivity(), R.drawable.grain_animation)
-            grainAnimation= this?.background as AnimationDrawable
-        }
-        grainAnimation.start()
+        startBackgroundAnimation()
+        setupRecyclerViewOnScrollListener()
 
     }
 
@@ -60,26 +60,112 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
         adapter =mGridAdapter
         prepareEntranceTransition()
 
-        val playListId = arguments?.getInt(ARG_PLAYLIST_ID)
+        //get args
+        try{
+            if(arguments?.getInt(ARG_PLAYLIST_ID) != null){
+                playlistId = arguments?.getInt(ARG_PLAYLIST_ID)
+            }
+        }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
 
-        loadAndShowPlaylistVideos(playListId)
+
+        loadAndShowPlaylistVideos()
 
 
     }
 
-    private fun loadAndShowPlaylistVideos(playlistId: Int?){
+    private fun loadAndShowPlaylistVideos(){
 
             if(playlistId !=null){
-                ChikiFetcher().fetchVideosOfaPlaylist(playlistId).observe(this) {
+                ChikiFetcher().fetchVideosOfaPlaylist(playlistId!!).observe(this) {
+                    ChikiChikiDatabaseRepository.get().getAllWatchedVideos()
+                        .observe(viewLifecycleOwner) { watchedTime ->
 
-                    mGridAdapter.addAll(mGridAdapter.size(), it)
-                    startEntranceTransition()
+                            mGridAdapter.addAll(mGridAdapter.size(), Utils.getPairOfVideos(it,watchedTime))
+                            startEntranceTransition()
+                        }
                 }
             }
              
 
 
         
+
+    }
+
+    private fun setupRecyclerViewOnScrollListener(){
+
+        view?.findViewById<VerticalGridView>(androidx.leanback.R.id.browse_grid)?.addOnScrollListener(object :
+            RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val gridLayoutManager=recyclerView.layoutManager as GridLayoutManager
+
+
+                //get current 10 last child Views
+
+                val last10ChildView = arrayListOf<View?>()
+                for(i in 1..10){
+                    last10ChildView.add(gridLayoutManager.getChildAt(
+                        gridLayoutManager.childCount - i
+                    ))
+                }
+
+                //get the bottom
+                val last10ChildBottom = arrayListOf<Int?>()
+                last10ChildView.forEach { last10ChildBottom.add(it?.bottom) }
+
+                //get last childview's position
+                val last10Positions = arrayListOf<Int?>()
+
+                last10ChildView.forEach { last10Positions.add(it?.let { it1 ->
+                    gridLayoutManager.getPosition(
+                        it1
+                    )
+                }) }
+
+
+                if (last10Positions.contains(gridLayoutManager.itemCount.minus(5))) {
+
+                    if(!isLoading){
+                        loadMore()
+                        isLoading = true
+                    }
+                }
+            }
+        })
+
+    }
+
+    // retrieve videos from api based on current list size as a page start point
+    private fun loadMore(){
+        playlistId?.let { ChikiFetcher().fetchVideosOfaPlaylist(it,mGridAdapter.size()).observe(this
+        ) { list ->
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(this){ watchedTime ->
+
+                mGridAdapter.addAll(mGridAdapter.size(),Utils.getPairOfVideos(list,watchedTime)) //load new videos in recyclerview
+
+                isLoading = false
+            }
+
+
+        }
+        }
+    }
+
+    private fun startBackgroundAnimation(){
+
+        val container = this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_grid_dock)
+        container.apply {
+
+            //set animation to background
+            container?.background = ContextCompat.getDrawable(requireActivity(), R.drawable.grain_animation)
+            grainAnimation= this?.background as AnimationDrawable
+        }
+        grainAnimation.start()
 
     }
 
@@ -92,10 +178,10 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
     ) {
 
         progressBarManager.show()
-        val video = item as Video
-        ChikiFetcher().fetchStreamingPlaylist(video.uuid).observe(this){
+        val videoItem = item as VideoAndWatchedTimeModel
+        ChikiFetcher().fetchStreamingPlaylist(videoItem.video.uuid).observe(this){
             progressBarManager.hide()
-            val intent = TVVideoPlayerActivity.newInstance(activity,video.uuid.toString(),video.name,video.description,video.previewPath,video.duration)
+            val intent = TVVideoPlayerActivity.newInstance(activity,videoItem.video.uuid.toString(),videoItem.video.name,videoItem.video.description,videoItem.video.previewPath,videoItem.video.duration)
             startActivity(intent)
         }
 

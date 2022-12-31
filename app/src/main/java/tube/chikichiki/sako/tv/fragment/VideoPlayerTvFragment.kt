@@ -23,6 +23,7 @@ import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.model.WatchLater
+import tube.chikichiki.sako.model.WatchedVideo
 import tube.chikichiki.sako.tv.other.VideoPlayerTvGlue
 import java.util.*
 
@@ -124,6 +125,16 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
                 val media: MediaItem = MediaItem.Builder().setUri(it[0].playlistUrl).build()
                 player.addMediaItem(media)
                 player.prepare()
+
+                //seek video to save user watch time
+                ChikiChikiDatabaseRepository.get().getWatchedVideo(videoId).observe(viewLifecycleOwner) {
+                    if (it != null && it.watchedVideoTimeInMil != player?.contentDuration ) {
+
+                        player?.seekTo(it.watchedVideoTimeInMil)
+
+                    }
+                }
+
             }
 
             setActionClickListener(this@VideoPlayerTvFragment)
@@ -230,8 +241,22 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
 
     override fun onDestroy() {
         super.onDestroy()
+
+        //save how much the user watched if it is more than 30% or the video duration
+        val current = player?.currentPosition
+        val total = player?.contentDuration
+        //default is 23:55
+        val minDuration = total?.times((0.01))?.toLong() ?: (1434856).toLong()
+
+        if (current != null) {
+            if (current >= minDuration) {
+                ChikiChikiDatabaseRepository.get().addWatchedVideo(WatchedVideo(videoId, current))
+            }
+        }
+
         mediaSession.release()
         player.release()
+        Log.d("TESTLOG", "VIDEO PLAYER DESTROYED")
     }
 
 

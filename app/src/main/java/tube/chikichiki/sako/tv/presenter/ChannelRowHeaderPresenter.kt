@@ -1,16 +1,13 @@
 package tube.chikichiki.sako.tv.presenter
 
-import android.text.TextUtils
-import android.util.Log
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.widget.Presenter
-import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowHeaderPresenter
 import tube.chikichiki.sako.R
 
-class CustomRowHeaderPresenter:RowHeaderPresenter() {
+class ChannelRowHeaderPresenter:RowHeaderPresenter() {
 
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder?, item: Any?) {
         val titleView=viewHolder?.view?.findViewById<TextView>(androidx.leanback.R.id.row_header)

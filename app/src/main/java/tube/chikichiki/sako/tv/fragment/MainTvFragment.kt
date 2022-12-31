@@ -1,5 +1,6 @@
 package tube.chikichiki.sako.tv.fragment
 
+import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import kotlinx.coroutines.*
 import tube.chikichiki.sako.R
+import tube.chikichiki.sako.tv.activity.TvSearchActivity
 import tube.chikichiki.sako.tv.other.MainFragmentFactory
 
 const val HEADER_ID_1: Long = 1
@@ -36,12 +38,13 @@ class MainTvFragment:BrowseSupportFragment() {
     private lateinit var grainAnimation: AnimationDrawable
     private lateinit var backgroundManager:BackgroundManager
     private lateinit var mRowsAdapter:ArrayObjectAdapter
+    private lateinit var searchIntent :Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupUi()
         loadData()
 
-
+        searchIntent =  Intent(requireActivity(),TvSearchActivity::class.java)
         mainFragmentRegistry.registerFragment(PageRow::class.java,MainFragmentFactory(backgroundManager))
 
     }
@@ -123,7 +126,7 @@ class MainTvFragment:BrowseSupportFragment() {
 
     fun showSearchOrbAndTitle(){
         setOnSearchClickedListener {
-
+            startActivity(searchIntent)
         }
         this.title = resources.getString(R.string.chikichikitube)
 

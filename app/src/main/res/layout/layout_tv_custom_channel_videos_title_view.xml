@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<tube.chikichiki.sako.tv.other.CustomTitleView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/browse_title_group"
+    style="?attr/browseTitleViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+
+
+    <ImageView
+        android:id="@+id/title_badge"
+        android:layout_width="wrap_content"
+        android:maxWidth="@dimen/lb_browse_title_icon_max_width"
+        android:adjustViewBounds="true"
+        android:layout_height="@dimen/lb_browse_title_icon_height"
+        android:layout_gravity="center_vertical|end"
+        android:src="@null"
+        android:visibility="gone"
+        style="?attr/browseTitleIconStyle"/>
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="184dp"
+        android:layout_height="@dimen/lb_browse_title_height"
+        android:layout_gravity="center_vertical|end"
+        style="?attr/browseTitleTextStyle"/>
+
+    <androidx.leanback.widget.SearchOrbView
+        android:id="@+id/title_orb"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:transitionGroup="true"
+        android:layout_gravity="center_vertical|start"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/tv_channel_videos_title_view_options_image_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_more"
+        android:layout_gravity="center_vertical|end"
+        android:background="@drawable/button_ripple"
+        android:backgroundTint="@color/selector_transparent_btn_focus"
+
+        />
+
+
+
+
+</tube.chikichiki.sako.tv.other.CustomTitleView>

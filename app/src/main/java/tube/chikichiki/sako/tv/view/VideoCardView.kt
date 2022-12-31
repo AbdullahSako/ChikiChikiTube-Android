@@ -3,6 +3,7 @@ package tube.chikichiki.sako.tv.view
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.leanback.widget.BaseCardView
 import com.bumptech.glide.Glide
@@ -10,6 +11,7 @@ import com.bumptech.glide.load.DecodeFormat
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.model.Video
+import tube.chikichiki.sako.model.VideoAndWatchedTimeModel
 import tube.chikichiki.sako.model.WatchLater
 
 class VideoCardView(context:Context):BaseCardView(context) {
@@ -20,15 +22,17 @@ class VideoCardView(context:Context):BaseCardView(context) {
         //isFocusable = true
     }
 
-    fun updateUi(video:Video){
+    fun updateUi(item:VideoAndWatchedTimeModel){
         val titleTextView:TextView =findViewById(R.id.tv_playlist_title)
         val imageView:ImageView = findViewById(R.id.tv_video_image)
         val duration:TextView = findViewById(R.id.tv_playlist_no_of_videos)
+        val watchedTime:ProgressBar = findViewById(R.id.tv_watched_time_progress_bar)
 
-        titleTextView.text = video.name
-        duration.text = video.getFormattedDuration()
+        titleTextView.text = item.video.name
+        duration.text = item.video.getFormattedDuration()
+        watchedTime.progress = item.watchedTime.toInt() % 101
 
-        Glide.with(context).load(video.getFullThumbnailPath()).format(
+        Glide.with(context).load(item.video.getFullThumbnailPath()).format(
             DecodeFormat.PREFER_RGB_565).into(imageView)
     }
 

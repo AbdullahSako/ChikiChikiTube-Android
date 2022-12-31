@@ -7,6 +7,7 @@
 
     <uses-feature android:name="android.software.leanback" android:required="false"/>
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".BaseApplication"
@@ -53,6 +54,9 @@
             />
 
         <activity android:name=".tv.activity.TVPlaylistVideosActivity"
+            android:theme="@style/Theme.Leanback"/>
+
+        <activity android:name=".tv.activity.TvSearchActivity"
             android:theme="@style/Theme.Leanback"/>
 
 

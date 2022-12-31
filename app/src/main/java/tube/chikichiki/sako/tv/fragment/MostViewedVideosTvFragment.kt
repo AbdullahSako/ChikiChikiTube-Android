@@ -11,8 +11,11 @@ import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
+import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.api.ChikiFetcher
+import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Video
+import tube.chikichiki.sako.model.VideoAndWatchedTimeModel
 import tube.chikichiki.sako.tv.activity.TVVideoPlayerActivity
 import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
 import tube.chikichiki.sako.viewModel.MostViewedVideosViewModel
@@ -55,8 +58,15 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
     private fun loadAndShowMostViewedVideos(){
 
         mostViewedVideosViewModel?.mostViewedVideosLiveData?.observe(this){ videos ->
-            mGridAdapter.addAll(mGridAdapter.size(),videos)
-            startEntranceTransition()
+
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(this){
+                mGridAdapter.addAll(mGridAdapter.size(),Utils.getPairOfVideos(videos,it))
+                startEntranceTransition()
+
+
+            }
+
+
 
 
         }
@@ -74,10 +84,10 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
         row: Row?
     ) {
         progressBarManager.show()
-        val video = item as Video
-        ChikiFetcher().fetchStreamingPlaylist(video.uuid).observe(this){
+        val videoItem = item as VideoAndWatchedTimeModel
+        ChikiFetcher().fetchStreamingPlaylist(videoItem.video.uuid).observe(this){
             progressBarManager.hide()
-            val intent = TVVideoPlayerActivity.newInstance(activity,video.uuid.toString(),video.name,video.description,video.previewPath,video.duration)
+            val intent = TVVideoPlayerActivity.newInstance(activity,videoItem.video.uuid.toString(),videoItem.video.name,videoItem.video.description,videoItem.video.previewPath,videoItem.video.duration)
             startActivity(intent)
         }
 

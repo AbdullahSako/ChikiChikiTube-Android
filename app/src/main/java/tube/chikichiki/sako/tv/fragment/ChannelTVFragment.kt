@@ -10,7 +10,7 @@ import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils.sortChannels
 import tube.chikichiki.sako.model.VideoChannel
 import tube.chikichiki.sako.tv.presenter.ChannelTvPresenter
-import tube.chikichiki.sako.tv.presenter.CustomListRowPresenter
+import tube.chikichiki.sako.tv.presenter.ChannelListRowPresenter
 import tube.chikichiki.sako.viewModel.ChannelViewModel
 
 class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
@@ -48,7 +48,7 @@ class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
     }
 
     private fun loadAndShowChannels() {
-        mRowsAdapter = ArrayObjectAdapter(CustomListRowPresenter())
+        mRowsAdapter = ArrayObjectAdapter(ChannelListRowPresenter())
         val cardPresenter = ChannelTvPresenter()
 
         channelViewModel?.channelItemLiveData?.observe(this) {
