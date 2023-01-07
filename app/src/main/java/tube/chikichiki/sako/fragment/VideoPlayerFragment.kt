@@ -3,6 +3,7 @@ package tube.chikichiki.sako.fragment
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,12 +21,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.MediaItem.SubtitleConfiguration
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.material.snackbar.Snackbar
+import com.google.common.collect.ImmutableList
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.activity.EXTRA_PLAYBACK_POSITION
@@ -62,6 +67,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
     private lateinit var videoThumbnailPath: String
     private var resultBack = false
     private lateinit var onBackPressCallback: OnBackPressedCallback
+    private val chikiFetcher:ChikiFetcher by lazy { ChikiFetcher() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -110,46 +116,67 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
 
         //get playlist url
         //using playlist url on exoplayer gets correct video duration
-        ChikiFetcher().fetchStreamingPlaylist(videoId)
-            .observe(viewLifecycleOwner) {
-                //fill views and published date text views
-                viewsText.text = getString(R.string.views, it[0].views)
-                videoPublishedAt.text = getFormattedDate(it[0].publishedAt)
+        chikiFetcher.fetchStreamingPlaylist(videoId)
+            .observe(viewLifecycleOwner) { vidList->
 
-                playlistUrl = it[0].playlistUrl
-
-                //check if pip mode is on
-                if (!Utils.IsInPipMode) {
-                    //initialize video file and play on video player
-                    val media: MediaItem = MediaItem.Builder().setUri(it[0].playlistUrl).build()
-                    videoPlayer?.addMediaItem(media)
-                    videoPlayer?.prepare()
+                chikiFetcher.fetchCaptions(videoId).observe(viewLifecycleOwner) { caption->
+                    //init caption
+                    val subtitles = arrayListOf<SubtitleConfiguration>()
+                    if(caption?.isNotEmpty() == true) {
 
 
-                    //seek video to save user watch time
-                    ChikiChikiDatabaseRepository.get().getWatchedVideo(videoId).observe(viewLifecycleOwner) {
-                        if (it != null && it.watchedVideoTimeInMil != videoPlayer?.contentDuration ) {
-                            Log.d("TESTLOG",videoPlayer?.contentDuration.toString() )
-                            Log.d("TESTLOG",it.watchedVideoTimeInMil.toString() )
+                        val uri = Uri.parse("https://vtr.chikichiki.tube" + caption[0].captionPath)
+                        subtitles.add(SubtitleConfiguration.Builder(uri)
+                            .setMimeType(MimeTypes.TEXT_VTT)
+                            .setLanguage("en")
+                            .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+                            .build())
 
-                            videoPlayer?.seekTo(it.watchedVideoTimeInMil)
-
-                        }
                     }
 
-                    videoPlayer?.play()
-                } else {
-                    Toast.makeText(activity, "Picture In Picture Mode On", Toast.LENGTH_SHORT)
-                        .show()
-                    hideControls(view)
-                }
+                    //fill views and published date text views
+                    viewsText.text = getString(R.string.views, vidList[0].views)
+                    videoPublishedAt.text = getFormattedDate(vidList[0].publishedAt)
 
+                    playlistUrl = vidList[0].playlistUrl
+
+                    //check if pip mode is on
+                    if (!Utils.IsInPipMode) {
+
+
+                        //initialize video file and play on video player
+                        val media: MediaItem = MediaItem.Builder().setUri(vidList[0].playlistUrl).setSubtitleConfigurations(subtitles).build()
+
+                        videoPlayer?.addMediaItem(media)
+                        videoPlayer?.prepare()
+
+
+                        //seek video to save user watch time
+                        ChikiChikiDatabaseRepository.get().getWatchedVideo(videoId)
+                            .observe(viewLifecycleOwner) {
+                                if (it != null && it.watchedVideoTimeInMil != videoPlayer?.contentDuration) {
+
+                                    videoPlayer?.seekTo(it.watchedVideoTimeInMil)
+
+                                }
+                            }
+
+                        videoPlayer?.play()
+
+
+                    } else {
+                        Toast.makeText(activity, "Picture In Picture Mode On", Toast.LENGTH_SHORT)
+                            .show()
+                        hideControls(view)
+                    }
+
+                }
             }
 
 
 
         //set up recycler view by getting this video's playlist videos from api
-        ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner) {
+        chikiFetcher.fetchPlaylists().observe(viewLifecycleOwner) {
             setUpPlaylistVideosRecyclerView(it, videoName)
         }
 
@@ -240,7 +267,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
 
             //get videos of the playlist
             playlist?.id?.let { it ->
-                ChikiFetcher().fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner) { videoList ->
+                chikiFetcher.fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner) { videoList ->
 
                     ChikiChikiDatabaseRepository.get().getAllWatchedVideos()
                         .observe(viewLifecycleOwner) {

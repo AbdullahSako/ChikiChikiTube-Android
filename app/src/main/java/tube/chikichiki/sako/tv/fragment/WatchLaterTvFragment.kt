@@ -2,6 +2,7 @@ package tube.chikichiki.sako.tv.fragment
 
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -30,6 +31,13 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setTitleFontAndColor()
+
+    }
+
 
     private fun setupUi() {
 
@@ -41,6 +49,8 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
 
         mGridAdapter = ArrayObjectAdapter(WatchLaterTvPresenter())
         adapter = mGridAdapter
+
+        title = getString(R.string.watch_later)
 
         prepareEntranceTransition()
 
@@ -82,6 +92,13 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
         view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_grid_dock)?.addView(textView)
     }
 
+    private fun setTitleFontAndColor(){
+        val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
+        textView?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.font_pink))
+        textView?.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
+
+    }
+
 
 
     override fun getMainFragmentAdapter(): BrowseSupportFragment.MainFragmentAdapter<*> {
@@ -97,11 +114,9 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
 
         progressBarManager.show()
         val video = item as WatchLater
-        ChikiFetcher().fetchStreamingPlaylist(video.uuid).observe(this){
             progressBarManager.hide()
             val intent = TVVideoPlayerActivity.newInstance(activity,video.uuid.toString(),video.name,video.description,video.previewPath,video.duration)
             startActivity(intent)
-        }
 
     }
 

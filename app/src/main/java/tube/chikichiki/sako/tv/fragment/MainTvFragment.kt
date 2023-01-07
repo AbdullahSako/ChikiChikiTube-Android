@@ -54,15 +54,8 @@ class MainTvFragment:BrowseSupportFragment() {
 
         setTitleFontAndColor()
         setSearchOrbColor()
+        setupBackgroundAnimation()
 
-        val browseContainer = this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_container_dock)
-        browseContainer.apply {
-
-            //set animation to background
-            browseContainer?.background = ContextCompat.getDrawable(requireActivity(),R.drawable.grain_animation)
-            grainAnimation= this?.background as AnimationDrawable
-        }
-        grainAnimation.start()
 
     }
 
@@ -145,6 +138,17 @@ class MainTvFragment:BrowseSupportFragment() {
         this.titleView.alpha = 1f
         this.titleView.animate().alpha(0f).duration = 200
 
+    }
+
+    private fun setupBackgroundAnimation(){
+        val browseContainer = this.view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_container_dock)
+        browseContainer.apply {
+
+            //set animation to background
+            browseContainer?.background = ContextCompat.getDrawable(requireActivity(),R.drawable.grain_animation)
+            grainAnimation= this?.background as AnimationDrawable
+        }
+        grainAnimation.start()
     }
 
     private fun setTitleFontAndColor(){

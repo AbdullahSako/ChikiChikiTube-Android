@@ -15,7 +15,7 @@
         android:text="@string/history_clear_all"
         android:backgroundTint="@color/selector_btn_focus"
         android:fontFamily="@font/mochiypoppone"
-        android:textColor="@color/font_pink"
+        android:textColor="@color/white"
         />
 
 

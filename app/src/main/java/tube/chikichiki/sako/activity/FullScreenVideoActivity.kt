@@ -60,12 +60,17 @@ class FullScreenVideoActivity : AppCompatActivity() {
     private var videoId:UUID?=null
     private val handlerT:Handler=Handler(Looper.getMainLooper())
     private var runnableCancelled:Boolean=false
+    private var runnableAddViewPaused:Boolean =false
     private val runnable= object : Runnable{
         override fun run() {
             handlerT.removeCallbacksAndMessages(null)
-            videoId?.let { ChikiFetcher().addAView(it,(videoPlayer?.currentPosition?.div(1000))?.toInt()) }
+
+            if(!runnableAddViewPaused){
+                videoId?.let { ChikiFetcher().addAView(it,(videoPlayer?.currentPosition?.div(1000))?.toInt()) }
+            }
+
             if(!runnableCancelled) {
-                handlerT.postDelayed(this, 10000)
+                handlerT.postDelayed(this, 5000)
             }
         }
 
@@ -138,6 +143,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
         }
 
 
+        //to add a view it is required by peertube to send a call every 10 seconds
         //run runnable to add view
         handlerT.postDelayed(runnable,1000)
 
@@ -197,6 +203,8 @@ class FullScreenVideoActivity : AppCompatActivity() {
                         )
                     )
 
+                    //runnable add view resumed
+                    runnableAddViewPaused = false
 
                 } else {
                     //add flag to allow device to sleep
@@ -212,6 +220,10 @@ class FullScreenVideoActivity : AppCompatActivity() {
                             R.drawable.ic_play_circle
                         )
                     )
+
+                    //runnable add view paused
+                    runnableAddViewPaused = true
+
                 }
             }
         })
@@ -226,7 +238,6 @@ class FullScreenVideoActivity : AppCompatActivity() {
         val replay: ImageButton = findViewById(R.id.control_view_replay_btn)
         val fullscreen: ImageButton = findViewById(R.id.control_view_fullscreen_btn)
         val timeBar: DefaultTimeBar = findViewById(R.id.exo_progress)
-        //TODO API LANGUAGE
         //play / pause button on click listener
         play.setOnClickListener {
             if (videoPlayer?.isPlaying == true) {

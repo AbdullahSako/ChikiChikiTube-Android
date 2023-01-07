@@ -1,12 +1,12 @@
 package tube.chikichiki.sako.tv.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
-import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils.sortChannels
 import tube.chikichiki.sako.model.VideoChannel
 import tube.chikichiki.sako.tv.presenter.ChannelTvPresenter
@@ -77,7 +77,7 @@ class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
 
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                add(R.id.tv_fragment_container,ChannelAndPlaylistParentTvFragment.newInstance(channel.channelHandle,channel.id,channel.displayName))
+                add(tube.chikichiki.sako.R.id.tv_fragment_container,ChannelAndPlaylistParentTvFragment.newInstance(channel.channelHandle,channel.id,channel.displayName))
                 addToBackStack(null)
                 commit()
             }

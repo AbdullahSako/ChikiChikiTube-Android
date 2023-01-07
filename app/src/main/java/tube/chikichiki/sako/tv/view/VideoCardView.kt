@@ -42,6 +42,7 @@ class VideoCardView(context:Context):BaseCardView(context) {
         val imageView:ImageView = findViewById(R.id.tv_video_image)
         val duration:TextView = findViewById(R.id.tv_playlist_no_of_videos)
 
+
         titleTextView.text = watchLater.name
         duration.text = watchLater.getFormattedDuration()
 
@@ -53,6 +54,8 @@ class VideoCardView(context:Context):BaseCardView(context) {
         val titleTextView:TextView =findViewById(R.id.tv_playlist_title)
         val imageView:ImageView = findViewById(R.id.tv_video_image)
         val duration:TextView = findViewById(R.id.tv_playlist_no_of_videos)
+
+
 
         titleTextView.text = historyItem.name
         duration.text = historyItem.getFormattedDuration()

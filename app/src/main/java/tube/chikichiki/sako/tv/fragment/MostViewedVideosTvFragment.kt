@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapter
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
+import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
@@ -24,6 +28,7 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
     private lateinit var mGridAdapter: ArrayObjectAdapter
     private val ZOOM_FACTOR = FocusHighlight.ZOOM_FACTOR_MEDIUM
     private var mostViewedVideosViewModel: MostViewedVideosViewModel? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,6 +36,12 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
 
         setupUi()
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setTitleFontAndColor()
     }
     
 
@@ -44,6 +55,8 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
 
         mGridAdapter = ArrayObjectAdapter(VideoTvPresenter())
         adapter =mGridAdapter
+
+        title = getString(R.string.most_viewed)
 
 
         prepareEntranceTransition()
@@ -73,6 +86,13 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
 
     }
 
+    private fun setTitleFontAndColor(){
+        val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
+        textView?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.font_pink))
+        textView?.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
+
+    }
+
     override fun getMainFragmentAdapter(): BrowseSupportFragment.MainFragmentAdapter<*> {
         return MainFragmentAdapter(this)
     }
@@ -85,11 +105,10 @@ class MostViewedVideosTvFragment: VerticalGridSupportFragment(),MainFragmentAdap
     ) {
         progressBarManager.show()
         val videoItem = item as VideoAndWatchedTimeModel
-        ChikiFetcher().fetchStreamingPlaylist(videoItem.video.uuid).observe(this){
             progressBarManager.hide()
             val intent = TVVideoPlayerActivity.newInstance(activity,videoItem.video.uuid.toString(),videoItem.video.name,videoItem.video.description,videoItem.video.previewPath,videoItem.video.duration)
             startActivity(intent)
-        }
+
 
     }
 

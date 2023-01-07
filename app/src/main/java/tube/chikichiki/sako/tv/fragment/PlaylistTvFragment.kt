@@ -129,7 +129,7 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
     ) {
         val playlist = item as VideoPlaylist
 
-        startActivity(TVPlaylistVideosActivity.newIntent(requireActivity(),playlist.id))
+        startActivity(TVPlaylistVideosActivity.newIntent(requireActivity(),playlist.id,playlist.displayName))
 
     }
 

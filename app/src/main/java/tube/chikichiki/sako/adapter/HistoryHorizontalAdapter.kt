@@ -14,7 +14,6 @@ import java.util.*
 
 class HistoryHorizontalAdapter(private val historyItems:List<HistoryVideoInfo>):RecyclerView.Adapter<HistoryHorizontalAdapter.HistoryHolder>() {
 
-    //TODO ADD ON CLICK
     private var historyVideoOnClick: HistoryHorizontalAdapter.HistoryViewClick? = null
 
     inner class HistoryHolder(view:View):RecyclerView.ViewHolder(view){

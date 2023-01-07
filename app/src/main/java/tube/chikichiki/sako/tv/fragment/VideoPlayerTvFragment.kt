@@ -1,11 +1,14 @@
 package tube.chikichiki.sako.tv.fragment
 
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.PlaybackSupportFragment
 import androidx.leanback.app.VideoSupportFragment
@@ -13,11 +16,16 @@ import androidx.leanback.app.VideoSupportFragmentGlueHost
 import androidx.leanback.media.PlaybackGlue
 import androidx.leanback.widget.Action
 import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.lifecycle.LifecycleOwner
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.Player.Listener
 import com.google.android.exoplayer2.ext.leanback.LeanbackPlayerAdapter
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
+import com.google.android.exoplayer2.text.CueGroup
+import com.google.android.exoplayer2.ui.SubtitleView
+import com.google.android.exoplayer2.util.MimeTypes
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
@@ -33,11 +41,12 @@ private const val ARG_VIDEO_DESC = "VIDEODESC"
 private const val ARG_VIDEO_DURATION = "VIDEODURATION"
 private const val ARG_VIDEO_PREV = "VIDEOPREV"
 
-class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionClick {
+class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionClick,Player.Listener {
 
     private lateinit var player: ExoPlayer
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaSessionConnector: MediaSessionConnector
+    private var mSubtitleView: SubtitleView? = null
     private lateinit var videoId: UUID
     private lateinit var videoTitle: String
     private lateinit var videoDescription: String
@@ -47,12 +56,34 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
     private lateinit var playerGlue: VideoPlayerTvGlue
     private var isInWatchLater:Boolean = false
     private lateinit var watchLaterItem:WatchLater
+    private val handlerT: Handler = Handler(Looper.getMainLooper())
+    private var runnableCancelled:Boolean=false
+    private var runnableAddViewPaused:Boolean =false
+    private val runnable= object : Runnable{
+        override fun run() {
+            handlerT.removeCallbacksAndMessages(null)
+
+            if(!runnableAddViewPaused){
+                videoId.let { ChikiFetcher().addAView(it,(player.currentPosition.div(1000)).toInt()) }
+            }
+
+
+            if(!runnableCancelled) {
+                handlerT.postDelayed(this, 5000)
+            }
+        }
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backgroundType = PlaybackSupportFragment.BG_NONE
         player = ExoPlayer.Builder(requireActivity()).setSeekForwardIncrementMs(10000)
             .setSeekBackIncrementMs(10000).build()
+
+
+        player.addListener(this)
         mediaSession = MediaSessionCompat(requireContext(), getString(R.string.app_name))
         mediaSessionConnector = MediaSessionConnector(mediaSession)
 
@@ -70,25 +101,20 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
         //add to history
         ChikiChikiDatabaseRepository.get().addToHistory(HistoryVideoInfo(videoId,videoTitle,videoDescription,videoPreviewPath,videoDuration,Date()))
 
-
+        //to add a view it is required by peertube to send a call every 10 seconds
+        //run runnable to add view
+        handlerT.postDelayed(runnable,1000)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.black))
 
+        //init subtitle view
+        if(view.findViewById<SubtitleView>(R.id.leanback_subtitles) != null){
+            mSubtitleView = activity?.findViewById<SubtitleView>(R.id.leanback_subtitles)
+        }
 
-    }
-
-    private fun setupMediaSession() {
-        //TODO MEDIA SESSION
-        mediaSession.setCallback(object : MediaSessionCompat.Callback() {
-            override fun onPlay() {
-                super.onPlay()
-                Log.d("TESTLOG", "PLAY")
-            }
-
-        })
 
     }
 
@@ -121,36 +147,85 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
             host = VideoSupportFragmentGlueHost(this@VideoPlayerTvFragment)
             playWhenPrepared()
 
-            ChikiFetcher().fetchStreamingPlaylist(videoId).observe(this@VideoPlayerTvFragment) {
-                val media: MediaItem = MediaItem.Builder().setUri(it[0].playlistUrl).build()
-                player.addMediaItem(media)
-                player.prepare()
+            ChikiFetcher().fetchStreamingPlaylist(videoId).observe(this@VideoPlayerTvFragment) { videoList->
+                ChikiFetcher().fetchCaptions(videoId).observe(viewLifecycleOwner) { caption ->
+                    //init caption
+                    val subtitles = arrayListOf<MediaItem.SubtitleConfiguration>()
+                    if(caption?.isNotEmpty() == true) {
 
-                //seek video to save user watch time
-                ChikiChikiDatabaseRepository.get().getWatchedVideo(videoId).observe(viewLifecycleOwner) {
-                    if (it != null && it.watchedVideoTimeInMil != player?.contentDuration ) {
 
-                        player?.seekTo(it.watchedVideoTimeInMil)
+                        val uri = Uri.parse("https://vtr.chikichiki.tube" + caption[0].captionPath)
+                        subtitles.add(
+                            MediaItem.SubtitleConfiguration.Builder(uri)
+                            .setMimeType(MimeTypes.TEXT_VTT)
+                            .setLanguage("en")
+                            .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+                            .build())
 
                     }
+                    val media: MediaItem = MediaItem.Builder().setUri(videoList[0].playlistUrl).setSubtitleConfigurations(subtitles).build()
+                    player.addMediaItem(media)
+                    player.prepare()
+
+                    //seek video to save user watch time
+                    ChikiChikiDatabaseRepository.get().getWatchedVideo(videoId)
+                        .observe(viewLifecycleOwner) {
+                            if (it != null && it.watchedVideoTimeInMil != player?.contentDuration) {
+
+                                player?.seekTo(it.watchedVideoTimeInMil)
+
+                            }
+                        }
+
                 }
 
+                setActionClickListener(this@VideoPlayerTvFragment)
             }
-
-            setActionClickListener(this@VideoPlayerTvFragment)
-
         }
 
         playerGlue.addPlayerCallback(object : PlaybackGlue.PlayerCallback() {
             override fun onPreparedStateChanged(glue: PlaybackGlue?) {
                 super.onPreparedStateChanged(glue)
-                if (glue?.isPrepared == true) {
-                }
+
             }
 
             override fun onPlayCompleted(glue: PlaybackGlue?) {
                 super.onPlayCompleted(glue)
             }
+        })
+
+        player.addListener(object :Listener{
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+
+                if(playbackState == Player.STATE_READY){
+                    preventAmbientMode()
+                }
+                if(playbackState == Player.STATE_ENDED){
+                    enableAmbientMode()
+                }
+
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+
+                if(isPlaying){
+                   preventAmbientMode()
+
+                    //runnable add view resumed
+                    runnableAddViewPaused = false
+
+                }else{
+                    enableAmbientMode()
+
+                    //runnable add view paused
+                    runnableAddViewPaused = true
+
+                }
+
+            }
+
         })
 
         //add video title
@@ -193,6 +268,14 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
 
     }
 
+    private fun enableAmbientMode(){
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    private fun preventAmbientMode(){
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
 
     override fun onActionClick(action: Action?) {
 
@@ -224,6 +307,11 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
 
     }
 
+    override fun onCues(cueGroup: CueGroup) {
+        super.onCues(cueGroup)
+        mSubtitleView?.setCues(cueGroup.cues)
+    }
+
     override fun onResume() {
         super.onResume()
         mediaSessionConnector.setPlayer(player)
@@ -236,6 +324,14 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
         mediaSession.isActive = false
         mediaSessionConnector.setPlayer(null)
         player.stop()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        Log.d("TESTLOG", "Runnable Stopped")
+        runnableCancelled=true
 
     }
 
@@ -256,6 +352,7 @@ class VideoPlayerTvFragment : VideoSupportFragment(),VideoPlayerTvGlue.ActionCli
 
         mediaSession.release()
         player.release()
+        enableAmbientMode()
         Log.d("TESTLOG", "VIDEO PLAYER DESTROYED")
     }
 

@@ -26,6 +26,9 @@ interface ChikiChikiApi {
     @GET("video-playlists/{playlistId}/videos")
     fun getVideosOfAPlaylist(@Path("playlistId")playlistId:Int,@Query("count") count: Int,@Query("start")startNumber: Int):Call<PlaylistVideoResponse>
 
+    @GET("videos/{videoId}/captions")
+    fun getVideoCaption(@Path("videoId") videoId: UUID) :Call<CaptionResponse>
+
     @POST("videos/{id}/views")
     fun addView(@Path("id")videoId: UUID , @Query("currentTime")currentTime:Int):Call<String>
 }

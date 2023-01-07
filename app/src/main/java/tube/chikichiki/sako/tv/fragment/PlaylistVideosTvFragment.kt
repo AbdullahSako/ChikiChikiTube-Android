@@ -4,8 +4,10 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.VerticalGridSupportFragment
@@ -23,6 +25,7 @@ import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
 import tube.chikichiki.sako.viewModel.MostViewedVideosViewModel
 
 private const val ARG_PLAYLIST_ID= "PLAYLISTID"
+private const val ARG_PLAYLIST_NAME = "PLAYLISTNAME"
 
 class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClickedListener,
     OnItemViewSelectedListener  {
@@ -44,6 +47,7 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTitleFontAndColor()
         startBackgroundAnimation()
         setupRecyclerViewOnScrollListener()
 
@@ -65,6 +69,9 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
             if(arguments?.getInt(ARG_PLAYLIST_ID) != null){
                 playlistId = arguments?.getInt(ARG_PLAYLIST_ID)
             }
+
+            title = arguments?.getString(ARG_PLAYLIST_NAME)
+
         }
         catch (e:Exception){
             e.printStackTrace()
@@ -169,6 +176,13 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
 
     }
 
+    private fun setTitleFontAndColor(){
+        val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
+        textView?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.font_pink))
+        textView?.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
+
+    }
+
 
     override fun onItemClicked(
         itemViewHolder: Presenter.ViewHolder?,
@@ -179,11 +193,9 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
 
         progressBarManager.show()
         val videoItem = item as VideoAndWatchedTimeModel
-        ChikiFetcher().fetchStreamingPlaylist(videoItem.video.uuid).observe(this){
             progressBarManager.hide()
             val intent = TVVideoPlayerActivity.newInstance(activity,videoItem.video.uuid.toString(),videoItem.video.name,videoItem.video.description,videoItem.video.previewPath,videoItem.video.duration)
             startActivity(intent)
-        }
 
     }
 
@@ -196,9 +208,10 @@ class PlaylistVideosTvFragment: VerticalGridSupportFragment(), OnItemViewClicked
     }
     
     companion object{
-        fun newInstance(playlistId: Int): PlaylistVideosTvFragment {
+        fun newInstance(playlistId: Int,playlistName:String): PlaylistVideosTvFragment {
             val args = Bundle()
             args.putInt(ARG_PLAYLIST_ID,playlistId)
+            args.putString(ARG_PLAYLIST_NAME,playlistName)
             val fragment = PlaylistVideosTvFragment()
             fragment.arguments = args
             return fragment

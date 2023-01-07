@@ -8,10 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import tube.chikichiki.sako.model.File
-import tube.chikichiki.sako.model.Video
-import tube.chikichiki.sako.model.VideoChannel
-import tube.chikichiki.sako.model.VideoPlaylist
+import tube.chikichiki.sako.model.*
 import java.util.*
 
 class ChikiFetcher {
@@ -198,6 +195,29 @@ class ChikiFetcher {
             }
 
         })
+        return responseData
+
+    }
+
+    fun fetchCaptions(videoId: UUID):LiveData<List<Caption>>{
+        val responseData:MutableLiveData<List<Caption>> = MutableLiveData()
+        val request: Call<CaptionResponse> =chikiApi.getVideoCaption(videoId)
+
+        request.enqueue(object :Callback<CaptionResponse>{
+            override fun onResponse(call: Call<CaptionResponse>, response: Response<CaptionResponse>) {
+                Log.d("TESTLOG","video Captions RECIEVED")
+
+                val captionResponse:CaptionResponse?=response.body()
+                val captionItems:List<Caption>? =captionResponse?.captionList
+                responseData.value=captionItems
+            }
+
+            override fun onFailure(call: Call<CaptionResponse>, t: Throwable) {
+                Log.d("TESTLOG","FAILED TO FETCH video Captions")
+            }
+
+        })
+
         return responseData
 
     }

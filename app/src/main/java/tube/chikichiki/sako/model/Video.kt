@@ -12,6 +12,7 @@ data class Video(
     var description: String,
     @SerializedName("channel") var videoChannel: VideoChannel,
     var duration: Int,
+    var language: Language,
     val loading:Int=0
 
     ) {

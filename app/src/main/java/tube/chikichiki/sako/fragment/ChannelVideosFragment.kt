@@ -20,6 +20,7 @@ import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Banner
+import tube.chikichiki.sako.model.Language
 import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.VideoChannel
 import java.util.*
@@ -29,7 +30,7 @@ private const val ARG_CHANNEL_HANDLE="CHANNEL_HANDLE"
 class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , VideoAdapter.VideoViewClick {
     private lateinit var grainAnimation: AnimationDrawable
     private lateinit var channelVideosRecyclerView: RecyclerView
-    private lateinit var videoAdapter:VideoAdapter
+    private val videoAdapter:VideoAdapter by lazy { VideoAdapter() }
     private lateinit var currentListOfVideos:MutableList<Video>
     private var loadStartNumber:Int = 100
     private var channelHandle:String?=null
@@ -57,18 +58,20 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
         //set up recycler view layout manager and adapter
         channelVideosRecyclerView.layoutManager=LinearLayoutManager(context)
-        videoAdapter = VideoAdapter()
+
         channelVideosRecyclerView.adapter = videoAdapter
 
         //set up sort by spinner
 
         sortSpinner.adapter= context?.let { context->
-            ArrayAdapter(context, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,sortArray)
+            ArrayAdapter(context, R.layout.item_custom_spinner,sortArray)
         }
 
         //get videos from api and set them up to recycler view based on selected sort by method in spinner (default is recent as page loads)
         sortSpinner.onItemSelectedListener= object :AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                //clear list before loading
+                videoAdapter.submitList(listOf())
                 loadVideos(p2,view)
             }
 
@@ -188,7 +191,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     private fun loadMore(sortPos:Int){
         Log.d("TESTLOG","Start Number : $loadStartNumber")
         //get sorted videos based on spinner position
-        val sort=getSort(sortPos)
+        val sort= sortToArray[sortPos]
 
 
         channelHandle?.let { channel ->
@@ -221,7 +224,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
 
                         //if user choses to hide raws
                         if(!showRaws){
-                            videos=videos.filter { it.description.contains("en") }.toMutableList()
+                            videos=videos.filter { it.language.id == "en" }.toMutableList()
                         }
                         loadStartNumber += 100
                         Log.d("TESTLOG","VIDEO SIZE after ${videos.size}")
@@ -250,7 +253,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     //get videos from api and set them up to recycler view
     private fun loadVideos(spinnerPosition: Int,view: View){
 
-        val sort=getSort(spinnerPosition)
+        val sort= sortToArray[spinnerPosition]
         val noVideosTextview=view.findViewById(R.id.no_channel_videos_found_text_view) as TextView
         val progressBar:ProgressBar = view.findViewById(R.id.progressBar)
         loadStartNumber=100
@@ -270,7 +273,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
                     var videos = list.toMutableList()
                     //if user choses to hide raws
                     if(!showRaws){
-                        videos=videos.filter { it.description.contains("en") }.toMutableList()
+                        videos=videos.filter { it.language.id == "en" }.toMutableList()
                     }
                     //add loading progress bar after the last item
                     if(videos.isNotEmpty()) {
@@ -279,10 +282,11 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
                                 UUID.randomUUID(), "", "", "", VideoChannel(
                                     -1, "",
                                     Banner(), "", ""
-                                ), 0, 1
+                                ), 0, language = Language("",""),1
                             )
                         )
                     }
+
 
                     //apply recycler view adapter with retrieved list
                     channelVideosRecyclerView.apply {
@@ -332,19 +336,6 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
         })
     }
 
-
-    private fun getSort(spinnerPosition:Int):String{
-        var sort=""
-        when(spinnerPosition){ //also change
-            0->sort=sortToArray[0]
-            1->sort=sortToArray[1]
-            2->sort=sortToArray[2]
-            3->sort=sortToArray[3]
-
-        }
-        return sort
-    }
-
     private fun searchChannel(channelHandle: String?,searchText:String){
         val progressBar=view?.findViewById<ProgressBar>(R.id.progressBar)
         val tempList:MutableList<Video> = mutableListOf()
@@ -387,7 +378,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
     private fun addLoadMoreProgressBar(){
         currentListOfVideos.add(Video(UUID.randomUUID(),"","","", VideoChannel(-1,"",
             Banner()
-            ,"",""),0,1))
+            ,"",""),0,language = Language("",""),1))
         videoAdapter.notifyItemInserted(currentListOfVideos.size-1)
     }
 
@@ -398,7 +389,7 @@ class ChannelVideosFragment : Fragment(R.layout.fragment_channel_videos) , Video
                 videoAdapter.notifyItemRemoved(currentListOfVideos.size)
                 currentListOfVideos.add(Video(UUID.randomUUID(),"","","", VideoChannel(-1,"",
                     Banner()
-                    ,"",""),0,2))
+                    ,"",""),0,language = Language("",""),2))
                 videoAdapter.notifyItemInserted(currentListOfVideos.size-1)
             }
         }

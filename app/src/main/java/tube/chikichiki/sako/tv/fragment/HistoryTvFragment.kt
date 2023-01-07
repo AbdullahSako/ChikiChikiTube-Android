@@ -109,9 +109,20 @@ class HistoryTvFragment: VerticalGridSupportFragment(),
             if(historyItemList.isNotEmpty()){
                 historyItemList.forEach {
                     ChikiChikiDatabaseRepository.get().removeFromHistory(it)
+
+                    ChikiChikiDatabaseRepository.get().getWatchedVideo(it.uuid).observe(viewLifecycleOwner){ watched->
+                        if(watched != null){
+                            ChikiChikiDatabaseRepository.get().removeWatchedVideo(watched)
+                        }
+                    }
+
                 }
             }
         }
+
+
+
+
         
     }
 
@@ -162,11 +173,9 @@ class HistoryTvFragment: VerticalGridSupportFragment(),
 
         progressBarManager.show()
         val video = item as HistoryVideoInfo
-        ChikiFetcher().fetchStreamingPlaylist(video.uuid).observe(this){
             progressBarManager.hide()
             val intent = TVVideoPlayerActivity.newInstance(activity,video.uuid.toString(),video.name,video.description,video.previewPath,video.duration)
             startActivity(intent)
-        }
 
 
     }

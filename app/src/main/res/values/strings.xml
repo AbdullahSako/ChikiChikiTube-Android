@@ -70,6 +70,9 @@
     <string name="raws_check_box">Japanese Raws</string>
     <string name="end_of_videos">End</string>
     <string name="post">Post</string>
+    <string name="filter">Filter</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
 
     <!-- library -->
     <string name="library">Library</string>
@@ -81,6 +84,8 @@
     <string name="history_no_videos">No videos in history</string>
     <string name="watch_later_no_videos">No videos in watch later playlist</string>
     <string name="history_clear_all">Clear all</string>
+
+
 
 
 
