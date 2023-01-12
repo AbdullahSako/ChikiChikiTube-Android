@@ -66,8 +66,6 @@ android:layout_height="match_parent"
     app:layout_constraintBottom_toTopOf="@+id/exo_progress"
     app:layout_constraintEnd_toEndOf="parent"
     app:tint="@color/icon_yellow"
-
-
     />
 
     <ImageButton

@@ -3,6 +3,7 @@ package tube.chikichiki.sako.fragment
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint.Cap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -65,6 +66,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
     private var videoDuration: Int = 0
     private lateinit var videoDescription: String
     private lateinit var videoThumbnailPath: String
+    private var videoCaption:Caption? = null
     private var resultBack = false
     private lateinit var onBackPressCallback: OnBackPressedCallback
     private val chikiFetcher:ChikiFetcher by lazy { ChikiFetcher() }
@@ -120,11 +122,15 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
             .observe(viewLifecycleOwner) { vidList->
 
                 chikiFetcher.fetchCaptions(videoId).observe(viewLifecycleOwner) { caption->
+
+
+
+
                     //init caption
                     val subtitles = arrayListOf<SubtitleConfiguration>()
                     if(caption?.isNotEmpty() == true) {
 
-
+                        videoCaption = caption[0]
                         val uri = Uri.parse("https://vtr.chikichiki.tube" + caption[0].captionPath)
                         subtitles.add(SubtitleConfiguration.Builder(uri)
                             .setMimeType(MimeTypes.TEXT_VTT)
@@ -149,6 +155,9 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
 
                         videoPlayer?.addMediaItem(media)
                         videoPlayer?.prepare()
+
+                        //enable full screen button
+                        videoPlayerView.findViewById<ImageButton>(R.id.control_view_fullscreen_btn).isEnabled = true
 
 
                         //seek video to save user watch time
@@ -448,6 +457,7 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
         timeBar.setScrubberColor(ContextCompat.getColor(requireContext(), R.color.orange))
         timeBar.setPlayedColor(ContextCompat.getColor(requireContext(), R.color.icon_yellow))
 
+        fullscreen.isEnabled = false
         //full screen button
         fullscreen.setOnClickListener {
             val intent = FullScreenVideoActivity.newInstance(
@@ -459,7 +469,8 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
                 videoId,
                 videoDescription,
                 videoDuration,
-                videoThumbnailPath
+                videoThumbnailPath,
+                videoCaption
             )
             videoPlayer?.stop()
             resultLauncher.launch(intent)

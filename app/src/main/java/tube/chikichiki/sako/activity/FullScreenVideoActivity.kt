@@ -7,7 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Paint.Cap
 import android.graphics.drawable.Icon
+import android.net.Uri
 import android.os.*
 import android.util.Log
 import android.util.Rational
@@ -26,16 +28,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
+import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.material.snackbar.Snackbar
 
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
+import tube.chikichiki.sako.model.Caption
 import tube.chikichiki.sako.model.WatchLater
 import tube.chikichiki.sako.view.CustomExoPlayerView
 import java.util.*
@@ -51,6 +56,7 @@ private const val STATE_EXTRA_POSITION:String ="STATEPLAYBACKPOSITION"
 private const val EXTRA_VIDEO_DESCRIPTION:String="VIDEODESCRIPTION"
 private const val EXTRA_VIDEO_DURATION:String="VIDEODURATION"
 private const val EXTRA_VIDEO_THUMBNAIL:String="VIDEOTHUMBNAIL"
+private const val EXTRA_VIDEO_CAPTION:String = "VIDEO_CAPTION"
 
 class FullScreenVideoActivity : AppCompatActivity() {
     private var videoPlayer: ExoPlayer? = null
@@ -112,14 +118,33 @@ class FullScreenVideoActivity : AppCompatActivity() {
         val videoDuration = intent.extras?.get(EXTRA_VIDEO_DURATION) as Int
         val videoThumbnailPath = intent.extras?.get(EXTRA_VIDEO_THUMBNAIL) as String
 
+        var videoCaption:Caption? = null
+        if(intent.getSerializableExtra(EXTRA_VIDEO_CAPTION) != null){
+            videoCaption = intent.getSerializableExtra(EXTRA_VIDEO_CAPTION) as Caption
+        }
 
         //setup video title
         videoTitleTextView.visibility =
             View.VISIBLE //player control view video title is gone by default so it doesn't show up !fullscreen
         videoTitleTextView.text = videoName
 
+
+        //init caption
+        val subtitles = arrayListOf<MediaItem.SubtitleConfiguration>()
+
+        if(videoCaption!= null){
+            val uri = Uri.parse("https://vtr.chikichiki.tube" + videoCaption.captionPath)
+            subtitles.add(
+                MediaItem.SubtitleConfiguration.Builder(uri)
+                    .setMimeType(MimeTypes.TEXT_VTT)
+                    .setLanguage("en")
+                    .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+                    .build())
+        }
+
+
         //setup media item
-        val media: MediaItem = MediaItem.Builder().setUri(playlistUrl).build()
+        val media: MediaItem = MediaItem.Builder().setUri(playlistUrl).setSubtitleConfigurations(subtitles).build()
         videoPlayer?.addMediaItem(media)
 
 
@@ -434,7 +459,8 @@ class FullScreenVideoActivity : AppCompatActivity() {
             videoId:UUID?,
             videoDescription:String,
             videoDuration:Int,
-            videoThumbnailPath:String
+            videoThumbnailPath:String,
+            videoCaption:Caption?
         ): Intent {
             return Intent(context, FullScreenVideoActivity::class.java).apply {
                 putExtra(EXTRA_POSITION, playbackPosition)
@@ -445,6 +471,7 @@ class FullScreenVideoActivity : AppCompatActivity() {
                 putExtra(EXTRA_VIDEO_DESCRIPTION,videoDescription)
                 putExtra(EXTRA_VIDEO_THUMBNAIL,videoThumbnailPath)
                 putExtra(EXTRA_VIDEO_DURATION,videoDuration)
+                putExtra(EXTRA_VIDEO_CAPTION,videoCaption)
             }
         }
     }
