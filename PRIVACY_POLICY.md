@@ -8,8 +8,6 @@ If you choose to use my Service, then you agree to the collection and use of inf
 
 Information Collection and Use
 
-The app collects comments posted by the user.
-
 The app collects the watch time of a video in order to count views.
 
 The app does use third-party services that may collect information used to identify you.
