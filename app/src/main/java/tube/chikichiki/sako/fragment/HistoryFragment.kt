@@ -1,12 +1,10 @@
 package tube.chikichiki.sako.fragment
 
 import android.content.Context
-import android.graphics.Typeface
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -22,19 +20,20 @@ import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.HistoryVideoInfo
 import java.util.*
 
-class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter.HistoryViewClick,HistoryVerticalAdapter.HistoryRemoveClick {
+class HistoryFragment : Fragment(R.layout.fragment_history),
+    HistoryVerticalAdapter.HistoryViewClick, HistoryVerticalAdapter.HistoryRemoveClick {
     private lateinit var grainAnimation: AnimationDrawable
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rootView:ConstraintLayout = view.findViewById(R.id.history_root_view)
-        val recyclerView:RecyclerView=view.findViewById(R.id.history_recycler_view)
+        val rootView: ConstraintLayout = view.findViewById(R.id.history_root_view)
+        val recyclerView: RecyclerView = view.findViewById(R.id.history_recycler_view)
 
         //set fragment background animation and start it
         rootView.apply {
             setBackgroundResource(R.drawable.grain_animation)
-            grainAnimation= background as AnimationDrawable
+            grainAnimation = background as AnimationDrawable
         }
         grainAnimation.start()
 
@@ -44,16 +43,16 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
 
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView){
-        val noVideosTxt:TextView? = view?.findViewById(R.id.no_videos_history_text)
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        val noVideosTxt: TextView? = view?.findViewById(R.id.no_videos_history_text)
 
-        recyclerView.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        ChikiChikiDatabaseRepository.get().getHistoryBig().observe(viewLifecycleOwner){
-            if(it.isEmpty()){
+        ChikiChikiDatabaseRepository.get().getHistoryBig().observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
                 noVideosTxt?.visibility = View.VISIBLE
-            }
-            else{
+            } else {
                 noVideosTxt?.visibility = View.GONE
             }
 
@@ -67,7 +66,6 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
 
             recyclerView.adapter = adp
         }
-
 
 
     }
@@ -99,32 +97,45 @@ class HistoryFragment:Fragment(R.layout.fragment_history),HistoryVerticalAdapter
 
         //opens a video by clicking on video view in history recycler view
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            setCustomAnimations(R.anim.slide_up,0)
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription, previewPath,duration))
+            setCustomAnimations(R.anim.slide_up, 0)
+            replace(
+                R.id.video_container,
+                VideoPlayerFragment.newInstance(
+                    videoId,
+                    videoName,
+                    videoDescription,
+                    previewPath,
+                    duration
+                )
+            )
             commit()
         }
     }
 
     override fun onRemoveClick(historyItem: HistoryVideoInfo) {
-        val root=view?.findViewById<ConstraintLayout>(R.id.history_root_view)
+        val root = view?.findViewById<ConstraintLayout>(R.id.history_root_view)
 
         //remove history item
         ChikiChikiDatabaseRepository.get().removeFromHistory(historyItem)
 
         //remove watched time if available
-        ChikiChikiDatabaseRepository.get().getWatchedVideo(historyItem.uuid).observe(viewLifecycleOwner){
-            if(it != null) {
-                ChikiChikiDatabaseRepository.get().removeWatchedVideo(it)
+        ChikiChikiDatabaseRepository.get().getWatchedVideo(historyItem.uuid)
+            .observe(viewLifecycleOwner) {
+                if (it != null) {
+                    ChikiChikiDatabaseRepository.get().removeWatchedVideo(it)
+                }
             }
-        }
 
         //show snack bar
         if (root != null) {
-            val snack=Snackbar.make(root,R.string.video_removed_history,Snackbar.LENGTH_SHORT).setAnchorView(R.id.bottomNavigationView).setTextColor(
-                ContextCompat.getColor(requireActivity(),R.color.font_pink)).setBackgroundTint(
-                ContextCompat.getColor(requireActivity(),R.color.dark_grey))
+            val snack = Snackbar.make(root, R.string.video_removed_history, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.bottomNavigationView).setTextColor(
+                ContextCompat.getColor(requireActivity(), R.color.font_pink)
+            ).setBackgroundTint(
+                ContextCompat.getColor(requireActivity(), R.color.dark_grey)
+            )
             snack.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).typeface =
-                ResourcesCompat.getFont(requireActivity(),R.font.mochiypoppone)
+                ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
             snack.show()
         }
     }

@@ -20,50 +20,52 @@ import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import java.util.*
 
-private const val ARG_SEARCH_TERM="SEARCHTERM"
-class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.VideoViewClick{
+private const val ARG_SEARCH_TERM = "SEARCHTERM"
+
+class MainSearchFragment : Fragment(R.layout.fragment_main_search), VideoAdapter.VideoViewClick {
     private lateinit var grainAnimation: AnimationDrawable
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val noVideosText:TextView=view.findViewById(R.id.main_search_no_videos_found_text)
-        val rootView:ConstraintLayout=view.findViewById(R.id.main_search_root_view)
-        val progressbar: ProgressBar =view.findViewById(R.id.progressBar)
-        val searchRecyclerView:RecyclerView=view.findViewById(R.id.main_search_recycler_view)
-        val videoAdapter=VideoAdapter()
+        val noVideosText: TextView = view.findViewById(R.id.main_search_no_videos_found_text)
+        val rootView: ConstraintLayout = view.findViewById(R.id.main_search_root_view)
+        val progressbar: ProgressBar = view.findViewById(R.id.progressBar)
+        val searchRecyclerView: RecyclerView = view.findViewById(R.id.main_search_recycler_view)
+        val videoAdapter = VideoAdapter()
 
         //get arg
-        val searchTerm=arguments?.getString(ARG_SEARCH_TERM)
+        val searchTerm = arguments?.getString(ARG_SEARCH_TERM)
 
         //set recycler view layout manager and adapter
-        searchRecyclerView.layoutManager=LinearLayoutManager(context)
+        searchRecyclerView.layoutManager = LinearLayoutManager(context)
         searchRecyclerView.adapter = videoAdapter
 
         //set fragment background animation and start it
         rootView.apply {
             setBackgroundResource(R.drawable.grain_animation)
-            grainAnimation= background as AnimationDrawable
+            grainAnimation = background as AnimationDrawable
         }
         grainAnimation.start()
 
 
         if (searchTerm != null) {
             ChikiFetcher().searchForVideos(searchTerm).observe(viewLifecycleOwner) { videos ->
-                ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
+                ChikiChikiDatabaseRepository.get().getAllWatchedVideos()
+                    .observe(viewLifecycleOwner) {
 
-                    videoAdapter.submitList(Utils.getPairOfVideos(videos,it))
-                    videoAdapter.setVideoViewClickListener(this)
+                        videoAdapter.submitList(Utils.getPairOfVideos(videos, it))
+                        videoAdapter.setVideoViewClickListener(this)
 
 
-                    //remove progressbar after loading video list
-                    progressbar.visibility = View.GONE
+                        //remove progressbar after loading video list
+                        progressbar.visibility = View.GONE
 
-                    //if empty show text
-                    if (videos.isEmpty()) {
-                        noVideosText.visibility = View.VISIBLE
+                        //if empty show text
+                        if (videos.isEmpty()) {
+                            noVideosText.visibility = View.VISIBLE
+                        }
                     }
-                }
             }
         }
 
@@ -81,16 +83,24 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
 
         //open video fragment
         parentFragmentManager.beginTransaction().apply {
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription,previewPath,duration))
+            replace(
+                R.id.video_container,
+                VideoPlayerFragment.newInstance(
+                    videoId,
+                    videoName,
+                    videoDescription,
+                    previewPath,
+                    duration
+                )
+            )
             commit()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TESTLOG","SEARCH DESTROYED")
+        Log.d("TESTLOG", "SEARCH DESTROYED")
     }
-
 
 
     override fun onAttach(context: Context) {
@@ -101,8 +111,10 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
             override fun handleOnBackPressed() {
                 //hide activity search views
                 requireActivity().apply {
-                    findViewById<ImageButton>(R.id.main_activity_back_image_button).visibility=View.GONE
-                    findViewById<EditText>(R.id.main_activity_search_edit_text).visibility=View.GONE
+                    findViewById<ImageButton>(R.id.main_activity_back_image_button).visibility =
+                        View.GONE
+                    findViewById<EditText>(R.id.main_activity_search_edit_text).visibility =
+                        View.GONE
 
                     //clear search edit text
                     findViewById<EditText>(R.id.main_activity_search_edit_text).setText("")
@@ -110,10 +122,11 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
 
                 //show activity toolbar
                 requireActivity().apply {
-                    findViewById<ImageButton>(R.id.main_activity_search_button).visibility=View.VISIBLE
-                    findViewById<ImageView>(R.id.toolbar_image).visibility=View.VISIBLE
-                    findViewById<TextView>(R.id.toolbar_text).visibility=View.VISIBLE
-                    findViewById<TextView>(R.id.header_text).visibility=View.VISIBLE
+                    findViewById<ImageButton>(R.id.main_activity_search_button).visibility =
+                        View.VISIBLE
+                    findViewById<ImageView>(R.id.toolbar_image).visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.toolbar_text).visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.header_text).visibility = View.VISIBLE
                 }
 
                 //remove search fragment
@@ -125,8 +138,8 @@ class MainSearchFragment:Fragment(R.layout.fragment_main_search) , VideoAdapter.
 
     }
 
-    companion object{
-        fun newInstance(searchTerm:String):MainSearchFragment {
+    companion object {
+        fun newInstance(searchTerm: String): MainSearchFragment {
             val args = bundleOf(ARG_SEARCH_TERM to searchTerm)
             val fragment = MainSearchFragment()
             fragment.arguments = args

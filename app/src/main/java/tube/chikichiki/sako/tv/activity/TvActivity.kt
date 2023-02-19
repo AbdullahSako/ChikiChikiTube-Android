@@ -5,17 +5,16 @@ import androidx.fragment.app.FragmentActivity
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.tv.fragment.MainTvFragment
 
-class TvActivity:FragmentActivity(R.layout.activity_tv_main) {
+class TvActivity : FragmentActivity(R.layout.activity_tv_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.tv_fragment_container,MainTvFragment())
+            replace(R.id.tv_fragment_container, MainTvFragment())
             commit()
         }
 
     }
-
 
 
 }

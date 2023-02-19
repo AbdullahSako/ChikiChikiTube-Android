@@ -2,12 +2,10 @@ package tube.chikichiki.sako.tv.presenter
 
 import android.view.ViewGroup
 import androidx.leanback.widget.Presenter
-import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.VideoPlaylist
 import tube.chikichiki.sako.tv.view.PlaylistCardView
-import tube.chikichiki.sako.tv.view.VideoCardView
 
-class VideoPlayListTvPresenter:Presenter() {
+class VideoPlayListTvPresenter : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
         val view: PlaylistCardView? = parent?.context?.let { PlaylistCardView(it) }

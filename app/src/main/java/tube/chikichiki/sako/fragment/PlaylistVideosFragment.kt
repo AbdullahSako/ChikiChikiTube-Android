@@ -21,69 +21,74 @@ import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.Video
 import java.util.*
 
-private const val ARG_PLAYLIST_ID="PLAYLISTID"
-class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAdapter.VideoViewClick {
+private const val ARG_PLAYLIST_ID = "PLAYLISTID"
+
+class PlaylistVideosFragment : Fragment(R.layout.fragment_playlist_videos),
+    VideoAdapter.VideoViewClick {
     private lateinit var grainAnimation: AnimationDrawable
     private lateinit var playlistVideosRecyclerView: RecyclerView
     private lateinit var videoAdapter: VideoAdapter
-    private lateinit var currentListOfVideos:List<Video>
-    private var playlistId:Int?=null
-    private var isLoading=false
+    private lateinit var currentListOfVideos: List<Video>
+    private var playlistId: Int? = null
+    private var isLoading = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val constraint:ConstraintLayout=view.findViewById(R.id.playlist_videos_constraint_layout)
-        playlistVideosRecyclerView=view.findViewById(R.id.playlist_videos_recycler_view)
-        val noVideosTextview:TextView=view.findViewById(R.id.no_playlist_videos_found_text_view)
-        val progressBar:ProgressBar=view.findViewById(R.id.progressBar)
+        val constraint: ConstraintLayout = view.findViewById(R.id.playlist_videos_constraint_layout)
+        playlistVideosRecyclerView = view.findViewById(R.id.playlist_videos_recycler_view)
+        val noVideosTextview: TextView = view.findViewById(R.id.no_playlist_videos_found_text_view)
+        val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
 
 
         //get playlist id from fragment arguments
-        playlistId=arguments?.getInt(ARG_PLAYLIST_ID)
+        playlistId = arguments?.getInt(ARG_PLAYLIST_ID)
 
         //set up recycler view layout manager and adapter
-        playlistVideosRecyclerView.layoutManager= LinearLayoutManager(context)
+        playlistVideosRecyclerView.layoutManager = LinearLayoutManager(context)
         videoAdapter = VideoAdapter()
         playlistVideosRecyclerView.adapter = videoAdapter
 
         //retrieve playlist videos from api
-        playlistId?.let { ChikiFetcher().fetchVideosOfaPlaylist(it).observe(viewLifecycleOwner
-        ) { list ->
+        playlistId?.let {
+            ChikiFetcher().fetchVideosOfaPlaylist(it).observe(
+                viewLifecycleOwner
+            ) { list ->
 
-            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){
+                ChikiChikiDatabaseRepository.get().getAllWatchedVideos()
+                    .observe(viewLifecycleOwner) {
 
-                //apply recycler view adapter with retrieved list
-                playlistVideosRecyclerView.apply {
+                        //apply recycler view adapter with retrieved list
+                        playlistVideosRecyclerView.apply {
 
-                    videoAdapter.submitList(Utils.getPairOfVideos(list,it))
-                    videoAdapter.setVideoViewClickListener(this@PlaylistVideosFragment)
-                }
+                            videoAdapter.submitList(Utils.getPairOfVideos(list, it))
+                            videoAdapter.setVideoViewClickListener(this@PlaylistVideosFragment)
+                        }
 
-                currentListOfVideos = list
+                        currentListOfVideos = list
 
-                //if there are no videos for the channel show text view
-                if (list.isEmpty()) {
-                    noVideosTextview.visibility = View.VISIBLE
-                }
-                //hide loading bar after loading list
-                progressBar.visibility = View.GONE
+                        //if there are no videos for the channel show text view
+                        if (list.isEmpty()) {
+                            noVideosTextview.visibility = View.VISIBLE
+                        }
+                        //hide loading bar after loading list
+                        progressBar.visibility = View.GONE
+                    }
             }
         }
-    }
 
 
         //retrieve more videos from api if scrolled down far enough in recycler view
-        playlistVideosRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        playlistVideosRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                val linearLayoutManager=recyclerView.layoutManager as LinearLayoutManager
-                if(linearLayoutManager.findLastVisibleItemPosition()==currentListOfVideos.size-20){
+                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+                if (linearLayoutManager.findLastVisibleItemPosition() == currentListOfVideos.size - 20) {
 
-                    if(!isLoading) {
+                    if (!isLoading) {
 
                         loadMore()
-                        isLoading=true
+                        isLoading = true
                     }
 
                 }
@@ -93,21 +98,29 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         //set fragment background animation and start it
         constraint.apply {
             setBackgroundResource(R.drawable.grain_animation)
-            grainAnimation= background as AnimationDrawable
+            grainAnimation = background as AnimationDrawable
         }
         grainAnimation.start()
     }
 
     // retrieve videos from api based on current list size as a page start point
-    private fun loadMore(){
-        playlistId?.let { ChikiFetcher().fetchVideosOfaPlaylist(it,currentListOfVideos.size).observe(viewLifecycleOwner
-        ) { list ->
-            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(viewLifecycleOwner){ watchedTime ->
-                currentListOfVideos =
-                    currentListOfVideos + list //add lists to get all available videos size
-                videoAdapter.submitList(Utils.getPairOfVideos(currentListOfVideos,watchedTime)) //load new videos in recyclerview
-                isLoading = false
-            }
+    private fun loadMore() {
+        playlistId?.let {
+            ChikiFetcher().fetchVideosOfaPlaylist(it, currentListOfVideos.size).observe(
+                viewLifecycleOwner
+            ) { list ->
+                ChikiChikiDatabaseRepository.get().getAllWatchedVideos()
+                    .observe(viewLifecycleOwner) { watchedTime ->
+                        currentListOfVideos =
+                            currentListOfVideos + list //add lists to get all available videos size
+                        videoAdapter.submitList(
+                            Utils.getPairOfVideos(
+                                currentListOfVideos,
+                                watchedTime
+                            )
+                        ) //load new videos in recyclerview
+                        isLoading = false
+                    }
 
 
             }
@@ -123,11 +136,17 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
     ) {
 
 
-            activity?.supportFragmentManager?.beginTransaction()?.apply {
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
             setCustomAnimations(R.anim.slide_up, 0)
             replace(
                 R.id.video_container,
-                VideoPlayerFragment.newInstance(videoId, videoName, videoDescription,previewPath,duration)
+                VideoPlayerFragment.newInstance(
+                    videoId,
+                    videoName,
+                    videoDescription,
+                    previewPath,
+                    duration
+                )
             )
             commit()
         }
@@ -138,7 +157,8 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         //remove fragment on back press
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                parentFragmentManager.beginTransaction().remove(this@PlaylistVideosFragment).commit()
+                parentFragmentManager.beginTransaction().remove(this@PlaylistVideosFragment)
+                    .commit()
             }
 
         }
@@ -150,9 +170,7 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         super.onStart()
 
         //disable view pager in channel activity since its host activity
-        activity?.findViewById<ViewPager2>(R.id.pager)?.isUserInputEnabled=false
-
-
+        activity?.findViewById<ViewPager2>(R.id.pager)?.isUserInputEnabled = false
 
 
     }
@@ -161,18 +179,16 @@ class PlaylistVideosFragment:Fragment(R.layout.fragment_playlist_videos),VideoAd
         super.onStop()
 
         //enable view pager in channel activity
-        activity?.findViewById<ViewPager2>(R.id.pager)?.isUserInputEnabled=true
-
+        activity?.findViewById<ViewPager2>(R.id.pager)?.isUserInputEnabled = true
 
 
     }
 
 
-
-    companion object{
-        fun newInstance(playlistId:Int):PlaylistVideosFragment {
+    companion object {
+        fun newInstance(playlistId: Int): PlaylistVideosFragment {
             return PlaylistVideosFragment().apply {
-                arguments= bundleOf(ARG_PLAYLIST_ID to playlistId)
+                arguments = bundleOf(ARG_PLAYLIST_ID to playlistId)
             }
         }
     }

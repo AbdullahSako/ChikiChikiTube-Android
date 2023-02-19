@@ -11,15 +11,13 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModelProvider
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
-import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
-import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.VideoAndWatchedTimeModel
 import tube.chikichiki.sako.tv.activity.TVVideoPlayerActivity
 import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
 import tube.chikichiki.sako.viewModel.RecentVideosViewModel
 
-class RecentVideosTvFragment: VerticalGridSupportFragment(),
+class RecentVideosTvFragment : VerticalGridSupportFragment(),
     BrowseSupportFragment.MainFragmentAdapterProvider, OnItemViewClickedListener,
     OnItemViewSelectedListener {
 
@@ -31,7 +29,8 @@ class RecentVideosTvFragment: VerticalGridSupportFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        recentVideosViewModel= activity?.let { ViewModelProvider(it).get(RecentVideosViewModel::class.java) }
+        recentVideosViewModel =
+            activity?.let { ViewModelProvider(it).get(RecentVideosViewModel::class.java) }
 
         setupUi()
 
@@ -43,7 +42,7 @@ class RecentVideosTvFragment: VerticalGridSupportFragment(),
         setTitleFontAndColor()
     }
 
-    private fun setupUi(){
+    private fun setupUi() {
 
         val gridPresenter = VerticalGridPresenter(ZOOM_FACTOR)
         gridPresenter.numberOfColumns = 3
@@ -52,7 +51,7 @@ class RecentVideosTvFragment: VerticalGridSupportFragment(),
         setGridPresenter(gridPresenter)
 
         mGridAdapter = ArrayObjectAdapter(VideoTvPresenter())
-        adapter =mGridAdapter
+        adapter = mGridAdapter
 
         title = getString(R.string.recent)
 
@@ -64,31 +63,28 @@ class RecentVideosTvFragment: VerticalGridSupportFragment(),
 
     }
 
-    private fun loadAndShowRecentVideos(){
+    private fun loadAndShowRecentVideos() {
 
-        recentVideosViewModel?.recentVideosLiveData?.observe(this){ videos ->
+        recentVideosViewModel?.recentVideosLiveData?.observe(this) { videos ->
 
-            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(this){
+            ChikiChikiDatabaseRepository.get().getAllWatchedVideos().observe(this) {
 
-                mGridAdapter.addAll(mGridAdapter.size(),Utils.getPairOfVideos(videos,it))
+                mGridAdapter.addAll(mGridAdapter.size(), Utils.getPairOfVideos(videos, it))
                 startEntranceTransition()
 
             }
-
-
 
 
         }
 
     }
 
-    private fun setTitleFontAndColor(){
-        val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
+    private fun setTitleFontAndColor() {
+        val textView = view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
         textView?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.font_pink))
         textView?.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
 
     }
-
 
 
     override fun getMainFragmentAdapter(): BrowseSupportFragment.MainFragmentAdapter<*> {
@@ -103,9 +99,16 @@ class RecentVideosTvFragment: VerticalGridSupportFragment(),
     ) {
         progressBarManager.show()
         val videoItem = item as VideoAndWatchedTimeModel
-            progressBarManager.hide()
-            val intent = TVVideoPlayerActivity.newInstance(activity,videoItem.video.uuid.toString(),videoItem.video.name,videoItem.video.description,videoItem.video.previewPath,videoItem.video.duration)
-            startActivity(intent)
+        progressBarManager.hide()
+        val intent = TVVideoPlayerActivity.newInstance(
+            activity,
+            videoItem.video.uuid.toString(),
+            videoItem.video.name,
+            videoItem.video.description,
+            videoItem.video.previewPath,
+            videoItem.video.duration
+        )
+        startActivity(intent)
 
     }
 

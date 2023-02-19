@@ -13,8 +13,8 @@ android {
         applicationId "tube.chikichiki.sako"
         minSdk 22
         targetSdk 33
-        versionCode 18
-        versionName "1.8"
+        versionCode 25
+        versionName "2.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

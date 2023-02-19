@@ -1,16 +1,18 @@
 package tube.chikichiki.sako.tv.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.leanback.app.BrowseSupportFragment.MainFragmentAdapterProvider
 import androidx.leanback.app.RowsSupportFragment
-import androidx.leanback.widget.*
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.VerticalGridView
 import androidx.lifecycle.ViewModelProvider
 import tube.chikichiki.sako.Utils.sortChannels
 import tube.chikichiki.sako.model.VideoChannel
-import tube.chikichiki.sako.tv.presenter.ChannelTvPresenter
 import tube.chikichiki.sako.tv.presenter.ChannelListRowPresenter
+import tube.chikichiki.sako.tv.presenter.ChannelTvPresenter
 import tube.chikichiki.sako.viewModel.ChannelViewModel
 
 class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
@@ -69,7 +71,7 @@ class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
 
     }
 
-    private fun setUpListeners(){
+    private fun setUpListeners() {
 
         setOnItemViewClickedListener { itemViewHolder, item, rowViewHolder, row ->
             val channel = item as VideoChannel
@@ -77,7 +79,14 @@ class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
 
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                add(tube.chikichiki.sako.R.id.tv_fragment_container,ChannelAndPlaylistParentTvFragment.newInstance(channel.channelHandle,channel.id,channel.displayName))
+                add(
+                    tube.chikichiki.sako.R.id.tv_fragment_container,
+                    ChannelAndPlaylistParentTvFragment.newInstance(
+                        channel.channelHandle,
+                        channel.id,
+                        channel.displayName
+                    )
+                )
                 addToBackStack(null)
                 commit()
             }
@@ -102,7 +111,6 @@ class ChannelTVFragment : RowsSupportFragment(), MainFragmentAdapterProvider {
         temp.hideSearchOrbAndTitle()
 
     }
-
 
 
     companion object {

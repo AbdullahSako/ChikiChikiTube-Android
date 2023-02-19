@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.Video
 
-class RecentVideosViewModel:ViewModel() {
-    val recentVideosLiveData: LiveData<List<Video>> = ChikiFetcher().fetchSortedVideos("-publishedAt")
+class RecentVideosViewModel : ViewModel() {
+    val recentVideosLiveData: LiveData<List<Video>> =
+        ChikiFetcher().fetchSortedVideos("-publishedAt")
 
 }

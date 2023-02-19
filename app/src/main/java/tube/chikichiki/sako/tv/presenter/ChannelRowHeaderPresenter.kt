@@ -7,13 +7,13 @@ import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.RowHeaderPresenter
 import tube.chikichiki.sako.R
 
-class ChannelRowHeaderPresenter:RowHeaderPresenter() {
+class ChannelRowHeaderPresenter : RowHeaderPresenter() {
 
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder?, item: Any?) {
-        val titleView=viewHolder?.view?.findViewById<TextView>(androidx.leanback.R.id.row_header)
+        val titleView = viewHolder?.view?.findViewById<TextView>(androidx.leanback.R.id.row_header)
 
         titleView?.setTypeface(ResourcesCompat.getFont(titleView.context, R.font.mochiypoppone))
-        titleView?.setTextColor(ContextCompat.getColor(titleView.context,R.color.font_pink))
+        titleView?.setTextColor(ContextCompat.getColor(titleView.context, R.color.font_pink))
 
         super.onBindViewHolder(viewHolder, item)
 

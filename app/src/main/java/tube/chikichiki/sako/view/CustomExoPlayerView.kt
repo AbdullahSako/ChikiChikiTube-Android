@@ -6,20 +6,18 @@ import android.view.MotionEvent
 import com.google.android.exoplayer2.ui.StyledPlayerView
 
 
-
-class CustomExoPlayerView(context: Context,attr:AttributeSet?=null): StyledPlayerView(context,attr) {
-
+class CustomExoPlayerView(context: Context, attr: AttributeSet? = null) :
+    StyledPlayerView(context, attr) {
 
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         //allows dragging the player in motion layout
-        when(event.action){
-            MotionEvent.ACTION_DOWN->{
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
 
-                if(isControllerFullyVisible) {
+                if (isControllerFullyVisible) {
                     hideController()
-                }
-                else{
+                } else {
                     showController()
                 }
 

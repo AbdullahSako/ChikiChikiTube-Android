@@ -1,0 +1,4 @@
+- Tv Support Added
+- Video History Added
+- Watch later playlist added
+- Machine translated subtitles added

@@ -5,18 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import tube.chikichiki.sako.R
-import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
-import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.tv.fragment.VideoPlayerTvFragment
-import java.util.*
 
-const val TAG ="VideoPlayerTag"
-private const val EXTRA_VIDEO_ID="VIDEOID"
-private const val EXTRA_VIDEO_TITLE="VIDEOTITLE"
+const val TAG = "VideoPlayerTag"
+private const val EXTRA_VIDEO_ID = "VIDEOID"
+private const val EXTRA_VIDEO_TITLE = "VIDEOTITLE"
 private const val EXTRA_VIDEO_DESC = "VIDEODESC"
 private const val EXTRA_VIDEO_DURATION = "VIDEODURATION"
 private const val EXTRA_VIDEO_PREV = "VIDEOPREV"
-class TVVideoPlayerActivity:FragmentActivity() {
+
+class TVVideoPlayerActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +28,11 @@ class TVVideoPlayerActivity:FragmentActivity() {
 
 
         supportFragmentManager.beginTransaction().apply {
-            add(R.id.tvVideoFragment,VideoPlayerTvFragment.newInstance(videoId,title,desc,previewPath,duration), TAG)
+            add(
+                R.id.tvVideoFragment,
+                VideoPlayerTvFragment.newInstance(videoId, title, desc, previewPath, duration),
+                TAG
+            )
             commit()
         }
 
@@ -46,14 +48,21 @@ class TVVideoPlayerActivity:FragmentActivity() {
         setIntent(intent)
     }
 
-    companion object{
-        fun newInstance(context:Context?,videoId:String,videoTitle:String,videoDescription:String?,videoPreviewPath:String,videoDuration:Int): Intent{
-            return Intent(context,TVVideoPlayerActivity::class.java).apply {
-                putExtra(EXTRA_VIDEO_ID,videoId)
-                putExtra(EXTRA_VIDEO_TITLE,videoTitle)
-                putExtra(EXTRA_VIDEO_DESC,videoDescription)
-                putExtra(EXTRA_VIDEO_PREV,videoPreviewPath)
-                putExtra(EXTRA_VIDEO_DURATION,videoDuration)
+    companion object {
+        fun newInstance(
+            context: Context?,
+            videoId: String,
+            videoTitle: String,
+            videoDescription: String?,
+            videoPreviewPath: String,
+            videoDuration: Int
+        ): Intent {
+            return Intent(context, TVVideoPlayerActivity::class.java).apply {
+                putExtra(EXTRA_VIDEO_ID, videoId)
+                putExtra(EXTRA_VIDEO_TITLE, videoTitle)
+                putExtra(EXTRA_VIDEO_DESC, videoDescription)
+                putExtra(EXTRA_VIDEO_PREV, videoPreviewPath)
+                putExtra(EXTRA_VIDEO_DURATION, videoDuration)
             }
         }
     }

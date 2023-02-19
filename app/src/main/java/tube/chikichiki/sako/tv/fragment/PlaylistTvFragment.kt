@@ -1,33 +1,27 @@
 package tube.chikichiki.sako.tv.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
-import tube.chikichiki.sako.adapter.PlaylistAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.VideoPlaylist
 import tube.chikichiki.sako.tv.activity.TVPlaylistVideosActivity
 import tube.chikichiki.sako.tv.presenter.VideoPlayListTvPresenter
-import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
 
 private const val ARG_CHANNEL_ID = "CHANNELID"
 private const val TAG_ADDED_FRAGMENT = "PLAYLISTVIDEOS"
 private const val ARG_CHANNEL_DISPLAY_NAME = "CHANNELDISPLAYNAME"
-class PlaylistTvFragment:VerticalGridSupportFragment(),
+
+class PlaylistTvFragment : VerticalGridSupportFragment(),
     BrowseSupportFragment.MainFragmentAdapterProvider, OnItemViewClickedListener,
     OnItemViewSelectedListener {
 
@@ -48,7 +42,7 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
 
     }
 
-    private fun setupUi(){
+    private fun setupUi() {
 
         val gridPresenter = VerticalGridPresenter(ZOOM_FACTOR)
         gridPresenter.numberOfColumns = 3
@@ -60,7 +54,7 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
         title = arguments?.getString(ARG_CHANNEL_DISPLAY_NAME)
 
         mGridAdapter = ArrayObjectAdapter(VideoPlayListTvPresenter())
-        adapter =mGridAdapter
+        adapter = mGridAdapter
         prepareEntranceTransition()
 
 
@@ -73,22 +67,22 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
 
     }
 
-    private fun loadAndShowPlaylists(channelId: Int?,startNumber:Int = 0){
+    private fun loadAndShowPlaylists(channelId: Int?, startNumber: Int = 0) {
 
         if (channelId != null) {
-            ChikiFetcher().fetchPlaylists(startNumber).observe(this){
-                val channelPlaylists = Utils.playlistsOfChannel(it,channelId)
+            ChikiFetcher().fetchPlaylists(startNumber).observe(this) {
+                val channelPlaylists = Utils.playlistsOfChannel(it, channelId)
 
-                if(channelPlaylists.isEmpty()){
+                if (channelPlaylists.isEmpty()) {
                     showNoPlaylistTextView()
                 }
 
-                mGridAdapter.addAll(mGridAdapter.size(),channelPlaylists)
+                mGridAdapter.addAll(mGridAdapter.size(), channelPlaylists)
 
-                if(it.size==100){
+                if (it.size == 100) {
                     //fetch next 100 playlists
-                    loadAndShowPlaylists(channelId,100)
-                }else{
+                    loadAndShowPlaylists(channelId, 100)
+                } else {
                     startEntranceTransition()
                 }
 
@@ -98,20 +92,23 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
     }
 
 
-    private fun setTitleFontAndColor(){
-        val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
+    private fun setTitleFontAndColor() {
+        val textView = view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
         textView?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.font_pink))
         textView?.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
 
     }
 
-    private fun showNoPlaylistTextView(){
+    private fun showNoPlaylistTextView() {
         val textView = TextView(activity)
-        textView.text =getString(R.string.no_channel_playlists_found)
-        textView.setTextColor(ContextCompat.getColor(requireActivity(),R.color.orange))
-        textView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT).apply { gravity = Gravity.CENTER }
+        textView.text = getString(R.string.no_channel_playlists_found)
+        textView.setTextColor(ContextCompat.getColor(requireActivity(), R.color.orange))
+        textView.layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        ).apply { gravity = Gravity.CENTER }
         textView.textSize = 24f
-        textView.typeface = ResourcesCompat.getFont(requireActivity(),R.font.mochiypoppone)
+        textView.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
 
         view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_grid_dock)?.addView(textView)
     }
@@ -129,7 +126,13 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
     ) {
         val playlist = item as VideoPlaylist
 
-        startActivity(TVPlaylistVideosActivity.newIntent(requireActivity(),playlist.id,playlist.displayName))
+        startActivity(
+            TVPlaylistVideosActivity.newIntent(
+                requireActivity(),
+                playlist.id,
+                playlist.displayName
+            )
+        )
 
     }
 
@@ -143,11 +146,11 @@ class PlaylistTvFragment:VerticalGridSupportFragment(),
 
     }
 
-    companion object{
-        fun newInstance(channelId: Int,displayName:String): PlaylistTvFragment {
+    companion object {
+        fun newInstance(channelId: Int, displayName: String): PlaylistTvFragment {
             val args = Bundle()
             args.putInt(ARG_CHANNEL_ID, channelId)
-            args.putString(ARG_CHANNEL_DISPLAY_NAME,displayName)
+            args.putString(ARG_CHANNEL_DISPLAY_NAME, displayName)
             val fragment = PlaylistTvFragment()
             fragment.arguments = args
             return fragment

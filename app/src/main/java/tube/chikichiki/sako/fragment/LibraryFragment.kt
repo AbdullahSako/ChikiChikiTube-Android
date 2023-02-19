@@ -14,20 +14,22 @@ import tube.chikichiki.sako.adapter.HistoryHorizontalAdapter
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import java.util.*
 
-class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapter.HistoryViewClick {
+class LibraryFragment : Fragment(R.layout.fragment_library),
+    HistoryHorizontalAdapter.HistoryViewClick {
     private lateinit var grainAnimation: AnimationDrawable
-    private lateinit var recyclerAdapter:HistoryHorizontalAdapter
+    private lateinit var recyclerAdapter: HistoryHorizontalAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val rootView: ConstraintLayout =view.findViewById(R.id.library_root_view)
-        val historyRecyclerView:RecyclerView = view.findViewById(R.id.library_history_recycler_view)
+        val rootView: ConstraintLayout = view.findViewById(R.id.library_root_view)
+        val historyRecyclerView: RecyclerView =
+            view.findViewById(R.id.library_history_recycler_view)
 
         //set fragment background animation and start it
         rootView.apply {
             setBackgroundResource(R.drawable.grain_animation)
-            grainAnimation= background as AnimationDrawable
+            grainAnimation = background as AnimationDrawable
         }
         grainAnimation.start()
 
@@ -40,10 +42,11 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
 
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView){
-        recyclerView.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-        ChikiChikiDatabaseRepository.get().getHistorySmall().observe(viewLifecycleOwner){
+        ChikiChikiDatabaseRepository.get().getHistorySmall().observe(viewLifecycleOwner) {
             recyclerAdapter = HistoryHorizontalAdapter(it)
             recyclerAdapter.setHistoryViewClickListener(this)
             recyclerView.adapter = recyclerAdapter
@@ -53,15 +56,15 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
 
     }
 
-    private fun setupButtons(view:View){
-        val supportBtn:Button = view.findViewById(R.id.library_support_btn)
-        val historyBtn:Button = view.findViewById(R.id.library_history_btn)
-        val watchLaterBtn:Button = view.findViewById(R.id.library_watchLater_btn)
+    private fun setupButtons(view: View) {
+        val supportBtn: Button = view.findViewById(R.id.library_support_btn)
+        val historyBtn: Button = view.findViewById(R.id.library_history_btn)
+        val watchLaterBtn: Button = view.findViewById(R.id.library_watchLater_btn)
 
         supportBtn.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
-                add(R.id.main_fragment_container,SupportFragment())
+                setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                add(R.id.main_fragment_container, SupportFragment())
                 commit()
             }
         }
@@ -69,8 +72,8 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
         historyBtn.setOnClickListener {
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
-                add(R.id.main_fragment_container,HistoryFragment())
+                setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                add(R.id.main_fragment_container, HistoryFragment())
                 commit()
             }
 
@@ -78,17 +81,16 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
 
         watchLaterBtn.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
-                add(R.id.main_fragment_container,WatchLaterFragment())
+                setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                add(R.id.main_fragment_container, WatchLaterFragment())
                 commit()
             }
         }
 
 
-
     }
 
-    companion object{
+    companion object {
         fun newInstance(): LibraryFragment {
             val args = Bundle()
 
@@ -111,8 +113,17 @@ class LibraryFragment:Fragment(R.layout.fragment_library),HistoryHorizontalAdapt
 
         //opens a video by clicking on video view in history recycler view
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            setCustomAnimations(R.anim.slide_up,0)
-            replace(R.id.video_container,VideoPlayerFragment.newInstance(videoId,videoName,videoDescription, previewPath,duration))
+            setCustomAnimations(R.anim.slide_up, 0)
+            replace(
+                R.id.video_container,
+                VideoPlayerFragment.newInstance(
+                    videoId,
+                    videoName,
+                    videoDescription,
+                    previewPath,
+                    duration
+                )
+            )
             commit()
         }
     }

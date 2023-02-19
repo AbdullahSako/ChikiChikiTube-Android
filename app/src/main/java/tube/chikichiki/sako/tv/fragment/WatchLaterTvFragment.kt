@@ -11,15 +11,12 @@ import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 import tube.chikichiki.sako.R
-import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
-import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.WatchLater
 import tube.chikichiki.sako.tv.activity.TVVideoPlayerActivity
-import tube.chikichiki.sako.tv.presenter.VideoTvPresenter
 import tube.chikichiki.sako.tv.presenter.WatchLaterTvPresenter
 
-class WatchLaterTvFragment: VerticalGridSupportFragment(),
+class WatchLaterTvFragment : VerticalGridSupportFragment(),
     BrowseSupportFragment.MainFragmentAdapterProvider, OnItemViewClickedListener,
     OnItemViewSelectedListener {
     private lateinit var mGridAdapter: ArrayObjectAdapter
@@ -62,12 +59,12 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
 
     private fun loadAndShowMostViewedVideos() {
 
-        ChikiChikiDatabaseRepository.get().getAllWatchLater().observe(this){ watchLaterList ->
-            if(watchLaterList.isEmpty()){
+        ChikiChikiDatabaseRepository.get().getAllWatchLater().observe(this) { watchLaterList ->
+            if (watchLaterList.isEmpty()) {
                 showNoWatchLaterVideosTextView()
             }
 
-            if(mGridAdapter.size() != 0){ //a change in watch later list (after opening a video in this fragment and removing watch later) causes videos to duplicate
+            if (mGridAdapter.size() != 0) { //a change in watch later list (after opening a video in this fragment and removing watch later) causes videos to duplicate
                 mGridAdapter.clear()
             }
 
@@ -79,26 +76,26 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
     }
 
 
-    private fun showNoWatchLaterVideosTextView(){
+    private fun showNoWatchLaterVideosTextView() {
         val textView = TextView(activity)
-        textView.text =getString(R.string.watch_later_no_videos)
+        textView.text = getString(R.string.watch_later_no_videos)
         textView.setTextColor(ContextCompat.getColor(requireActivity(), R.color.orange))
         textView.layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT).apply { gravity = Gravity.CENTER }
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        ).apply { gravity = Gravity.CENTER }
         textView.textSize = 24f
         textView.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
 
         view?.findViewById<FrameLayout>(androidx.leanback.R.id.browse_grid_dock)?.addView(textView)
     }
 
-    private fun setTitleFontAndColor(){
-        val textView=view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
+    private fun setTitleFontAndColor() {
+        val textView = view?.findViewById<TextView>(androidx.leanback.R.id.title_text)
         textView?.setTextColor(ContextCompat.getColor(requireActivity(), R.color.font_pink))
         textView?.typeface = ResourcesCompat.getFont(requireActivity(), R.font.mochiypoppone)
 
     }
-
 
 
     override fun getMainFragmentAdapter(): BrowseSupportFragment.MainFragmentAdapter<*> {
@@ -114,9 +111,16 @@ class WatchLaterTvFragment: VerticalGridSupportFragment(),
 
         progressBarManager.show()
         val video = item as WatchLater
-            progressBarManager.hide()
-            val intent = TVVideoPlayerActivity.newInstance(activity,video.uuid.toString(),video.name,video.description,video.previewPath,video.duration)
-            startActivity(intent)
+        progressBarManager.hide()
+        val intent = TVVideoPlayerActivity.newInstance(
+            activity,
+            video.uuid.toString(),
+            video.name,
+            video.description,
+            video.previewPath,
+            video.duration
+        )
+        startActivity(intent)
 
     }
 

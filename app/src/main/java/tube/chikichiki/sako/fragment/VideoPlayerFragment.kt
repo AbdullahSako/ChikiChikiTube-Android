@@ -3,12 +3,14 @@ package tube.chikichiki.sako.fragment
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Paint.Cap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -31,7 +33,6 @@ import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.material.snackbar.Snackbar
-import com.google.common.collect.ImmutableList
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.Utils
 import tube.chikichiki.sako.activity.EXTRA_PLAYBACK_POSITION
@@ -39,7 +40,6 @@ import tube.chikichiki.sako.activity.EXTRA_PLAY_WHEN_READY_BACK
 import tube.chikichiki.sako.activity.FullScreenVideoActivity
 import tube.chikichiki.sako.adapter.VideoAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
-import tube.chikichiki.sako.database.ChikiChikiDatabase
 import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 import tube.chikichiki.sako.model.*
 import tube.chikichiki.sako.view.CustomExoPlayerView
@@ -66,10 +66,10 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
     private var videoDuration: Int = 0
     private lateinit var videoDescription: String
     private lateinit var videoThumbnailPath: String
-    private var videoCaption:Caption? = null
+    private var videoCaption: Caption? = null
     private var resultBack = false
     private lateinit var onBackPressCallback: OnBackPressedCallback
-    private val chikiFetcher:ChikiFetcher by lazy { ChikiFetcher() }
+    private val chikiFetcher: ChikiFetcher by lazy { ChikiFetcher() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -108,7 +108,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
         videoPlayerView.player = videoPlayer
 
 
-
         //set up recycler view layout manager
         playlistVideosRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -119,24 +118,24 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
         //get playlist url
         //using playlist url on exoplayer gets correct video duration
         chikiFetcher.fetchStreamingPlaylist(videoId)
-            .observe(viewLifecycleOwner) { vidList->
+            .observe(viewLifecycleOwner) { vidList ->
 
-                chikiFetcher.fetchCaptions(videoId).observe(viewLifecycleOwner) { caption->
-
-
+                chikiFetcher.fetchCaptions(videoId).observe(viewLifecycleOwner) { caption ->
 
 
                     //init caption
                     val subtitles = arrayListOf<SubtitleConfiguration>()
-                    if(caption?.isNotEmpty() == true) {
+                    if (caption?.isNotEmpty() == true) {
 
                         videoCaption = caption[0]
                         val uri = Uri.parse("https://vtr.chikichiki.tube" + caption[0].captionPath)
-                        subtitles.add(SubtitleConfiguration.Builder(uri)
-                            .setMimeType(MimeTypes.TEXT_VTT)
-                            .setLanguage("en")
-                            .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
-                            .build())
+                        subtitles.add(
+                            SubtitleConfiguration.Builder(uri)
+                                .setMimeType(MimeTypes.TEXT_VTT)
+                                .setLanguage("en")
+                                .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+                                .build()
+                        )
 
                     }
 
@@ -151,13 +150,15 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
 
 
                         //initialize video file and play on video player
-                        val media: MediaItem = MediaItem.Builder().setUri(vidList[0].playlistUrl).setSubtitleConfigurations(subtitles).build()
+                        val media: MediaItem = MediaItem.Builder().setUri(vidList[0].playlistUrl)
+                            .setSubtitleConfigurations(subtitles).build()
 
                         videoPlayer?.addMediaItem(media)
                         videoPlayer?.prepare()
 
                         //enable full screen button
-                        videoPlayerView.findViewById<ImageButton>(R.id.control_view_fullscreen_btn).isEnabled = true
+                        videoPlayerView.findViewById<ImageButton>(R.id.control_view_fullscreen_btn).isEnabled =
+                            true
 
 
                         //seek video to save user watch time
@@ -181,7 +182,6 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player_container),
 
                 }
             }
-
 
 
         //set up recycler view by getting this video's playlist videos from api

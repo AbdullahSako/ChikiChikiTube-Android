@@ -34,11 +34,11 @@ object Utils {
 
 
     //get playlists of a channel based on channel id
-     fun playlistsOfChannel(list:List<VideoPlaylist>,channelId:Int?):List<VideoPlaylist>{
+    fun playlistsOfChannel(list: List<VideoPlaylist>, channelId: Int?): List<VideoPlaylist> {
         val filteredList: MutableList<VideoPlaylist> = mutableListOf()
 
         list.forEach {
-            if(it.videoChannel.id==channelId){
+            if (it.videoChannel.id == channelId) {
                 filteredList.add(it)
             }
         }

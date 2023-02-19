@@ -14,9 +14,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.adapter.PagerAdapter
 
-private const val EXTRA_CHANNEL_ID="CHANNELID"
-private const val EXTRA_CHANNEL_HANDLE="CHANNELHANDLE"
-class ChannelFragment :Fragment(R.layout.fragment_channel) {
+private const val EXTRA_CHANNEL_ID = "CHANNELID"
+private const val EXTRA_CHANNEL_HANDLE = "CHANNELHANDLE"
+
+class ChannelFragment : Fragment(R.layout.fragment_channel) {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -24,7 +25,7 @@ class ChannelFragment :Fragment(R.layout.fragment_channel) {
     private lateinit var pagerAdapter: PagerAdapter
 
     private val tabs: ArrayList<String> by lazy {
-        arrayListOf( getString(R.string.videos),getString(R.string.playlists))
+        arrayListOf(getString(R.string.videos), getString(R.string.playlists))
     }
 
 
@@ -48,9 +49,9 @@ class ChannelFragment :Fragment(R.layout.fragment_channel) {
 
 
     private fun setUpAdapter(list: List<Fragment>) {
-        val fm=childFragmentManager
-        val lifecycle=viewLifecycleOwner.lifecycle
-        pagerAdapter = PagerAdapter(fm,lifecycle, list)
+        val fm = childFragmentManager
+        val lifecycle = viewLifecycleOwner.lifecycle
+        pagerAdapter = PagerAdapter(fm, lifecycle, list)
     }
 
     private fun setUpPager() = viewPager.apply {
@@ -66,7 +67,7 @@ class ChannelFragment :Fragment(R.layout.fragment_channel) {
     private fun prepareFragmentsList(channelId: Int, channelHandle: String): List<Fragment> {
         return listOf(
             ChannelVideosFragment().apply {
-                arguments= ChannelVideosFragment.getVideoArgsBundle(channelHandle)
+                arguments = ChannelVideosFragment.getVideoArgsBundle(channelHandle)
             },
             PlaylistFragment().apply {
                 arguments = PlaylistFragment.getNavArgsBundle(channelId)
@@ -83,8 +84,10 @@ class ChannelFragment :Fragment(R.layout.fragment_channel) {
             override fun handleOnBackPressed() {
 
                 //re enable transition to start
-                activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.setTransition(R.id.main_start,R.id.main_end)
-                activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)?.transitionToEnd()
+                activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)
+                    ?.setTransition(R.id.main_start, R.id.main_end)
+                activity?.findViewById<MotionLayout>(R.id.activity_main_motion_layout)
+                    ?.transitionToEnd()
 
 
                 parentFragmentManager.beginTransaction().apply {
@@ -111,11 +114,11 @@ class ChannelFragment :Fragment(R.layout.fragment_channel) {
     }
 
 
-
-    companion object{
-        fun newInstance(channelId: Int, channelHandle: String):ChannelFragment {
+    companion object {
+        fun newInstance(channelId: Int, channelHandle: String): ChannelFragment {
             return ChannelFragment().apply {
-                arguments = bundleOf(EXTRA_CHANNEL_ID to channelId, EXTRA_CHANNEL_HANDLE to channelHandle)
+                arguments =
+                    bundleOf(EXTRA_CHANNEL_ID to channelId, EXTRA_CHANNEL_HANDLE to channelHandle)
             }
         }
     }

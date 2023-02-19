@@ -2,11 +2,10 @@ package tube.chikichiki.sako.tv.presenter
 
 import android.view.ViewGroup
 import androidx.leanback.widget.Presenter
-import tube.chikichiki.sako.model.Video
 import tube.chikichiki.sako.model.WatchLater
 import tube.chikichiki.sako.tv.view.VideoCardView
 
-class WatchLaterTvPresenter: Presenter() {
+class WatchLaterTvPresenter : Presenter() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {

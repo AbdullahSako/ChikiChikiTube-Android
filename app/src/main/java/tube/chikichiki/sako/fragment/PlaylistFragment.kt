@@ -17,45 +17,43 @@ import tube.chikichiki.sako.adapter.PlaylistAdapter
 import tube.chikichiki.sako.api.ChikiFetcher
 import tube.chikichiki.sako.model.VideoPlaylist
 
-private const val ARG_CHANNEL_ID="CHANNEL_ID"
-class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.PlaylistViewClick {
+private const val ARG_CHANNEL_ID = "CHANNEL_ID"
+
+class PlaylistFragment : Fragment(R.layout.fragment_playlist), PlaylistAdapter.PlaylistViewClick {
 
     private lateinit var grainAnimation: AnimationDrawable
-    private lateinit var playListRecyclerView:RecyclerView
-    private var channelId:Int ?= null
-
+    private lateinit var playListRecyclerView: RecyclerView
+    private var channelId: Int? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        channelId=arguments?.getInt(ARG_CHANNEL_ID)
+        channelId = arguments?.getInt(ARG_CHANNEL_ID)
 
 
-        val rootLayout: ConstraintLayout =view.findViewById(R.id.root_layout_playlist)
-        playListRecyclerView=view.findViewById(R.id.playlist_recycler_view)
+        val rootLayout: ConstraintLayout = view.findViewById(R.id.root_layout_playlist)
+        playListRecyclerView = view.findViewById(R.id.playlist_recycler_view)
 
         //set recycler view layout manager
-        playListRecyclerView.layoutManager=LinearLayoutManager(context)
-
+        playListRecyclerView.layoutManager = LinearLayoutManager(context)
 
 
         //set fragment background animation and start it
         rootLayout.apply {
             setBackgroundResource(R.drawable.grain_animation)
-            grainAnimation= background as AnimationDrawable
+            grainAnimation = background as AnimationDrawable
         }
         grainAnimation.start()
 
         //get playlists from api
         ChikiFetcher().fetchPlaylists().observe(viewLifecycleOwner) { playlistList ->
 
-            if(playlistList.size==100){
+            if (playlistList.size == 100) {
                 //fetch next 100 playlists
                 ChikiFetcher().fetchPlaylists(100).observe(viewLifecycleOwner) {
                     loadPlaylists(playlistList + it)
                 }
-            }
-            else{
+            } else {
                 loadPlaylists(playlistList)
             }
 
@@ -64,11 +62,11 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         tabLayoutOnReselectGoToPositionZero()
     }
 
-    private fun loadPlaylists(list: List<VideoPlaylist>){
-        val noPlaylistsTextView:TextView?= view?.findViewById(R.id.no_playlists_textView)
-        val progressBar:ProgressBar?=view?.findViewById(R.id.progressBar)
+    private fun loadPlaylists(list: List<VideoPlaylist>) {
+        val noPlaylistsTextView: TextView? = view?.findViewById(R.id.no_playlists_textView)
+        val progressBar: ProgressBar? = view?.findViewById(R.id.progressBar)
 
-        val listOfPlaylists = playlistsOfChannel(list,channelId)
+        val listOfPlaylists = playlistsOfChannel(list, channelId)
         val playlistAdapter = PlaylistAdapter(listOfPlaylists)
 
         playListRecyclerView.apply {
@@ -86,11 +84,10 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
     }
 
 
+    private fun tabLayoutOnReselectGoToPositionZero() {
 
-    private fun tabLayoutOnReselectGoToPositionZero(){
-
-        val tabLayout=activity?.findViewById<TabLayout>(R.id.channel_tab_layout)
-        tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        val tabLayout = activity?.findViewById<TabLayout>(R.id.channel_tab_layout)
+        tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
             }
@@ -100,7 +97,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                if(tab?.text == "Playlists"){
+                if (tab?.text == "Playlists") {
                     playListRecyclerView.smoothScrollToPosition(0)
                 }
             }
@@ -108,13 +105,12 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         })
     }
 
-    companion object{
+    companion object {
         //returns a bundle based on arg_channel_id string key
-        fun getNavArgsBundle(channelId:Int):Bundle{
+        fun getNavArgsBundle(channelId: Int): Bundle {
             return bundleOf(ARG_CHANNEL_ID to channelId)
         }
     }
-
 
 
     override fun onPlayListClick(view: View, playlistId: Int) {
@@ -122,8 +118,8 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist),PlaylistAdapter.Pl
         //activity?.findViewById<MotionLayout>(R.id.channel_fragment_motion_layout)?.transitionToStart()
 
         parentFragmentManager.beginTransaction().apply {
-            setCustomAnimations(R.anim.slide_in,R.anim.slide_out)
-            add(R.id.root_layout_playlist,PlaylistVideosFragment.newInstance(playlistId))
+            setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+            add(R.id.root_layout_playlist, PlaylistVideosFragment.newInstance(playlistId))
             commit()
         }
     }

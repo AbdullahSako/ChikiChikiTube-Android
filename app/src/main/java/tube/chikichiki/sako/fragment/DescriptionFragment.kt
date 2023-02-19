@@ -11,15 +11,15 @@ import tube.chikichiki.sako.R
 private const val ARG_VIDEO_NAME: String = "VIDEOTITLE"
 private const val ARG_VIDEO_DESCRIPTION: String = "VIDEODESCRIPTION"
 
-class DescriptionFragment:Fragment(R.layout.description_motion_layout) {
+class DescriptionFragment : Fragment(R.layout.description_motion_layout) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val title:TextView = view.findViewById(R.id.description_video_title)
-        val descriptionText:TextView=view.findViewById(R.id.description_text)
-        val closeBtn:ImageButton=view.findViewById(R.id.description_close_button)
-        val motion:MotionLayout=view.findViewById(R.id.description_motion_layout)
+        val title: TextView = view.findViewById(R.id.description_video_title)
+        val descriptionText: TextView = view.findViewById(R.id.description_text)
+        val closeBtn: ImageButton = view.findViewById(R.id.description_close_button)
+        val motion: MotionLayout = view.findViewById(R.id.description_motion_layout)
 
         //get argument
         val videoName = arguments?.get(ARG_VIDEO_NAME) as String
@@ -27,7 +27,7 @@ class DescriptionFragment:Fragment(R.layout.description_motion_layout) {
 
         //setup title and description
         title.text = videoName
-        descriptionText.text=videoDescription
+        descriptionText.text = videoDescription
 
         //setup motion layout listener
         setMotionLayoutTransitionListener(motion)
@@ -39,9 +39,9 @@ class DescriptionFragment:Fragment(R.layout.description_motion_layout) {
     }
 
 
-    private fun setMotionLayoutTransitionListener(motionLayout: MotionLayout){
+    private fun setMotionLayoutTransitionListener(motionLayout: MotionLayout) {
 
-        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener{
+        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(
                 motionLayout: MotionLayout?,
                 startId: Int,
@@ -61,9 +61,10 @@ class DescriptionFragment:Fragment(R.layout.description_motion_layout) {
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
 
-                if(currentId == R.id.descriptionEnd){
+                if (currentId == R.id.descriptionEnd) {
 
-                    parentFragmentManager.beginTransaction().remove(this@DescriptionFragment).commit()
+                    parentFragmentManager.beginTransaction().remove(this@DescriptionFragment)
+                        .commit()
                 }
             }
 
@@ -81,11 +82,11 @@ class DescriptionFragment:Fragment(R.layout.description_motion_layout) {
 
     }
 
-    companion object{
-        fun newInstance(title:String,description:String): DescriptionFragment{
+    companion object {
+        fun newInstance(title: String, description: String): DescriptionFragment {
             val args = Bundle()
-            args.putString(ARG_VIDEO_NAME,title)
-            args.putString(ARG_VIDEO_DESCRIPTION,description)
+            args.putString(ARG_VIDEO_NAME, title)
+            args.putString(ARG_VIDEO_DESCRIPTION, description)
             val fragment = DescriptionFragment()
             fragment.arguments = args
             return fragment

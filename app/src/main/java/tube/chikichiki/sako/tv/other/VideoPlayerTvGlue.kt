@@ -2,10 +2,6 @@ package tube.chikichiki.sako.tv.other
 
 import android.content.Context
 import android.text.TextUtils
-import android.util.Log
-import android.view.KeyEvent
-import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.TextViewCompat
@@ -13,36 +9,38 @@ import androidx.leanback.media.PlaybackTransportControlGlue
 import androidx.leanback.widget.*
 import com.google.android.exoplayer2.ext.leanback.LeanbackPlayerAdapter
 import tube.chikichiki.sako.R
-import tube.chikichiki.sako.adapter.ChannelAdapter
-import tube.chikichiki.sako.database.ChikiChikiDatabaseRepository
 
-class VideoPlayerTvGlue(context: Context,adapter: LeanbackPlayerAdapter,private val watchLaterAction:Action):PlaybackTransportControlGlue<LeanbackPlayerAdapter>(context,adapter) {
+class VideoPlayerTvGlue(
+    context: Context,
+    adapter: LeanbackPlayerAdapter,
+    private val watchLaterAction: Action
+) : PlaybackTransportControlGlue<LeanbackPlayerAdapter>(context, adapter) {
 
     private var actionClick: ActionClick? = null
     private var actionAdapter: ArrayObjectAdapter? = ArrayObjectAdapter()
 
 
-    interface ActionClick{
+    interface ActionClick {
         fun onActionClick(action: Action?)
     }
 
-    fun setActionClickListener(clickListener:ActionClick){
+    fun setActionClickListener(clickListener: ActionClick) {
         actionClick = clickListener
     }
 
-    fun notifyAdapterActionChanged(){
+    fun notifyAdapterActionChanged() {
         val index = actionAdapter?.indexOf(watchLaterAction)
         val size = actionAdapter?.size()
-        if(index != null) {
-            if(size!=null) {
-                actionAdapter?.notifyItemRangeChanged(index,size)
+        if (index != null) {
+            if (size != null) {
+                actionAdapter?.notifyItemRangeChanged(index, size)
             }
         }
     }
 
 
     override fun onActionClicked(action: Action?) {
-        when(action){
+        when (action) {
             watchLaterAction -> {
                 actionClick?.onActionClick(action)
 
@@ -53,11 +51,10 @@ class VideoPlayerTvGlue(context: Context,adapter: LeanbackPlayerAdapter,private 
     }
 
 
-
     override fun onCreateRowPresenter(): PlaybackRowPresenter {
         return super.onCreateRowPresenter().apply {
-            val temp =(this as? PlaybackTransportRowPresenter)
-            temp?.progressColor = ContextCompat.getColor(context,R.color.icon_yellow)
+            val temp = (this as? PlaybackTransportRowPresenter)
+            temp?.progressColor = ContextCompat.getColor(context, R.color.icon_yellow)
             temp?.setDescriptionPresenter(DescriptionPresenter(context))
         }
     }
@@ -73,7 +70,8 @@ class VideoPlayerTvGlue(context: Context,adapter: LeanbackPlayerAdapter,private 
 
 
     // Customize Title and body of player
-    private class DescriptionPresenter(private val context: Context) : AbstractDetailsDescriptionPresenter() {
+    private class DescriptionPresenter(private val context: Context) :
+        AbstractDetailsDescriptionPresenter() {
 
         override fun onBindDescription(viewHolder: ViewHolder, item: Any) {
 
@@ -86,10 +84,10 @@ class VideoPlayerTvGlue(context: Context,adapter: LeanbackPlayerAdapter,private 
             }
 
             //change color
-            viewHolder.title.setTextColor(ContextCompat.getColor(context,R.color.font_pink))
+            viewHolder.title.setTextColor(ContextCompat.getColor(context, R.color.font_pink))
 
             //change font
-            viewHolder.title.typeface = ResourcesCompat.getFont(context,R.font.mochiypoppone)
+            viewHolder.title.typeface = ResourcesCompat.getFont(context, R.font.mochiypoppone)
 
 
             viewHolder.body.apply {

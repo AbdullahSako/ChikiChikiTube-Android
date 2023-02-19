@@ -7,9 +7,10 @@ import androidx.fragment.app.FragmentActivity
 import tube.chikichiki.sako.R
 import tube.chikichiki.sako.tv.fragment.PlaylistVideosTvFragment
 
-private const val EXTRA_PLAYLIST_ID="PLAYLISTID"
+private const val EXTRA_PLAYLIST_ID = "PLAYLISTID"
 private const val EXTRA_PLAYLIST_NAME = "PLAYLISTNAME"
-class TVPlaylistVideosActivity:FragmentActivity(R.layout.activity_tv_playlist_videos) {
+
+class TVPlaylistVideosActivity : FragmentActivity(R.layout.activity_tv_playlist_videos) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,18 +22,18 @@ class TVPlaylistVideosActivity:FragmentActivity(R.layout.activity_tv_playlist_vi
             supportFragmentManager.beginTransaction().apply {
                 replace(
                     R.id.tv_playlist_videos_fragment_container,
-                    PlaylistVideosTvFragment.newInstance(playlistId,playlistName)
+                    PlaylistVideosTvFragment.newInstance(playlistId, playlistName)
                 )
                 commit()
             }
         }
     }
 
-    companion object{
-        fun newIntent(context:Context,playlistId: Int,playlistName:String): Intent {
-            val intent = Intent(context,TVPlaylistVideosActivity::class.java)
-            intent.putExtra(EXTRA_PLAYLIST_ID,playlistId)
-            intent.putExtra(EXTRA_PLAYLIST_NAME,playlistName)
+    companion object {
+        fun newIntent(context: Context, playlistId: Int, playlistName: String): Intent {
+            val intent = Intent(context, TVPlaylistVideosActivity::class.java)
+            intent.putExtra(EXTRA_PLAYLIST_ID, playlistId)
+            intent.putExtra(EXTRA_PLAYLIST_NAME, playlistName)
             return intent
         }
     }

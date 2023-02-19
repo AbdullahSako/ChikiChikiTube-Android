@@ -5,7 +5,7 @@ import androidx.leanback.widget.Presenter
 import tube.chikichiki.sako.model.HistoryVideoInfo
 import tube.chikichiki.sako.tv.view.VideoCardView
 
-class HistoryVideoTvPresenter:Presenter() {
+class HistoryVideoTvPresenter : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
         val view: VideoCardView? = parent?.context?.let { VideoCardView(it) }

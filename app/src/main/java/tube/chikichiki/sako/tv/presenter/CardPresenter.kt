@@ -19,10 +19,9 @@ class CardPresenter : Presenter() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
-        mDefaultBackgroundColor =
-            ContextCompat.getColor(parent!!.context, R.color.darker_gray)
+        mDefaultBackgroundColor = ContextCompat.getColor(parent!!.context, R.color.darker_gray)
         mSelectedBackgroundColor =
-            ContextCompat.getColor(parent!!.context, R.color.background_light)
+            ContextCompat.getColor(parent.context, R.color.background_light)
 
         val cardView: ImageCardView = object : ImageCardView(parent!!.context) {
             override fun setSelected(selected: Boolean) {
@@ -50,11 +49,10 @@ class CardPresenter : Presenter() {
             val width: Int = 200
             val height: Int = 200
             cardView.setMainImageDimensions(width, height)
-            Glide.with(cardView.context)
-                .load(video.getFullThumbnailPath())
-                .apply(RequestOptions.errorOf(mDefaultCardImage))
-                .into(cardView.mainImageView)
-        }    }
+            Glide.with(cardView.context).load(video.getFullThumbnailPath())
+                .apply(RequestOptions.errorOf(mDefaultCardImage)).into(cardView.mainImageView)
+        }
+    }
 
     override fun onUnbindViewHolder(viewHolder: ViewHolder?) {
         val cardView = viewHolder!!.view as ImageCardView
